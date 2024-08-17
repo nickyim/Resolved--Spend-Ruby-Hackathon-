@@ -1,14 +1,16 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS } from 'chart.js/auto' 
+import { Doughnut } from "react-chartjs-2"
+import { useUser } from '@clerk/nextjs';
 
 //CSS
 import styles from "./ViewPort.module.css";
 
 export default function ViewPort() {
   const [prompt, setPrompt] = useState("");
+  const { user } = useUser(); // Fetch the current user's info 
   const [complaints, setComplaints] = useState([
     { id: 1, product: "Credit Card", sub_product: "Store credit card" },
     { id: 2, product: "Debit Card", sub_product: "Store debit card" },
@@ -20,6 +22,7 @@ export default function ViewPort() {
     try {
       const response = await axios.post("http://127.0.0.1:5000/api/textQuery", {
         prompt: prompt,
+        clerkId: user?.id || "example-clerk-id",
       });
       console.log("TEST: ", response.data);
     } catch (e) {
