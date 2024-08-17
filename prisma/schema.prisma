@@ -1,0 +1,53 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entry {  // General model that can represent any type of entry, not just complaints
+  id                        Int       @id @default(autoincrement())
+  entryId                   String    @unique
+  isComplaint               Boolean   // Whether this entry is classified as a complaint (classification result)
+  product                   String?
+  subProduct                String?
+  issue                     String?
+  subIssue                  String?
+  entryText                 String    @db.Text  // Original text/content of the entry
+  summary                   String?   // LLM-generated summary if the entry is a complaint
+  dateSentToCompany         DateTime?
+  dateReceived              DateTime?
+  company                   String?
+  companyResponse           String?
+  companyPublicResponse     String?
+  consumerDisputed          String?
+  consumerConsentProvided   String?
+  state                     String?
+  zipCode                   String?
+  submittedVia              String?
+  tags                      String?
+  timely                    Boolean?
+  productCategory           String?   // Product category assigned if it's a complaint
+  subProductCategory        String?   // Sub-product category assigned if it's a complaint
+  files                     File[]    // Relation to associated files (screenshots, videos, etc.)
+  vectorId                  String?   // ID/reference to the vector embedding stored in Pinecone (Level 3)
+}
+
+model File {
+  id          Int       @id @default(autoincrement())
+  url         String    // URL to the file (could be in cloud storage like S3)
+  type        FileType  // Type of file (screenshot, video, etc.)
+  entry       Entry     @relation(fields: [entryId], references: [id])
+  entryId     Int
+}
+
+enum FileType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  JSON
+}
