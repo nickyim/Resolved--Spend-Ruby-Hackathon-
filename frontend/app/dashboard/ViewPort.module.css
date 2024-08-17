@@ -14,6 +14,7 @@
 .ViewPort_Top {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .ViewPort_Prompt {
@@ -104,4 +105,8 @@
 
 .ViewPort_Chart {
     width: 25vw;
+}
+
+.ViewPort_Top h2{
+    margin-bottom: 30px;
 }

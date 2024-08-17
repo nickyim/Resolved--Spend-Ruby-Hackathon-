@@ -65,7 +65,7 @@ export default function ViewPort() {
   return (
     <div className={styles.ViewPort}>
       <div className={styles.ViewPort_Top}>
-        <h2>Credit Card</h2>
+        <h2>Text Complaint Analyzer</h2>
         <div className={styles.ViewPort_Prompt}>
           <input type="text" value={prompt} onChange={handlePromptChange} />
           <button onClick={handlePromptSubmit}>Submit</button>
@@ -117,10 +117,6 @@ export default function ViewPort() {
             }}
           />
         </div>
-      </div>
-      <div>
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={handleFileSubmit}>Submit File</button>
       </div>
     </div>
   );
