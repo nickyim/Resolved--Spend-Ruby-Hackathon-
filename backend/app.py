@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from flask_cors import CORS
+from chatScripts.parseComplaint import processComplaint
 
 app = Flask(__name__)
 CORS(app)
@@ -34,10 +35,13 @@ def handle_prompt():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
     
-    #TODO: add logic to process prompt, save it to db 
-    print(f"Received prompt: {prompt}")
+    # TODO: add logic to process prompt, save it to db 
 
-    return jsonify({"message": "Prompt received successfully", "prompt": prompt}), 200
+    result = processComplaint(prompt)
+
+    print(f"Received prompt: {result}")
+
+    return jsonify({"message": "Prompt received successfully", "prompt": result}), 200
 
 
 if __name__ == '__main__':
