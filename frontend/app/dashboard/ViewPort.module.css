@@ -1,0 +1,93 @@
+.ViewPort {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    padding-left: 1vw;
+    padding-bottom: 1vw;
+    width: 100%;
+    height: 98vh;
+    padding-top: 1vw;
+    border-radius: 1vw;
+}
+
+.ViewPort_Prompt {
+    display: flex;
+}
+
+.ViewPort_Prompt input {
+    width: 40vw;
+    height: 4vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    border-top-left-radius: 2vw;
+    border-bottom-left-radius: 2vw;
+    border: solid 1.5px rgb(238, 238, 238);
+    font-size: 2vw;
+}
+
+.ViewPort_Prompt input:focus {
+    outline: none;
+}
+
+.ViewPort_Prompt button {
+    width: 8vw;
+    height: 4vw;
+    border-top-right-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    background-color: #e9e3a6;
+    border: solid 1.5px #e9e3a6;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+
+.ViewPort_List {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 20vw;
+    padding-top: 1vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-radius: 1vw;
+    background-color: white;
+    border: solid 1.5px rgb(238, 238, 238);
+}
+
+.ViewPort_List_Title {
+    border-bottom: solid 1.5px rgb(238, 238, 238);
+    margin-bottom: 1vw;
+    padding-bottom: 1vw;
+}
+
+.ViewPort_List_Content {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.ViewPort_List_Content_Tab {
+    display: flex;
+}
+
+.ViewPort_List_Content_Tab_Complaints p {
+    color: #aeaeae
+}
+
+.ViewPort_List_Content_ID {
+    display: flex;
+    justify-content: space-between;
+    width: 10vw;
+}
+
+.ViewPort_List_Content_Product {
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+}
+
+.ViewPort_List_Content_Sub_Product {
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+}
