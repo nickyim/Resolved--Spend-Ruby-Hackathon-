@@ -1,10 +1,11 @@
 import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 from flask_cors import CORS
 from chatScripts.parseComplaint import processComplaint
-from enum import Enum
+from model import db, User, Entry, File
 
 
 app = Flask(__name__)
@@ -14,60 +15,10 @@ load_dotenv()
 
 # Corrected configuration key
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
-
-class FileType(Enum):
-    TEXT = 'TEXT'
-    IMAGE = 'IMAGE'
-    VIDEO = 'VIDEO'
-    AUDIO = 'AUDIO'
-    JSON = 'JSON'
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    clerkId = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    entries = db.relationship('Entry', backref='user', lazy=True)
-    files = db.relationship('File', backref='user', lazy=True)
-
-class Entry(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    entryId = db.Column(db.String, unique=True, nullable=False)
-    isComplaint = db.Column(db.Boolean, nullable=False)
-    product = db.Column(db.String)
-    subProduct = db.Column(db.String)
-    issue = db.Column(db.String)
-    subIssue = db.Column(db.String)
-    entryText = db.Column(db.Text, nullable=False)
-    summary = db.Column(db.String)
-    dateSentToCompany = db.Column(db.DateTime)
-    dateReceived = db.Column(db.DateTime)
-    company = db.Column(db.String)
-    companyResponse = db.Column(db.String)
-    companyPublicResponse = db.Column(db.String)
-    consumerDisputed = db.Column(db.String)
-    consumerConsentProvided = db.Column(db.String)
-    state = db.Column(db.String)
-    zipCode = db.Column(db.String)
-    submittedVia = db.Column(db.String)
-    tags = db.Column(db.String)
-    timely = db.Column(db.Boolean)
-    productCategory = db.Column(db.String)
-    subProductCategory = db.Column(db.String)
-    vectorId = db.Column(db.String)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    files = db.relationship('File', backref='entry', lazy=True)
-
-class File(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    url = db.Column(db.String, nullable=False)
-    type = db.Column(db.Enum(FileType), nullable=False)
-    entryId = db.Column(db.Integer, db.ForeignKey('entry.id'), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-with app.app_context():
-    db.create_all()
+db.init_app(app)  # Properly initialize the SQLAlchemy instance with the Flask app
+migrate = Migrate(app, db)
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -78,14 +29,16 @@ def register():
     if not clerk_id or not email:
         return jsonify({"error": "Missing required fields"}), 400
 
-    if User.query.filter_by(clerkId=clerk_id).first():
+    existing_user = User.query.filter_by(clerkId=clerk_id).first()
+    if existing_user:
         return jsonify({"error": "User already exists"}), 400
 
-    if User.query.filter_by(email=email).first():
+    existing_email = User.query.filter_by(email=email).first()
+    if existing_email:
         return jsonify({"error": "Email already exists"}), 400
-
+    
+    # Create new user
     new_user = User(clerkId=clerk_id, email=email)
-
     db.session.add(new_user)
     db.session.commit()
 
@@ -94,20 +47,20 @@ def register():
 @app.route('/api/user', methods=['GET'])
 def get_user():
     clerk_id = request.args.get('clerkId')
-    
+
     if not clerk_id:
         return jsonify({"error": "No clerkId provided"}), 400
-    
+
     user = User.query.filter_by(clerkId=clerk_id).first()
-    
+
     if not user:
         return jsonify({"error": "User not found"}), 404
-    
+
     return jsonify({
         "id": user.id,
         "clerkId": user.clerkId,
         "email": user.email
-    }), 200
+    })
 
 @app.route('/test', methods=['POST'])
 def test_post():
