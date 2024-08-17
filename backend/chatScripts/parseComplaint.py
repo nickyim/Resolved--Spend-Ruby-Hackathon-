@@ -22,6 +22,7 @@ def processComplaint(userMessage):
         3. If the text is a complaint:
             - Create a brief summary (1-2 sentences) capturing the main issue and any specific details.
             - Set "isComplaint" to true.
+            - Suggest a product category (e.g., "Bank Account", "Credit Card") and a sub-product category (e.g., "Checking", "Balance Transfer") based on the content.
 
         4. If the text is not a complaint:
             - Set "isComplaint" to false.
@@ -30,7 +31,9 @@ def processComplaint(userMessage):
         5. Return a JSON object in the following format:
         {
             "isComplaint": boolean,
-            "summary": "..."
+            "summary": "Summary of the text",
+            "product": "Product Category",
+            "subProduct": "Sub-Product Category"
         }
 
         Always maintain objectivity and accuracy in your analysis. Do not include any text outside the JSON object in your response.
@@ -42,15 +45,13 @@ def processComplaint(userMessage):
         messages=[
             {'role': 'system', 'content': systemPrompt},
             {'role': 'user', 'content': userMessage},
-        ],
-        response_format={"type": "json_object"}
+        ]
     )
-
-    # test response
-    # print(response.choices[0].message.content) 
 
     return response.choices[0].message.content
 
+    # test response
+    # print(response.choices[0].message.content) 
 
 
 # test test test
