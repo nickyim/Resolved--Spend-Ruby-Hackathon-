@@ -1,0 +1,7 @@
+Flask
+openai
+psycopg2-binary
+SQLAlchemy
+pytest
+python-dotenv
+flask_sqlalchemy

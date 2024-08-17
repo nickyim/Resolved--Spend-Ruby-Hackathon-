@@ -41,4 +41,4 @@ def handle_prompt():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) # remove debug=True for production
