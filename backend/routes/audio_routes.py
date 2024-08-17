@@ -10,7 +10,7 @@ audio_bp = Blueprint('audio_bp', __name__)
 UPLOAD_FOLDER = 'complaintUploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@audio_bp.route('/api/audioQuery', methods=['POST'])
+@audio_bp.route('/audioQuery', methods=['POST'])
 def upload_audio():
     if 'audioFile' not in request.files:
         return jsonify({"error": "No audio file part"}), 400

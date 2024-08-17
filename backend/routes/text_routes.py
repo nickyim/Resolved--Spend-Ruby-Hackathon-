@@ -5,7 +5,7 @@ from model import db, User, Entry
 
 text_bp = Blueprint('text_bp', __name__)
 
-@text_bp.route('/api/textQuery', methods=['POST', 'OPTIONS'])
+@text_bp.route('/textQuery', methods=['POST', 'OPTIONS'])
 def handle_prompt():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
