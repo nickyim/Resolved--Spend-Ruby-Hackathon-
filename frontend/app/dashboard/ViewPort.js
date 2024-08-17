@@ -23,14 +23,14 @@ export default function ViewPort() {
     */
     const handlePromptSubmit = async () => {
         try {
-            await axios.post('/api/prompt', {
-                prompt: prompt
-            })
-            //Implement a .then(() => ) when server is capable of responding back
+            const response = await axios.post("http://127.0.0.1:5000/api/prompt", {
+                prompt: prompt,
+        });
+            console.log("TEST: ", response.data);
         } catch (e) {
-            console.log(e)
+            console.log("ERROR: ", e);
         }
-    }
+    };
 
     return (
       <div className={styles.ViewPort}>
