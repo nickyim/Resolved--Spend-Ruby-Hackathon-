@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Chart as ChartJS } from 'chart.js/auto' 
 import { Doughnut } from "react-chartjs-2"
@@ -14,11 +14,8 @@ export default function ViewPort() {
     { id: 1, product: "Credit Card", sub_product: "Store credit card" },
     { id: 2, product: "Debit Card", sub_product: "Store debit card" },
   ]);
-  const [audioFile, setAudioFile] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
-  const mediaRecorderRef = useRef(null);
-  const [audioChunks, setAudioChunks] = useState([]);
-  const [data, setData] = useState([261, 331])
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [data, setData] = useState([203, 331])
 
   const handlePromptSubmit = async () => {
     try {
@@ -30,48 +27,26 @@ export default function ViewPort() {
       console.log("ERROR: ", e);
     }
   };
-  /*
-        - Obejctive: Based on user input on prompt textarea, set state 'prompt' as current value
-    */
+
   const handlePromptChange = (e) => {
     const { value } = e.target;
     setPrompt(value);
   };
 
-  const startRecording = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        mediaRecorder.start();
-        setIsRecording(true);
-
-        mediaRecorder.ondataavailable = (e) => {
-          setAudioChunks((prev) => [...prev, e.data]);
-        };
-
-        mediaRecorder.onstop = () => {
-          const blob = new Blob(audioChunks, { type: "audio/webm" });
-          setAudioFile(blob);
-          setAudioChunks([]);
-          setIsRecording(false);
-        };
-      })
-      .catch((err) => console.log("ERROR: ", err));
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-    }
-  };
+  const handleFileSubmit = async () => {
+    if (!selectedFile) return;
 
-  const handleAudioSubmit = async () => {
     try {
       const formData = new FormData();
-      const audioBlob = new Blob(audioChunks, { type: "audio/webm" }); // Convert to audio/wav
-      formData.append("audioFile", audioBlob);
+      formData.append("audioFile", selectedFile);
+
+      // Log file details for debugging
+      console.log("Selected file:", selectedFile);
+      console.log("File type:", selectedFile.type);
 
       const response = await axios.post(
         "http://127.0.0.1:5000/api/audioQuery",
@@ -138,10 +113,8 @@ export default function ViewPort() {
         </div>
       </div>
       <div>
-        <button onClick={isRecording ? stopRecording : startRecording}>
-          {isRecording ? "Stop Recording" : "Start Recording"}
-        </button>
-        {audioFile && <button onClick={handleAudioSubmit}>Submit Audio</button>}
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleFileSubmit}>Submit File</button>
       </div>
     </div>
   );
