@@ -11,8 +11,9 @@ class FileType(PyEnum):
     IMAGE = 'IMAGE'
     VIDEO = 'VIDEO'
     AUDIO = 'AUDIO'
-    JSON = 'JSON'# User Model
-
+    JSON = 'JSON'
+    
+# User Model
 class User(db.Model):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -30,25 +31,25 @@ class Entry(db.Model):
     isComplaint = Column(Boolean, nullable=False) # 2
     product = Column(String) # 3
     subProduct = Column(String) # 4
-    issue = Column(String)
-    subIssue = Column(String)
     entryText = Column(Text, nullable=False) # 5
     summary = Column(String) # 6
-    dateSentToCompany = Column(DateTime)
-    dateReceived = Column(DateTime)
-    company = Column(String)
-    companyResponse = Column(String)
-    companyPublicResponse = Column(String)
-    consumerDisputed = Column(String)
-    consumerConsentProvided = Column(String)
-    state = Column(String)
-    zipCode = Column(String)
-    submittedVia = Column(String)
-    tags = Column(String)
-    timely = Column(Boolean)
-    productCategory = Column(String) 
-    subProductCategory = Column(String) 
-    vectorId = Column(String)
+
+    # issue = Column(String)
+    # subIssue = Column(String)
+    # dateSentToCompany = Column(DateTime)
+    # dateReceived = Column(DateTime)
+    # company = Column(String)
+    # companyResponse = Column(String)
+    # companyPublicResponse = Column(String)
+    # consumerDisputed = Column(String)
+    # consumerConsentProvided = Column(String)
+    # state = Column(String)
+    # zipCode = Column(String)
+    # submittedVia = Column(String)
+    # tags = Column(String)
+    # timely = Column(Boolean)
+    # vectorId = Column(String)
+    
     userId = Column(Integer, ForeignKey('user.id'), nullable=False)
     
     files = relationship('File', backref='entry', lazy=True)
