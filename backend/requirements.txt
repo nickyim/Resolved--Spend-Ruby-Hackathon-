@@ -5,3 +5,4 @@ SQLAlchemy
 pytest
 python-dotenv
 flask_sqlalchemy
+flask_cors
