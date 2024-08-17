@@ -92,6 +92,10 @@ def handle_prompt():
 
     return jsonify({"message": "Prompt received successfully", "prompt": result}), 200
 
+# Ensure the uploads directory exists
+UPLOAD_FOLDER = 'complaintUploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 @app.route('/api/audioQuery', methods=['POST'])
 def upload_audio():
     if 'audioFile' not in request.files:
@@ -99,21 +103,34 @@ def upload_audio():
 
     file = request.files['audioFile']
 
+    print(f"\n\nReceived audio file: {file.filename} \n\n ********")
+
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
     if file:
-        file.seek(0) # Reset file pointer to beginning
-        # get the file data as bytes
-        file_data = file.read()
+        # Extract the file extension
+        file_extension = os.path.splitext(file.filename)[1]
+        # Force the filename to be userComplaint with the original extension
+        filename = secure_filename(f"userComplaint{file_extension}")
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        
+        # Save the file to the temporary folder
+        file.save(file_path)
 
-        # Pass the file data directly to whisper
-        result = processAudio(file_data)
+        try:
+            # Pass the file path to the processAudio function
+            result = processAudio(file_path)
 
-        print(f"Received Audio result: {result}")
+            print(f"Received Audio result: {result}")
 
-        return jsonify({"message": "Audio file processed successfully", "result": result}), 200
-
+            return jsonify({"message": "Audio file processed successfully", "result": result}), 200
+        finally:
+            # Delete the file after processing
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                print(f"Deleted file: {file_path}")
+    
 
 if __name__ == '__main__':
     app.run(debug=True) # remove debug=True for production
