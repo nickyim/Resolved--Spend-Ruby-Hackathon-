@@ -13,7 +13,7 @@ export default function ComplaintTab() {
 
     const handlePromptSubmit = async () => {
         try {
-            await axios.post('/api/prompt', {
+            await axios.post('http://localhost:3000/dashboard', {
                 prompt: prompt
             })
         } catch (e) {
