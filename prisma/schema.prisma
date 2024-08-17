@@ -8,16 +8,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Entry {  // General model that can represent any type of entry, not just complaints
-  id                        Int       @id @default(autoincrement())
-  entryId                   String    @unique
-  isComplaint               Boolean   // Whether this entry is classified as a complaint (classification result)
+model User {
+  id        Int       @id @default(autoincrement()) // Primary key
+  clerkId   String    @unique                      // Clerk's user ID, unique but not primary
+  email     String    @unique                      // Email should also be unique
+  entries   Entry[]   // One-to-many relationship with entries
+  files     File[]    // One-to-many relationship with files
+}
+
+model Entry {  
+  id                        Int       @id @default(autoincrement()) // Primary key
+  entryId                   String    @unique                       // Unique identifier, but not primary
+  isComplaint               Boolean   
   product                   String?
   subProduct                String?
   issue                     String?
   subIssue                  String?
-  entryText                 String    @db.Text  // Original text/content of the entry
-  summary                   String?   // LLM-generated summary if the entry is a complaint
+  entryText                 String    @db.Text  
+  summary                   String?   
   dateSentToCompany         DateTime?
   dateReceived              DateTime?
   company                   String?
@@ -30,18 +38,22 @@ model Entry {  // General model that can represent any type of entry, not just c
   submittedVia              String?
   tags                      String?
   timely                    Boolean?
-  productCategory           String?   // Product category assigned if it's a complaint
-  subProductCategory        String?   // Sub-product category assigned if it's a complaint
-  files                     File[]    // Relation to associated files (screenshots, videos, etc.)
-  vectorId                  String?   // ID/reference to the vector embedding stored in Pinecone (Level 3)
+  productCategory           String?   
+  subProductCategory        String?   
+  files                     File[]    // Relation to associated files
+  vectorId                  String?   
+  userId                    Int       // Foreign key to the User model
+  user                      User      @relation(fields: [userId], references: [id])
 }
 
 model File {
-  id          Int       @id @default(autoincrement())
-  url         String    // URL to the file (could be in cloud storage like S3)
-  type        FileType  // Type of file (screenshot, video, etc.)
+  id          Int       @id @default(autoincrement()) // Primary key
+  url         String    
+  type        FileType  
   entry       Entry     @relation(fields: [entryId], references: [id])
   entryId     Int
+  userId      Int       // Foreign key to the User model
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 enum FileType {
