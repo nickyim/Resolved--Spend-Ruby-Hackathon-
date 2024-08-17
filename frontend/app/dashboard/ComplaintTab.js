@@ -3,16 +3,34 @@
 import { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; 
 import { UserButton, useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';  // Import useRouter for navigation
 import styles from './ComplaintTab.module.css';
 
 export default function ComplaintTab() {
-    const [tabs, setTabs] = useState(["Credit Card", "Debit Card"]);
+    const [viewTabs, setViewTabs] = useState(["Dashboard", "Settings"]);
+    const [tabs, setTabs] = useState(["Text", "Audio"]);
+    const [viewActive, setViewActive] = useState(0);
     const [active, setActive] = useState(0);
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
+    const router = useRouter();  // Initialize useRouter
 
     const toggleCollapse = () => {
         setCollapsed(!collapsed);
+    };
+
+    // Function to handle tab clicks and navigation
+    const handleViewTabClick = (idx) => {
+        setViewActive(idx)
+    };
+    
+    // Function to handle tab clicks and navigation
+    const handleTabClick = (tab) => {
+        if (tab === "Text") {
+            router.push('/dashboard');  // Go to main dashboard page
+        } else if (tab === "Audio") {
+            router.push('/dashboard/audio');  // Navigate to audio handling page
+        }
     };
 
     return (
@@ -32,15 +50,32 @@ export default function ComplaintTab() {
                 </div>
             </div>
             <div className={`${styles.ComplaintTab_Tabs} ${collapsed ? styles.Hidden : ''}`}>
-                {tabs.map((tab, idx) => (
-                    <button 
-                        key={idx} 
-                        className={idx === active ? styles.ComplaintTab_Tabs_Active : styles.ComplaintTab_Tabs_Inactive}
-                        onClick={() => setActive(idx)} /* Make tabs clickable */
-                    >
-                        {tab}
-                    </button>
-                ))}
+                <div className={styles.ComplaintTab_Tabs_ViewTabs}>
+                    {viewTabs.map((tab, idx) => (
+                        <button 
+                            key={idx} 
+                            className={idx === viewActive ? styles.ComplaintTab_Tabs_Active : styles.ComplaintTab_Tabs_Inactive}
+                            onClick={() => handleViewTabClick(idx)}  // Handle tab click
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+                <div className={styles.ComplaintTab_Tabs_InputTabs}>
+                    {tabs.map((tab, idx) => (
+                        <button 
+                            key={idx} 
+                            className={idx === active ? styles.Input_Tabs_Active : styles.Input_Tabs_Inactive}
+                            onClick={() => handleTabClick(tab)}  // Handle tab click
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                    <div className={styles.ComplaintTab_Tabs_File}>
+                        <button>Upload</button>
+                        <button className={styles.ComplaintTab_Tabs_Submit}>Submit</button>
+                    </div>
+                </div>
             </div>
         </div>
     );

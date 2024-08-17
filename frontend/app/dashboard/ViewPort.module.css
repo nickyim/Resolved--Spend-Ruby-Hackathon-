@@ -1,19 +1,69 @@
 .ViewPort {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background-color: white;
-    padding-left: 1vw;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
     padding-bottom: 1vw;
     width: 100%;
     height: 98vh;
     padding-top: 1vw;
     border-radius: 1vw;
+    gap: 1vw;
+}
+
+.ViewPort_Header h2 {
+    font-size: var(--h2-size);
+}
+
+.ViewPort_Content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .ViewPort_Top {
     display: flex;
+    justify-content: space-between;
+}
+
+.ViewPort_Complaint {
+    display: flex;
     flex-direction: column;
+    width: 54vw;
+    height: 20vw;
+    gap: 1vw;
+    padding: 1vw;
+    border-radius: 1vw;
+    border: solid 1.5px rgb(238, 238, 238);
+}
+
+.ViewPort_Complaint_Title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ViewPort_Complaint_Title h4 {
+    font-weight: 500;
+    font-size: var(--h4-size);
+}
+
+.ViewPort_Complaint_Title_Subproduct {
+    font-weight: 500;
+    color: var(--subtle-color)
+}
+
+.ViewPort_Complaint_Summary {
+    font-size: var(--p-size);
+}
+
+.ViewPort_Chart {
+    width: 20vw;
+    padding: 1vw;
+    border-radius: 1vw;
+    border: solid 1.5px rgb(238, 238, 238);
 }
 
 .ViewPort_Prompt {
@@ -54,8 +104,8 @@
 .ViewPort_List {
     display: flex;
     flex-direction: column;
-    width: 50vw;
-    height: 20vw;
+    width: 55vw;
+    height: 23vw;
     padding-top: 1vw;
     padding-left: 1vw;
     padding-right: 1vw;
@@ -68,6 +118,10 @@
     border-bottom: solid 1.5px rgb(238, 238, 238);
     margin-bottom: 1vw;
     padding-bottom: 1vw;
+}
+
+.ViewPort_List_Title h4{
+    font-size: var(--h4-size);
 }
 
 .ViewPort_List_Content {
@@ -87,7 +141,7 @@
 .ViewPort_List_Content_ID {
     display: flex;
     justify-content: space-between;
-    width: 10vw;
+    width: 15vw;
 }
 
 .ViewPort_List_Content_Product {
@@ -102,6 +156,6 @@
     width: 20vw;
 }
 
-.ViewPort_Chart {
-    width: 25vw;
+.ViewPort_Top h2{
+    margin-bottom: 30px;
 }
