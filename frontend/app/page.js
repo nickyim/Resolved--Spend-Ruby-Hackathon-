@@ -16,6 +16,7 @@ export default function Home() {
         .get(`http://127.0.0.1:5000/api/user?clerkId=${user.id}`)
         .then(response => {
           console.log('User exists:', response.data);
+          router.push('/dashboard'); //redirect user to dashboard after verifying 
         })
         .catch(error => {
           if (error.response && error.response.status === 404) {
@@ -27,6 +28,7 @@ export default function Home() {
             .then(response => {
               if (response && response.status === 201) {
                 console.log('User created successfully');
+                router.push('/dashboard'); //
               }
             })
             .catch(err => {
