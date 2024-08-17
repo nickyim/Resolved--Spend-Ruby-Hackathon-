@@ -1,0 +1,75 @@
+.Initial_LandingPage {
+    display: flex;
+    width: 100%;
+}
+
+.LandingPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.LandingPage_Header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 4vw;
+}
+
+.LandingPage_Header_Content {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.LandingPage_Header h1 {
+    font-weight: 400;
+}
+
+.LandingPage_Header_Authentication {
+    display: flex;
+    gap: 1vw;
+}
+
+.LandingPage_Header_Authentication button {
+    padding-top: 0.5vw;
+    padding-left: 0.7vw;
+    padding-right: 0.7vw;
+    padding-bottom: 0.5vw;
+    border-radius: 0.5vw;
+    font-size: 0.8vw;
+}
+
+.LandingPage_Header_Authentication_Login {
+    background-color: white;
+    border: solid 1.5px rgb(238, 238, 238);
+}
+
+.LandingPage_Header_Authentication_SignUp {
+    background-color: #e9e3a6;
+    border: solid 1.5px #e9e3a6;
+}
+
+.LandingPage_Content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    padding-top: 5vw;
+}
+
+.LandingPage_Content h2 {
+    font-weight: 400;
+    font-size: 3.3vw;
+    text-align: center;
+}
+
+.LandingPage_Content h6 {
+    font-weight: 400;
+    font-size: 1vw;
+    text-align: center;
+    color: rgb(166, 166, 166);
+}

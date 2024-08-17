@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 
+import styles from './page.module.css'
+
 export default function Home() {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
@@ -42,28 +44,29 @@ export default function Home() {
   }, [isSignedIn, user]);
     
   return (
-    <div style={{
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        position: "relative",
-      }}
-    ><div
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-        }}
-      >
-        {isSignedIn ? (
-          <UserButton afterSignOutUrl="/" />
-        ) : (
-          <div style={{display: "flex", gap: "10px" }}><SignInButton mode="modal"><button className="auth-button">Login</button></SignInButton><SignUpButton mode="modal"><button className="auth-button">Sign up</button></SignUpButton></div>
-        )}
-      </div>
-
-      {!isSignedIn && (
-        <div className="landing-content"><h1 className="landing-title">Ruby Hack TEMP TITLE</h1><p className="landing-subtitle">[SUBTITLE HERE]</p></div>
+    <div className={styles.Initial_LandingPage}>
+      {!isSignedIn ? (
+        <div className={styles.LandingPage}>
+          <div className={styles.LandingPage_Header}>
+            <div className={styles.LandingPage_Header_Content}>
+              <h1>Resolved</h1>
+              <div className={styles.LandingPage_Header_Authentication}>
+                <SignInButton mode="modal">
+                  <button className={styles.LandingPage_Header_Authentication_Login}>Log in</button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className={styles.LandingPage_Header_Authentication_SignUp}>Get started</button>
+                </SignUpButton>
+              </div>
+            </div>
+          </div>
+          <div className={styles.LandingPage_Content}>
+            <h2>All-in-one platform for complaint categorization</h2>
+            <h6>Itemize your complaints to products and sub-products for easy filtering and comprehension</h6>
+          </div>
+        </div>
+      ) : (
+        <UserButton afterSignOutUrl="/" />
       )}
     </div>
   );
