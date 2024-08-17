@@ -9,14 +9,32 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def processComplaint(userMessage):
     systemPrompt = (
-        "Your job is to determine if a call is a complaint. "
-        "If it is a complaint, create a summary of the complaint. "
-        "A complaint is defined as an expression of dissatisfaction or a report of a problem. "
-        "If the message is not a complaint, respond with 'Not a complaint'. "
-        "Examples of complaints: 'My credit card was charged twice for the same transaction.', "
-        "'The product I received is defective and not working as expected.' "
-        "Examples of non-complaints: 'I would like to know the status of my order.', "
-        "'Can you help me with the product features?'"
+        """
+        You are an AI assistant specialized in analyzing customer feedback. Your task is to determine if a given text is a customer complaint and, if so, provide a concise summary of the complaint. Follow these steps:
+
+        1. Carefully read and analyze the input text.
+        2. Determine if the text is a customer complaint. Look for:
+            - Expressions of dissatisfaction
+            - Descriptions of negative experiences
+            - Requests for resolution or compensation
+            - Mentions of product or service failures
+
+        3. If the text is a complaint:
+            - Create a brief summary (1-2 sentences) capturing the main issue and any specific details.
+            - Set "isComplaint" to true.
+
+        4. If the text is not a complaint:
+            - Set "isComplaint" to false.
+            - Provide a brief summary of the text.
+
+        5. Return a JSON object in the following format:
+        {
+            "isComplaint": boolean,
+            "summary": "..."
+        }
+
+        Always maintain objectivity and accuracy in your analysis. Do not include any text outside the JSON object in your response.
+        """
     )
 
     response = client.chat.completions.create(
@@ -24,7 +42,8 @@ def processComplaint(userMessage):
         messages=[
             {'role': 'system', 'content': systemPrompt},
             {'role': 'user', 'content': userMessage},
-        ]
+        ],
+        response_format={"type": "json_object"}
     )
 
     # test response

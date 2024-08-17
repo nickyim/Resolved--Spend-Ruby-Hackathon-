@@ -5,7 +5,9 @@ from flask_migrate import Migrate
 from dotenv import load_dotenv
 from flask_cors import CORS
 from chatScripts.parseComplaint import processComplaint
+from chatScripts.processAudio import processAudio
 from model import db, User, Entry, File
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -71,7 +73,7 @@ def test_post():
     }
     return jsonify(response), 200
 
-@app.route('/api/prompt', methods=['POST', 'OPTIONS'])
+@app.route('/api/textQuery', methods=['POST', 'OPTIONS'])
 def handle_prompt():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
@@ -86,9 +88,31 @@ def handle_prompt():
 
     result = processComplaint(prompt)
 
-    print(f"Received prompt: {result}")
+    print(f"Received text result: {result}")
 
     return jsonify({"message": "Prompt received successfully", "prompt": result}), 200
+
+@app.route('/api/audioQuery', methods=['POST'])
+def upload_audio():
+    if 'audioFile' not in request.files:
+        return jsonify({"error": "No audio file part"}), 400
+
+    file = request.files['audioFile']
+
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file:
+        file.seek(0) # Reset file pointer to beginning
+        # get the file data as bytes
+        file_data = file.read()
+
+        # Pass the file data directly to whisper
+        result = processAudio(file_data)
+
+        print(f"Received Audio result: {result}")
+
+        return jsonify({"message": "Audio file processed successfully", "result": result}), 200
 
 
 if __name__ == '__main__':
