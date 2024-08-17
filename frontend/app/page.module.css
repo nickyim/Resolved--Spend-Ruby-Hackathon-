@@ -41,6 +41,7 @@
     padding-bottom: 0.5vw;
     border-radius: 0.5vw;
     font-size: 0.8vw;
+    cursor: pointer;
 }
 
 .LandingPage_Header_Authentication_Login {
