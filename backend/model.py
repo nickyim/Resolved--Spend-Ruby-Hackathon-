@@ -25,15 +25,15 @@ class User(db.Model):
 # Entry Model
 class Entry(db.Model):
     __tablename__ = 'entry'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    entryId = Column(String, unique=True, nullable=False)
-    isComplaint = Column(Boolean, nullable=False)
-    product = Column(String)
-    subProduct = Column(String)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # 0
+    entryId = Column(String, unique=True, nullable=False) # 1 this one is unique
+    isComplaint = Column(Boolean, nullable=False) # 2
+    product = Column(String) # 3
+    subProduct = Column(String) # 4
     issue = Column(String)
     subIssue = Column(String)
-    entryText = Column(Text, nullable=False)
-    summary = Column(String)
+    entryText = Column(Text, nullable=False) # 5
+    summary = Column(String) # 6
     dateSentToCompany = Column(DateTime)
     dateReceived = Column(DateTime)
     company = Column(String)
@@ -46,8 +46,8 @@ class Entry(db.Model):
     submittedVia = Column(String)
     tags = Column(String)
     timely = Column(Boolean)
-    productCategory = Column(String)
-    subProductCategory = Column(String)
+    productCategory = Column(String) 
+    subProductCategory = Column(String) 
     vectorId = Column(String)
     userId = Column(Integer, ForeignKey('user.id'), nullable=False)
     
