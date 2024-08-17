@@ -11,6 +11,11 @@
     border-radius: 1vw;
 }
 
+.ViewPort_Top {
+    display: flex;
+    flex-direction: column;
+}
+
 .ViewPort_Prompt {
     display: flex;
 }
@@ -39,6 +44,11 @@
     border: solid 1.5px #e9e3a6;
     font-size: 1.5vw;
     cursor: pointer;
+}
+
+.ViewPort_Data {
+    display: flex;
+    justify-content: space-between;
 }
 
 .ViewPort_List {
@@ -90,4 +100,8 @@
     display: flex;
     justify-content: space-between;
     width: 20vw;
+}
+
+.ViewPort_Chart {
+    width: 25vw;
 }

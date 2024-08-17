@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react";
 import axios from "axios";
+import { Chart as ChartJS } from 'chart.js/auto' 
+import { Doughnut } from "react-chartjs-2"
 
 //CSS
 import styles from "./ViewPort.module.css";
@@ -16,6 +18,7 @@ export default function ViewPort() {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const [audioChunks, setAudioChunks] = useState([]);
+  const [data, setData] = useState([261, 331])
 
   const handlePromptSubmit = async () => {
     try {
@@ -87,43 +90,51 @@ export default function ViewPort() {
 
   return (
     <div className={styles.ViewPort}>
-      <div>
+      <div className={styles.ViewPort_Top}>
         <h2>Credit Card</h2>
         <div className={styles.ViewPort_Prompt}>
           <input type="text" value={prompt} onChange={handlePromptChange} />
           <button onClick={handlePromptSubmit}>Submit</button>
         </div>
       </div>
-      <div className={styles.ViewPort_List}>
-        <div className={styles.ViewPort_List_Title}>
-          <h3>List of Complaints</h3>
-        </div>
-        <div className={styles.ViewPort_List_Content}>
-          <div className={styles.ViewPort_List_Content_Tab}>
-            <p className={styles.ViewPort_List_Content_ID}>ID</p>
-            <p className={styles.ViewPort_List_Content_Product}>Product</p>
-            <p className={styles.ViewPort_List_Content_Sub_Product}>
-              Sub-Product
-            </p>
+      <div className={styles.ViewPort_Data}>
+        <div className={styles.ViewPort_List}>
+          <div className={styles.ViewPort_List_Title}>
+            <h3>List of Complaints</h3>
           </div>
-          {complaints.map((complaint, idx) => (
-            <div
-              key={idx}
-              className={
-                styles.ViewPort_List_Content_Tab +
-                " " +
-                styles.ViewPort_List_Content_Tab_Complaints
-              }
-            >
-              <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
-              <p className={styles.ViewPort_List_Content_Product}>
-                {complaint.product}
-              </p>
+          <div className={styles.ViewPort_List_Content}>
+            <div className={styles.ViewPort_List_Content_Tab}>
+              <p className={styles.ViewPort_List_Content_ID}>ID</p>
+              <p className={styles.ViewPort_List_Content_Product}>Product</p>
               <p className={styles.ViewPort_List_Content_Sub_Product}>
-                {complaint.sub_product}
+                Sub-Product
               </p>
             </div>
-          ))}
+            {complaints.map((complaint, idx) => (
+              <div
+                key={idx}
+                className={
+                  styles.ViewPort_List_Content_Tab +
+                  " " +
+                  styles.ViewPort_List_Content_Tab_Complaints
+                }
+              >
+                <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
+                <p className={styles.ViewPort_List_Content_Product}>
+                  {complaint.product}
+                </p>
+                <p className={styles.ViewPort_List_Content_Sub_Product}>
+                  {complaint.sub_product}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.ViewPort_Chart}>
+          <Doughnut 
+            data={{labels: ['Non-Complaints', 'Complaints'], datasets: [{data: data, backgroundColor: ['#8cbdac',
+            '#e9e3a6']}]}}
+          />
         </div>
       </div>
       <div>
