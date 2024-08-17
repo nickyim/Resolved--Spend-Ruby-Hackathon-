@@ -32,7 +32,22 @@ class Entry(db.Model):
     product = Column(String) # 3
     subProduct = Column(String) # 4
     entryText = Column(Text, nullable=False) # 5
-    summary = Column(String) # 6
+    summary = Column(String) # 6    
+    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
+    
+    files = relationship('File', backref='entry', lazy=True)
+
+# File Model
+class File(db.Model):
+    __tablename__ = 'file'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    url = Column(String, nullable=False)
+    type = Column(Enum(FileType), nullable=False)
+    entryId = Column(Integer, ForeignKey('entry.id'), nullable=False)
+    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
+
+
+
 
     # issue = Column(String)
     # subIssue = Column(String)
@@ -49,16 +64,3 @@ class Entry(db.Model):
     # tags = Column(String)
     # timely = Column(Boolean)
     # vectorId = Column(String)
-    
-    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
-    
-    files = relationship('File', backref='entry', lazy=True)
-
-# File Model
-class File(db.Model):
-    __tablename__ = 'file'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    url = Column(String, nullable=False)
-    type = Column(Enum(FileType), nullable=False)
-    entryId = Column(Integer, ForeignKey('entry.id'), nullable=False)
-    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
