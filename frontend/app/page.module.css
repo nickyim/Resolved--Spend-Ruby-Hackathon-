@@ -26,6 +26,7 @@
 }
 
 .LandingPage_Header h1 {
+    font-size: var(--h3-size);
     font-weight: 400;
 }
 
@@ -40,7 +41,7 @@
     padding-right: 0.7vw;
     padding-bottom: 0.5vw;
     border-radius: 0.5vw;
-    font-size: 0.8vw;
+    font-size: var(--p-size);
     cursor: pointer;
 }
 
@@ -60,17 +61,20 @@
     align-items: center;
     width: 50%;
     padding-top: 5vw;
+    gap: 2vw;
 }
 
-.LandingPage_Content h2 {
+.LandingPage_Content h1 {
     font-weight: 400;
-    font-size: 3.3vw;
+    font-size: var(--h1-size);
+    width: 35vw;
     text-align: center;
 }
 
 .LandingPage_Content h6 {
     font-weight: 400;
-    font-size: 1vw;
+    font-size: var(--h6-size);
     text-align: center;
+    width: 30vw;
     color: rgb(166, 166, 166);
 }

@@ -118,6 +118,13 @@ export default function ViewPort() {
                 },
               ],
             }}
+            options={{
+              plugins: {
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }}
           />
         </div>
       </div>

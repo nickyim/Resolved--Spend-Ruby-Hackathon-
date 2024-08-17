@@ -61,8 +61,11 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.LandingPage_Content}>
-            <h2>All-in-one platform for complaint categorization</h2>
+            <h1>All-in-one platform for complaint categorization</h1>
             <h6>Itemize your complaints to products and sub-products for easy filtering and comprehension</h6>
+            <div>
+              
+            </div>
           </div>
         </div>
       ) : (

@@ -20,6 +20,6 @@
 }
 
 .userEmail {
-  font-size: 12px;
+  font-size: var(--p-size);
   color: #555;
 }
