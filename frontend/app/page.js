@@ -2,6 +2,7 @@
 import { useUser, SignInButton, SignUpButton, UserButton, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
   const { isSignedIn, user } = useUser();
@@ -11,33 +12,33 @@ export default function Home() {
   useEffect(() => {
     if (isSignedIn && user) {
       // Check if the user exists in your database
-      fetch(`/api/user?clerkId=${user.id}`)
+      axios
+        .get(`http://127.0.0.1:5000/api/user?clerkId=${user.id}`)
         .then(response => {
-          if (response.status === 404) {
-            // User doesn't exist, so create them
-            return fetch('/api/register', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                clerkId: user.id,
-                email: user.primaryEmailAddress.emailAddress,
-              }),
-            });
-          }
-        })
-        .then(response => {
-          if (response && !response.ok) {
-            throw new Error('Failed to create user');
-          }
+          console.log('User exists:', response.data);
         })
         .catch(error => {
-          console.error('Error:', error);
+          if (error.response && error.response.status === 404) {
+            // User doesn't exist, so create them
+            axios.post('http://127.0.0.1:5000/api/register', {
+              clerkId: user.id,
+              email: user.primaryEmailAddress.emailAddress,
+            })
+            .then(response => {
+              if (response && response.status === 201) {
+                console.log('User created successfully');
+              }
+            })
+            .catch(err => {
+              console.error('Error during registration:', err);
+            });
+          } else {
+            console.error('Error fetching user:', error);
+          }
         });
     }
   }, [isSignedIn, user]);
-
+    
   return (
     <div style={{
         backgroundSize: "cover",
