@@ -66,33 +66,33 @@
     border: solid 1.5px rgb(238, 238, 238);
 }
 
-.ViewPort_Prompt {
+.ViewPort_List_Search {
     display: flex;
 }
 
-.ViewPort_Prompt input {
-    width: 40vw;
-    height: 4vw;
+.ViewPort_List_Search input {
+    width: 20vw;
+    height: 2.5vw;
     padding-left: 2vw;
     padding-right: 2vw;
     border-top-left-radius: 2vw;
     border-bottom-left-radius: 2vw;
     border: solid 1.5px rgb(238, 238, 238);
-    font-size: 2vw;
+    font-size: var(--p-size);
 }
 
-.ViewPort_Prompt input:focus {
+.ViewPort_List_Search input:focus {
     outline: none;
 }
 
-.ViewPort_Prompt button {
-    width: 8vw;
-    height: 4vw;
+.ViewPort_List_Search button {
+    width: 6vw;
+    height: 2.5vw;
     border-top-right-radius: 2vw;
     border-bottom-right-radius: 2vw;
     background-color: #e9e3a6;
     border: solid 1.5px #e9e3a6;
-    font-size: 1.5vw;
+    font-size: var(--p-size);
     cursor: pointer;
 }
 
@@ -115,6 +115,9 @@
 }
 
 .ViewPort_List_Title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: solid 1.5px rgb(238, 238, 238);
     margin-bottom: 1vw;
     padding-bottom: 1vw;
