@@ -1,0 +1,12 @@
+services:
+  # backend service
+  flaskapp:
+    container_name: flaskapp
+    image: flaskapp:3.0.3
+    build:
+      context: ./backend
+      dockerfile: flask.dockerfile
+    ports:
+      - 4000:4000
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
