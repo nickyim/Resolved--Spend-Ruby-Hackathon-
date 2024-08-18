@@ -15,13 +15,13 @@ import axios from "axios";
 import styles from "./page.module.css";
 
 //Images
-import DashboardImg from "./Images/DashboardImg.png";
-import chartImg from "./Images/chartImg.png";
-import InputTypesImg from "./Images/InputTypesImg.png";
-import ImageFeatureImg from "./Images/image.jpg";
-import AudioFeatureImg from "./Images/audio.jpg";
-import TextFeatureImg from "./Images/Text3.jpg";
-import VideoFeatureImg from "./Images/video.jpg";
+import DashboardImg from "../public/images/DashboardImg.png";
+import chartImg from "../public/images/chartImg.png";
+import InputTypesImg from "../public/images/InputTypesImg.png";
+import ImageFeatureImg from "../public/images/image.jpg";
+import AudioFeatureImg from "../public/images/audio.jpg";
+import TextFeatureImg from "../public/images/Text3.jpg";
+import VideoFeatureImg from "../public/images/video.jpg";
 
 //Components
 import Product from "../Components/Product";
