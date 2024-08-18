@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from model import db, User
+from routes.elastic_routes import sync_users
 
 user_bp = Blueprint('user_bp', __name__)
 
@@ -24,6 +25,9 @@ def register():
     new_user = User(clerkId=clerk_id, email=email)
     db.session.add(new_user)
     db.session.commit()
+
+    # Sync the users with Elasticsearch after the database is updated
+    sync_users()
 
     return jsonify({
         "message": "User registered successfully",
