@@ -248,15 +248,17 @@ export default function ViewPort({ inputEntry }) {
                 <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
               </div>
               <div className={styles.ViewPort_Complaint_Extra}>
-                <button className={styles.ViewPort_Complaint_ToggleButton} onClick={toggleFullTextVisibility}>
+              <button className={styles.ViewPort_Complaint_ToggleButton} onClick={toggleFullTextVisibility}>
                   {isFullTextVisible ? "Show Summary" : "Show Raw Context"}
                 </button>
                 <p className={styles.ViewPort_Complaint_Timestamp}>{complaint?.created_at}</p>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
-                {isFullTextVisible? (
+                {isFullTextVisible ? (
                   <p className={styles.ViewPort_Complaint_Summary}>{complaint?.entryText}</p>
-                ) : <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>}
+                ) : (
+                  <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>
+                )}
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>
