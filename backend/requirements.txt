@@ -12,3 +12,4 @@ google-cloud-storage
 google-cloud-videointelligence
 assemblyai
 google
+textract

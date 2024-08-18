@@ -8,8 +8,8 @@ import styles from "./ComplaintTab.module.css";
 import AudioModal from "../../Components/audioModal.js";
 
 export default function ComplaintTab({ onValueChange }) {
-  const [viewTabs, setViewTabs] = useState(["Dashboard", "Settings"]);
-  const [tabs, setTabs] = useState(["Text", "Audio", "Video"]);
+  const [viewTabs, setViewTabs] = useState(["Dashboard"]);
+  const [tabs, setTabs] = useState(["Text", "Audio", "Video", "Image"]);
   const [viewActive, setViewActive] = useState(0);
   const [active, setActive] = useState(0);
   const [collapsed, setCollapsed] = useState(false);
@@ -100,6 +100,8 @@ export default function ComplaintTab({ onValueChange }) {
       handleAudioSubmit(); // Open modal to select the audio service
     } else if (active === 2) {
       handleSubmit("videoQuery");
+    } else if (active === 2) {
+      handleSubmit("imageQuery");
     }
   };
 

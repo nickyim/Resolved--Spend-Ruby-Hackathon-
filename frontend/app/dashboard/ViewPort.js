@@ -142,7 +142,6 @@ export default function ViewPort({ inputEntry }) {
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
     setComplaint(complaints[idx]);
-    setData([complaints[idx].isComplaint ? 1 : 0, complaints[idx].isComplaint ? 0 : 1]);
   };
   
   if (isLoading) {
@@ -229,7 +228,10 @@ export default function ViewPort({ inputEntry }) {
           <div className={styles.ViewPort_Top}>
             <div className={styles.ViewPort_Complaint}>
               <div className={styles.ViewPort_Complaint_Title}>
-                <h4>{complaint?.product}</h4>
+                <div className={styles.ViewPort_Complaint_Title_Content}>
+                  <h4>{complaint?.product}</h4>
+                  <div className={complaint?.isComplaint? styles.ViewPort_List_Content_Sub_Is_Complaint :  styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                </div>
                 <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
@@ -243,7 +245,7 @@ export default function ViewPort({ inputEntry }) {
                   datasets: [
                     {
                       data: data,
-                      backgroundColor: ["#8cbdac", "#e9e3a6"],
+                      backgroundColor: ["#e9e3a6", "#E9A6A6"],
                     },
                   ],
                 }}
@@ -272,7 +274,7 @@ export default function ViewPort({ inputEntry }) {
                   <p className={styles.ViewPort_List_Content_Product}>Product</p>
                   <p className={styles.ViewPort_List_Content_Sub_Product}>Sub-Product</p>
                   <p className={styles.ViewPort_List_Content_File_Type}>File Type</p>
-                  <p className={styles.ViewPort_List_Content_Sub_Is_Complaint}>Complaint</p>
+                  <p className={styles.ViewPort_List_Content_Sub_Is_Complaint_Header}>Complaint</p>
                 </div>
                 {complaints.map((complaint, idx) => (
                   <div
@@ -295,9 +297,9 @@ export default function ViewPort({ inputEntry }) {
                     <p className={styles.ViewPort_List_Content_File_Type}>
                       {complaint.fileType}
                     </p>
-                    <p className={styles.ViewPort_List_Content_Sub_Is_Complaint}>
-                      {complaint.isComplaint? 'True' : 'False'}
-                    </p>
+                    <div className={styles.ViewPort_List_Content_Sub_Is_Complaint_Content}>
+                      <div className={complaint.isComplaint? styles.ViewPort_List_Content_Sub_Is_Complaint :  styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                    </div>
                   </div>
                 ))}
               </div>
