@@ -59,9 +59,9 @@ def classifyProductandSummarize(annotations_text):
     return json.loads(response.choices[0].message.content)
 
 # Example usage
-annotations_text = """
-The customer is upset because their credit card was charged twice for the same transaction 
-at Macy's, and they are struggling to get a refund from Chase.
-"""
-classification_result = classifyProductandSummarize(annotations_text)
-print(classification_result)
+# annotations_text = """
+# The customer is upset because their credit card was charged twice for the same transaction 
+# at Macy's, and they are struggling to get a refund from Chase.
+# """
+# classification_result = classifyProductandSummarize(annotations_text)
+# print(classification_result)
