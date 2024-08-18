@@ -19,6 +19,7 @@ import VideoFeatureImg from './Images/VideoFeatureImg.jpg'
 
 //Components
 import Product from './Components/Product'
+import Footer from './Components/Footer'
 
 export default function Home() {
   const { isSignedIn, user } = useUser();
@@ -90,6 +91,7 @@ export default function Home() {
               <Image src={DashboardImg} className={styles.LandingPage_Content_DashboardImg}/>
             </div>
           </div>
+          <Footer />
         </div>
       ) : (
         <UserButton afterSignOutUrl="/" />
