@@ -81,7 +81,7 @@ export default function ViewPort() {
           setComplaints(response.data)
         })
       } catch (e) {
-        setHasError(true)
+        // setHasError(true)
       } finally {
         setIsLoading(false)
       }

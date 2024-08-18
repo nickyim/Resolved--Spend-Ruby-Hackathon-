@@ -162,31 +162,31 @@ export default function ComplaintTab() {
           ))}
         </div>
         <div className={styles.ComplaintTab_Tabs_InputTabs}>
-          {tabs.map((tab, idx) => (
-            <button
-              key={idx}
-              className={
-                idx === active
-                  ? styles.Input_Tabs_Active
-                  : styles.Input_Tabs_Inactive
-              }
-              onClick={() => handleTabClick(idx)} // Handle tab click
-            >
-              {tab}
-            </button>
-          ))}
-          <div className={styles.ComplaintTab_Tabs_File}>
-            <label htmlFor="file-upload">Upload</label>
-            <input id="file-upload" type="file" onChange={handleFileChange} />
-            {selectedFile && <p>Selected file: {selectedFile.name}</p>}{" "}
-            {/* Display selected file name */}
-            <button
-              className={styles.ComplaintTab_Tabs_Submit}
-              onClick={() => handleFileSubmit(active)}
-            >
-              Submit
-            </button>
-          </div>
+            {tabs.map((tab, idx) => (
+                <button
+                key={idx}
+                className={
+                    idx === active
+                    ? styles.Input_Tabs_Active
+                    : styles.Input_Tabs_Inactive
+                }
+                onClick={() => handleTabClick(idx)} // Handle tab click
+                >
+                {tab}
+                </button>
+            ))}
+            <p>Current File Selected: {selectedFile? selectedFile.name : 'None'}</p>
+            <div className={styles.ComplaintTab_Tabs_File}>
+                <label htmlFor="file-upload">Upload</label>
+                <input id="file-upload" type="file" onChange={handleFileChange} />
+                {/* Display selected file name */}
+                <button
+                className={styles.ComplaintTab_Tabs_Submit}
+                onClick={() => handleFileSubmit(active)}
+                >
+                Submit
+                </button>
+            </div>
         </div>
       </div>
       <AudioModal
