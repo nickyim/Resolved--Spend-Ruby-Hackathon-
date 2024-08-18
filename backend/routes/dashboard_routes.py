@@ -4,7 +4,6 @@ import logging
 
 dashboard_bp = Blueprint('dashboard_bp', __name__)
 
-
 logging.basicConfig(level=logging.INFO)
 
 @dashboard_bp.route('/getDashboard', methods=['GET', 'OPTIONS'])
@@ -39,8 +38,10 @@ def get_dashboard():
             "isComplaint": entry.isComplaint,
             "product": entry.product,
             "subProduct": entry.subProduct,
+            "entryText": entry.entryText,
             "summary": entry.summary,
             "fileType": entry.fileType.name,  # Convert Enum to string
+            "created_at": entry.created_at.isoformat(),
         })
 
     return jsonify(result), 200

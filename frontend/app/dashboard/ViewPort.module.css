@@ -250,4 +250,22 @@
   .ViewPort_List_Content_Tab_Complaints:hover {
     cursor: pointer; /* Change cursor to pointer when hovering */
   }
+    
+  .ViewPort_Complaint_Full_Text {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: #333;
+    display: none; /* Initially hidden */
+    margin-top: 1rem; /* Space between summary and full text */
+  }
+
+  .ViewPort_Complaint_Full_Text.Visible {
+    display: block; /* Show the full text when this class is added */
+  }
+
+  .ViewPort_Complaint_Timestamp {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: #888;
+  }
   
