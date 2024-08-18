@@ -25,7 +25,15 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message": "User registered successfully"}), 201
+    return jsonify({
+        "message": "User registered successfully",
+        "user": {
+            "id": new_user.id,
+            "clerkId": new_user.clerkId,
+            "email": new_user.email,
+            "created_at": new_user.created_at.isoformat()
+        }
+    }), 201
 
 @user_bp.route('/user', methods=['GET'])
 def get_user():
@@ -42,5 +50,6 @@ def get_user():
     return jsonify({
         "id": user.id,
         "clerkId": user.clerkId,
-        "email": user.email
+        "email": user.email,
+        "created_at": user.created_at.isoformat()
     })
