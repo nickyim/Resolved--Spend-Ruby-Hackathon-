@@ -15,6 +15,14 @@ export default function ViewPort() {
   const [complaints, setComplaints] = useState([
     { id: 1, product: "Credit Card", sub_product: "Store credit card" },
     { id: 2, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
   ]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState([203, 331]);

@@ -127,7 +127,9 @@
 .ViewPort_List_Content {
     display: flex;
     flex-direction: column;
+    padding-bottom: 1vw;
     gap: 1vw;
+    overflow-y: scroll;
 }
 
 .ViewPort_List_Content_Tab {
