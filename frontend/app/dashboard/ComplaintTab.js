@@ -13,6 +13,7 @@ export default function ComplaintTab() {
     const [active, setActive] = useState(0);
     const [collapsed, setCollapsed] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedInput, setSelectedInput] = useState('textQuery');
     const { user } = useUser();
     const router = useRouter();  // Initialize useRouter
 
@@ -27,7 +28,7 @@ export default function ComplaintTab() {
           const formData = new FormData();
           formData.append("audioFile", selectedFile);
     
-          const response = await fetch("http://127.0.0.1:5000/api/audioQuery", {
+          const response = await fetch(`http://127.0.0.1:5000/api/${selectedInput}`, {
             method: "POST",
             body: formData,
           });
@@ -49,11 +50,12 @@ export default function ComplaintTab() {
     };
     
     // Function to handle tab clicks and navigation
-    const handleTabClick = (tab) => {
-        if (tab === "Text") {
-            router.push('/dashboard');  // Go to main dashboard page
-        } else if (tab === "Audio") {
-            router.push('/dashboard/audio');  // Navigate to audio handling page
+    const handleTabClick = (idx) => {
+        setActive(idx)
+        if(idx === 0) {
+            setSelectedInput('textQuery')
+        } else if(idx === 1) {
+            setSelectedInput('audioQuery')
         }
     };
 
@@ -90,7 +92,7 @@ export default function ComplaintTab() {
                         <button 
                             key={idx} 
                             className={idx === active ? styles.Input_Tabs_Active : styles.Input_Tabs_Inactive}
-                            onClick={() => handleTabClick(tab)}  // Handle tab click
+                            onClick={() => handleTabClick(idx)}  // Handle tab click
                         >
                             {tab}
                         </button>
