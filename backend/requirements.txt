@@ -10,3 +10,5 @@ google-cloud-speech
 google-cloud
 google-cloud-storage
 google-cloud-videointelligence
+assemblyai
+google

@@ -7,3 +7,5 @@ python-dotenv
 flask_sqlalchemy
 flask_cors
 flask_migrate
+assemblyai
+google
