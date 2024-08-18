@@ -12,8 +12,32 @@ export default function ComplaintTab() {
     const [viewActive, setViewActive] = useState(0);
     const [active, setActive] = useState(0);
     const [collapsed, setCollapsed] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const { user } = useUser();
     const router = useRouter();  // Initialize useRouter
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
+    const handleFileSubmit = async () => {
+        if (!selectedFile) return;
+    
+        try {
+          const formData = new FormData();
+          formData.append("audioFile", selectedFile);
+    
+          const response = await fetch("http://127.0.0.1:5000/api/audioQuery", {
+            method: "POST",
+            body: formData,
+          });
+    
+          const result = await response.json();
+          console.log("Audio file submitted:", result);
+        } catch (e) {
+          console.log("ERROR: ", e);
+        }
+    };
 
     const toggleCollapse = () => {
         setCollapsed(!collapsed);
@@ -72,8 +96,9 @@ export default function ComplaintTab() {
                         </button>
                     ))}
                     <div className={styles.ComplaintTab_Tabs_File}>
-                        <button>Upload</button>
-                        <button className={styles.ComplaintTab_Tabs_Submit}>Submit</button>
+                        <label for="file-upload">Upload</label>
+                        <input id="file-upload" type="file" onChange={handleFileChange}/>
+                        <button className={styles.ComplaintTab_Tabs_Submit} onClick={handleFileSubmit}>Submit</button>
                     </div>
                 </div>
             </div>

@@ -108,7 +108,23 @@
     border-radius: 1vw;
     display: flex;
     justify-content: center;
+    width: 8vw;
     padding-left: 0vw;
+}
+
+.ComplaintTab_Tabs_File label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 1vw;
+    width: 8vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ComplaintTab_Tabs_File input{
+    display: none;
 }
 
 .ComplaintTab_Tabs_Submit {
