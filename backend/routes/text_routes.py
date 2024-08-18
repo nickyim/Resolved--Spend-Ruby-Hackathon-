@@ -5,7 +5,7 @@ from model import db, User, Entry
 from werkzeug.utils import secure_filename
 import os
 import textract
-from updateDatabase.updateDb import updateDB
+from accessDatabase.updateDb import updateDB
 
 text_bp = Blueprint('text_bp', __name__)
 
