@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Chart as ChartJS } from 'chart.js/auto' 
 import { Doughnut } from "react-chartjs-2"
@@ -9,35 +9,53 @@ import { useUser } from '@clerk/nextjs';
 import styles from "./ViewPort.module.css";
 
 export default function ViewPort() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
   const { user } = useUser(); // Fetch the current user's info 
-  const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
-  const [initialComplaints, setInitialComplaints] = useState([
-    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  ])
-  const [complaints, setComplaints] = useState([
-    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  ]);
+  const [complaint, setComplaint] = useState({})
+  /*
+    - Dummy Data 
+  */
+  // const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
+  const [initialComplaints, setInitialComplaints] = useState([])
+  /*
+    - Dummy Data 
+  */
+  // const [initialComplaints, setInitialComplaints] = useState([
+  //   { id: 1, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 2, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 3, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 4, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 5, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 6, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 7, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 8, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 9, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 10, product: "Debit Card", sub_product: "Store debit card" },
+  // ])
+  const [complaints, setComplaints] = useState([]);
+  /*
+    - Dummy Data 
+  */
+  // const [complaints, setComplaints] = useState([
+  //   { id: 1, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 2, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 3, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 4, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 5, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 6, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 7, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 8, product: "Debit Card", sub_product: "Store debit card" },
+  //   { id: 9, product: "Credit Card", sub_product: "Store credit card" },
+  //   { id: 10, product: "Debit Card", sub_product: "Store debit card" },
+  // ]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [data, setData] = useState([203, 331]);
+  const [data, setData] = useState([]);
+  /*
+    - Dummy Data 
+  */
+  // const [data, setData] = useState([203, 331]);
 
   // const handlePromptSubmit = async () => {
   //   try {
@@ -50,6 +68,26 @@ export default function ViewPort() {
   //     console.log("ERROR: ", e);
   //   }
   // };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        console.log('inside')
+        await axios.get('http://127.0.0.1:5000/api/dashboard', {
+
+        }).then((response) => {
+          setInitialComplaints(response.data)
+          setComplaints(response.data)
+        })
+      } catch (e) {
+        setHasError(true)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData();
+  }, [setInitialComplaints])
 
   const handleSearchChange = (e) => {
     const { value } = e.target;
@@ -99,83 +137,158 @@ export default function ViewPort() {
       console.log("ERROR: ", e);
     }
   };
-
-  return (
-    <div className={styles.ViewPort}>
-      <div className={styles.ViewPort_Header}>
-        <h2>Dashboard</h2>
-      </div>
-      <div className={styles.ViewPort_Content}>
-        <div className={styles.ViewPort_Top}>
-          <div className={styles.ViewPort_Complaint}>
-            <div className={styles.ViewPort_Complaint_Title}>
-              <h4>{complaint.product}</h4>
-              <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint.subProduct}</h4>
-            </div>
-            <div className={styles.ViewPort_Complaint_Content_Summary}>
-              <p className={styles.ViewPort_Complaint_Summary}>{complaint.summary}</p>
-            </div>
-          </div>
-          <div className={styles.ViewPort_Chart}>
-            <Doughnut
-              data={{
-                labels: ["Non-Complaints", "Complaints"],
-                datasets: [
-                  {
-                    data: data,
-                    backgroundColor: ["#8cbdac", "#e9e3a6"],
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }}
-            />
-          </div>
+  if(isLoading) {
+    return (
+      <div className={styles.ViewPort}>
+        <div className={styles.ViewPort_Header}>
+          <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
         </div>
-        <div className={styles.ViewPort_Data}>
-          <div className={styles.ViewPort_List}>
-            <div className={styles.ViewPort_List_Title}>
-              <h4>List of Complaints</h4>
-              <div className={styles.ViewPort_List_Search}>
-                <input type="text" value={search} onChange={handleSearchChange} />
-                <button onClick={handleSearchSubmit}>Submit</button>
+        <div className={styles.ViewPort_Content}>
+          <div className={styles.ViewPort_Top}>
+            <div className={styles.ViewPort_Complaint}>
+              <div className={styles.ViewPort_Complaint_Title}>
+                <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
+                <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
+              </div>
+              <div className={styles.ViewPort_Complaint_Content_Summary}>
+                <div className={styles.ViewPort_Big_Statement_IsLoading + ' ' + styles.IsLoading}></div>
               </div>
             </div>
-            <div className={styles.ViewPort_List_Content}>
-              <div className={styles.ViewPort_List_Content_Tab}>
-                <p className={styles.ViewPort_List_Content_ID}>ID</p>
-                <p className={styles.ViewPort_List_Content_Product}>Product</p>
-                <p className={styles.ViewPort_List_Content_Sub_Product}>
-                  Sub-Product
-                </p>
-              </div>
-              {complaints.map((complaint, idx) => (
-                <div
-                  key={idx}
-                  className={
-                    styles.ViewPort_List_Content_Tab +
-                    " " +
-                    styles.ViewPort_List_Content_Tab_Complaints
+            <div className={styles.ViewPort_Chart}>
+              <Doughnut
+                data={{
+                  labels: ["Non-Complaints", "Complaints"],
+                  datasets: [
+                    {
+                      data: [50,50],
+                      backgroundColor: ["#d9d9d9", "#d9d9d9"],
+                    },
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
+                      position: 'bottom'
+                    }
                   }
-                >
-                  <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
-                  <p className={styles.ViewPort_List_Content_Product}>
-                    {complaint.product}
-                  </p>
+                }}
+              />
+            </div>
+          </div>
+          <div className={styles.ViewPort_Data}>
+            <div className={styles.ViewPort_List}>
+              <div className={styles.ViewPort_List_Title}>
+                <h4>List of Complaints</h4>
+                <div className={styles.ViewPort_List_Search}>
+                  <input type="text" value={search} onChange={handleSearchChange} />
+                  <button onClick={handleSearchSubmit} >Submit</button>
+                </div>
+              </div>
+              <div className={styles.ViewPort_List_Content}>
+                <div className={styles.ViewPort_List_Content_Tab}>
+                  <p className={styles.ViewPort_List_Content_ID}>ID</p>
+                  <p className={styles.ViewPort_List_Content_Product}>Product</p>
                   <p className={styles.ViewPort_List_Content_Sub_Product}>
-                    {complaint.sub_product}
+                    Sub-Product
                   </p>
                 </div>
-              ))}
+                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    )
+  } else if(hasError) {
+      return(
+        <div className={styles.ViewPort}>
+          <div className={styles.ViewPort_Header}>
+            <h2>Cannot Connect to Server</h2>
+          </div>
+        </div>
+      )
+  } else {
+    return (
+      <div className={styles.ViewPort}>
+        <div className={styles.ViewPort_Header}>
+          <h2>Dashboard</h2>
+        </div>
+        <div className={styles.ViewPort_Content}>
+          <div className={styles.ViewPort_Top}>
+            <div className={styles.ViewPort_Complaint}>
+              <div className={styles.ViewPort_Complaint_Title}>
+                <h4>{complaint.product}</h4>
+                <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint.subProduct}</h4>
+              </div>
+              <div className={styles.ViewPort_Complaint_Content_Summary}>
+                <p className={styles.ViewPort_Complaint_Summary}>{complaint.summary}</p>
+              </div>
+            </div>
+            <div className={styles.ViewPort_Chart}>
+              <Doughnut
+                data={{
+                  labels: ["Non-Complaints", "Complaints"],
+                  datasets: [
+                    {
+                      data: data,
+                      backgroundColor: ["#8cbdac", "#e9e3a6"],
+                    },
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
+                      position: 'bottom'
+                    }
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className={styles.ViewPort_Data}>
+            <div className={styles.ViewPort_List}>
+              <div className={styles.ViewPort_List_Title}>
+                <h4>List of Complaints</h4>
+                <div className={styles.ViewPort_List_Search}>
+                  <input type="text" value={search} onChange={handleSearchChange} />
+                  <button onClick={handleSearchSubmit}>Submit</button>
+                </div>
+              </div>
+              <div className={styles.ViewPort_List_Content}>
+                <div className={styles.ViewPort_List_Content_Tab}>
+                  <p className={styles.ViewPort_List_Content_ID}>ID</p>
+                  <p className={styles.ViewPort_List_Content_Product}>Product</p>
+                  <p className={styles.ViewPort_List_Content_Sub_Product}>
+                    Sub-Product
+                  </p>
+                </div>
+                {complaints.map((complaint, idx) => (
+                  <div
+                    key={idx}
+                    className={
+                      styles.ViewPort_List_Content_Tab +
+                      " " +
+                      styles.ViewPort_List_Content_Tab_Complaints
+                    }
+                  >
+                    <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
+                    <p className={styles.ViewPort_List_Content_Product}>
+                      {complaint.product}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_Sub_Product}>
+                      {complaint.sub_product}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ); 
+  }
 }

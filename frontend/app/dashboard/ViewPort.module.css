@@ -168,3 +168,23 @@
 .ViewPort_Top h2{
     margin-bottom: 30px;
 }
+
+.IsLoading {
+    background-color: var(--subtle-loading-color);
+    border-radius: 1vw;
+}
+
+.ViewPort_Statement_IsLoading {
+    width: 15vw;
+    height: 2vw;
+}
+
+.ViewPort_Big_Statement_IsLoading {
+    width: 98%;
+    height: 14vw;
+}
+
+.ViewPort_List_Complaint_IsLoading {
+    width: 98%;
+    height: 2vw;
+}
