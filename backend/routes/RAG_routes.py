@@ -9,8 +9,13 @@ RAG_bp = Blueprint('RAG_bp', __name__)
 def returnRAGresults():
     data = request.get_json()
 
-    # Assuming the query is the last item in the list
-    query = data[-1].get('query', '') if isinstance(data, list) and data else ''
+    # # Assuming the query is the last item in the list
+    # query = data[-1].get('query', '') if isinstance(data, list) and data else ''
+
+    if not data or 'query' not in data:
+        return Response(json.dumps({'error': 'Invalid input'}), status=400, mimetype='application/json')
+
+    query = data['query']
 
     print('here is the query:', query)
     def generate():
