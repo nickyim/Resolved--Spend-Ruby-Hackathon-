@@ -412,6 +412,7 @@ export default function ViewPort({ inputEntry }) {
                 <button onClick={toggleAIOpen}>X</button>
               </div>
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Output}>
+
                 {aiChatLog.map((chat, index) => (
                   <p
                     key={index}
