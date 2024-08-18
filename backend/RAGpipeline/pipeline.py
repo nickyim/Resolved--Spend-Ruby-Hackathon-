@@ -78,12 +78,12 @@ async def get_response(query):
         print(f"Error in get_response: {str(e)}")
         raise
 
-# if __name__ == "__main__":
-#     sample_query = "Are there complaints associated with Citibank?"
+if __name__ == "__main__":
+    sample_query = "What is the general consensus of complaints associated with Macys and Citibank"
     
-#     async def main():
-#         async for response_chunk in get_response(sample_query):
-#             print(response_chunk, end="", flush=True)
-#         print()  # Add a newline at the end
+    async def main():
+        async for response_chunk in get_response(sample_query):
+            print(response_chunk, end="", flush=True)
+        print()  # Add a newline at the end
     
-#     asyncio.run(main())
+    asyncio.run(main())
