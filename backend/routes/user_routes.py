@@ -53,4 +53,3 @@ def get_user():
         "email": user.email,
         "created_at": user.created_at.isoformat()
     })
-# a
