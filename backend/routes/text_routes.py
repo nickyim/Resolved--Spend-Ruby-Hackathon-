@@ -8,6 +8,10 @@ import textract
 
 text_bp = Blueprint('text_bp', __name__)
 
+# Ensure the uploads directory exists
+UPLOAD_FOLDER = 'complaintUploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 @text_bp.route('/textQuery', methods=['POST', 'OPTIONS'])
 def handle_prompt():
     if request.method == 'OPTIONS':
@@ -17,10 +21,11 @@ def handle_prompt():
     if 'complaintFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
 
-    data = request.json 
-    prompt = data.get('prompt')
-    clerk_id = data.get('clerkId')
-    file_type = data.get('fileType', 'TEXT')
+    # data = request.json 
+    # prompt = data.get('prompt')
+    # clerk_id = data.get('clerkId')
+
+    file_type = 'TEXT'
 
 
     file = request.files['complaintFile']
@@ -29,12 +34,16 @@ def handle_prompt():
 
     if file:
         filename = secure_filename(file.filename)
-        file_path = os.path.join('/tmp', filename)
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        
+        # Save the file to the temporary folder
         file.save(file_path)
 
 
         # Extract text from the file
         text = textract.process(file_path).decode('utf-8')
+
+        print('THIS IS THE TEXT: \n\n***', text)
 
         # Clean up the temporary file
         os.remove(file_path)
@@ -56,7 +65,7 @@ def handle_prompt():
             return jsonify({"error": "User not found"}), 404
 
         # Process the complaint using AI
-        result = processComplaint(prompt)
+        result = processComplaint(text)
 
         # Parse the result into JSON
         result_data = json.loads(result)
@@ -74,7 +83,7 @@ def handle_prompt():
             isComplaint=is_complaint,
             product=product,
             subProduct=sub_product,
-            entryText=prompt,
+            entryText=text,
             summary=summary,
             userId=user.id,
             fileType=file_type
