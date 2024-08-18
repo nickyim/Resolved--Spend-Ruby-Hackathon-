@@ -139,6 +139,16 @@
     display: flex;
 }
 
+.ViewPort_List_Search select {
+    background-color: #e9e3a6;
+    border: none;
+    padding-left: 1vw;
+    padding-right: 0.3vw;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    cursor: pointer;
+}
+
 .ViewPort_List_Search input {
     width: 20vw;
     height: 2.5vw;
@@ -160,7 +170,7 @@
     height: 2.5vw;
     border-top-right-radius: 2vw;
     border-bottom-right-radius: 2vw;
-    background-color: #e9e3a6;
+    background-color: #8cbdac;
     border: solid 1.5px #e9e3a6;
     font-size: var(--p-size);
     font-weight: var(--standard-weight);

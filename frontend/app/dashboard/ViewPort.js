@@ -98,37 +98,38 @@ export default function ViewPort({ inputEntry }) {
   
     if (parseInt(search)) {
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if (initialComplaints[i].id === Number.parseInt(search)) {
-          result.push(initialComplaints[i]);
-        }
-      }
-    } else if (
-      search.toLowerCase() === "complaint" ||
-      search.toLowerCase() === "complaints"
-    ) {
-      for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if (initialComplaints[i].isComplaint) {
-          result.push(initialComplaints[i]);
+        if (initialComplaints[i] && initialComplaints[i].id === Number.parseInt(search)) {
+          if(filter.toLowerCase() === 'complaints' && initialComplaints[i].isComplaint) {
+            result.push(initialComplaints[i])
+          } else if (filter.toLowerCase() === 'non-complaints' && !initialComplaints[i].isComplaint) {
+            result.push(initialComplaints[i])
+          } else {
+            result.push(initialComplaints[i]);
+          }
         }
       }
     } else {
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
         if (
-          initialComplaints[i].product.toLowerCase() === search.toLowerCase() ||
-          initialComplaints[i].subProduct.toLowerCase() ===
-            search.toLowerCase() ||
-          initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()
+          initialComplaints[i] && ( (initialComplaints[i].product && initialComplaints[i].product.toLowerCase() === search.toLowerCase()) ||
+          (initialComplaints[i].subProduct && initialComplaints[i].subProduct.toLowerCase() ===
+            search.toLowerCase()) ||
+          (initialComplaints[i].fileType && initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()))
         ) {
-          result.push(initialComplaints[i]);
+          console.log(filter.toLowerCase())
+          console.log(filter.toLowerCase() === 'complaints')
+          console.log(filter.toLowerCase() === 'non-complaints')
+          console.log(filter.toLowerCase() === 'all')
+          console.log('\n')
+          if(filter.toLowerCase() === 'complaints' && initialComplaints[i].isComplaint) {
+            result.push(initialComplaints[i])
+          } else if (filter.toLowerCase() === 'non-complaints' && !initialComplaints[i].isComplaint) {
+            result.push(initialComplaints[i])
+          } else if (filter.toLowerCase() === 'all') {
+            result.push(initialComplaints[i]);
+          }
         }
       }
-    }
-  
-    // Apply the filter
-    if (filter === "complaints") {
-      result = result.filter((item) => item.isComplaint);
-    } else if (filter === "non-complaints") {
-      result = result.filter((item) => !item.isComplaint);
     }
   
     if (result.length === 0) {
@@ -395,18 +396,18 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_List_Title}>
                 <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                <input
-                  type="text"
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-                <select value={filter} onChange={handleFilterChange}>
-                  <option value="all">All</option>
-                  <option value="complaints">Complaints</option>
-                  <option value="non-complaints">Non-Complaints</option>
-                </select>
-                <button onClick={handleSearchSubmit}>Search</button>
-              </div>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchChange}
+                  />
+                  <select value={filter} onChange={handleFilterChange}>
+                    <option value="all">All</option>
+                    <option value="complaints">Complaints</option>
+                    <option value="non-complaints">Non-Complaints</option>
+                  </select>
+                  <button onClick={handleSearchSubmit}>Search</button>
+                </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
