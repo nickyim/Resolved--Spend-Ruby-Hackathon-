@@ -9,7 +9,7 @@ import AudioModal from "../../Components/audioModal.js";
 
 export default function ComplaintTab() {
   const [viewTabs, setViewTabs] = useState(["Dashboard", "Settings"]);
-  const [tabs, setTabs] = useState(["Text", "Audio"]);
+  const [tabs, setTabs] = useState(["Text", "Audio", "Video"]);
   const [viewActive, setViewActive] = useState(0);
   const [active, setActive] = useState(0);
   const [collapsed, setCollapsed] = useState(false);
@@ -95,6 +95,8 @@ export default function ComplaintTab() {
       setSelectedInput("textQuery");
     } else if (idx === 1) {
       setSelectedInput("audioQuery");
+    } else if (idx === 2) {
+      setSelectedInput("videoQuery");
     }
   };
 

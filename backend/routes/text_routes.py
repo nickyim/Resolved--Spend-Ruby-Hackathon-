@@ -5,6 +5,7 @@ from model import db, User, Entry
 from werkzeug.utils import secure_filename
 import os
 import textract
+from updateDatabase.updateDb import updateDB
 
 text_bp = Blueprint('text_bp', __name__)
 
@@ -114,4 +115,6 @@ def handle_prompt():
                 "email": user.email
             }
         }), 201
+        # Update the database with the result
+        return updateDB(file_type, text, user, result)
 
