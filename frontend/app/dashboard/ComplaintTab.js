@@ -55,16 +55,19 @@ export default function ComplaintTab({ onValueChange }) {
       console.log("Submitting to endpoint:", input);
       console.log("Form key:", formKey);
 
-      const response = await fetch(`http://127.0.0.1:5000/api/${input}`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${clerkId}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${input}`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${clerkId}`,
+          },
+        }
+      );
 
       const result = await response.json();
-      onValueChange(result)
+      onValueChange(result);
       console.log(`${input} file submitted:`, result);
     } catch (e) {
       console.log("ERROR: ", e);
@@ -126,7 +129,6 @@ export default function ComplaintTab({ onValueChange }) {
     } else if (idx === 3) {
       setSelectedInput("imageQuery");
     }
-
   };
 
   return (
@@ -168,31 +170,33 @@ export default function ComplaintTab({ onValueChange }) {
           ))}
         </div>
         <div className={styles.ComplaintTab_Tabs_InputTabs}>
-            {tabs.map((tab, idx) => (
-                <button
-                key={idx}
-                className={
-                    idx === active
-                    ? styles.Input_Tabs_Active
-                    : styles.Input_Tabs_Inactive
-                }
-                onClick={() => handleTabClick(idx)} // Handle tab click
-                >
-                {tab}
-                </button>
-            ))}
-            <p>Current File Selected: {selectedFile? selectedFile.name : 'None'}</p>
-            <div className={styles.ComplaintTab_Tabs_File}>
-                <label htmlFor="file-upload">Upload</label>
-                <input id="file-upload" type="file" onChange={handleFileChange} />
-                {/* Display selected file name */}
-                <button
-                className={styles.ComplaintTab_Tabs_Submit}
-                onClick={() => handleFileSubmit(active)}
-                >
-                Submit
-                </button>
-            </div>
+          {tabs.map((tab, idx) => (
+            <button
+              key={idx}
+              className={
+                idx === active
+                  ? styles.Input_Tabs_Active
+                  : styles.Input_Tabs_Inactive
+              }
+              onClick={() => handleTabClick(idx)} // Handle tab click
+            >
+              {tab}
+            </button>
+          ))}
+          <p>
+            Current File Selected: {selectedFile ? selectedFile.name : "None"}
+          </p>
+          <div className={styles.ComplaintTab_Tabs_File}>
+            <label htmlFor="file-upload">Upload</label>
+            <input id="file-upload" type="file" onChange={handleFileChange} />
+            {/* Display selected file name */}
+            <button
+              className={styles.ComplaintTab_Tabs_Submit}
+              onClick={() => handleFileSubmit(active)}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
       <AudioModal
