@@ -22,7 +22,7 @@
 .LandingPage_Header_Content {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 60%;
 }
 
 .LandingPage_Header h1 {
