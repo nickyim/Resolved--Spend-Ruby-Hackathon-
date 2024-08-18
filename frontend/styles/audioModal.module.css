@@ -4,15 +4,67 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modalContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24vw;
+  height: 8vw;
   background: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
+  padding: 1vw;
+  border-radius: 0.5vw;
+}
+
+.modalContent_Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalContent_Header h4 {
+  font-size: var(--h4-size);
+  font-weight: var(--standard-weight);
+}
+
+.modalContent_Header button {
+  background-color: rgba(221, 221, 221, 0.5);
+  border: none;
+  border-radius: 1vw;
+  height: 2vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  cursor: pointer;
+}
+
+.modalContent_Content {
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
+}
+
+.modalContent_Content button {
+  height: 2vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  border: none;
+  border-radius: 1vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  cursor: pointer;
+}
+
+.modalContent_Content_AssemblyAI {
+  background-color: #8cbdac;
+}
+
+.modalContent_Content_GoogleCloud {
+  background-color: #e9e3a6;
 }

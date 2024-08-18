@@ -14,6 +14,7 @@
 
 .ViewPort_Header h2 {
     font-size: var(--h2-size);
+    font-weight: var(--light-bold-weight);
 }
 
 .ViewPort_Content {
@@ -45,18 +46,53 @@
     align-items: center;
 }
 
+.ViewPort_Complaint_Title_Content {
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
 .ViewPort_Complaint_Title h4 {
-    font-weight: 500;
     font-size: var(--h4-size);
+    font-weight: var(--standard-weight);
 }
 
 .ViewPort_Complaint_Title_Subproduct {
-    font-weight: 500;
+    font-weight: var(--standard-weight);
     color: var(--subtle-color)
+}
+
+.ViewPort_Complaint_Extra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ViewPort_Complaint_Extra button {
+    background: #e9e3a6;
+    border: none;
+    border-radius: 1vw;
+    height: 2vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    cursor: pointer;
+}
+
+.ViewPort_Complaint_Extra p {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: var(--subtle-color)
+}
+
+.ViewPort_Complaint_Content_Summary {
+    overflow-y: scroll;
 }
 
 .ViewPort_Complaint_Summary {
     font-size: var(--p-size);
+    font-weight: var(--standard-weight);
 }
 
 .ViewPort_Chart {
@@ -64,36 +100,6 @@
     padding: 1vw;
     border-radius: 1vw;
     border: solid 1.5px rgb(238, 238, 238);
-}
-
-.ViewPort_List_Search {
-    display: flex;
-}
-
-.ViewPort_List_Search input {
-    width: 20vw;
-    height: 2.5vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    border-top-left-radius: 2vw;
-    border-bottom-left-radius: 2vw;
-    border: solid 1.5px rgb(238, 238, 238);
-    font-size: var(--p-size);
-}
-
-.ViewPort_List_Search input:focus {
-    outline: none;
-}
-
-.ViewPort_List_Search button {
-    width: 6vw;
-    height: 2.5vw;
-    border-top-right-radius: 2vw;
-    border-bottom-right-radius: 2vw;
-    background-color: #e9e3a6;
-    border: solid 1.5px #e9e3a6;
-    font-size: var(--p-size);
-    cursor: pointer;
 }
 
 .ViewPort_Data {
@@ -104,7 +110,7 @@
 .ViewPort_List {
     display: flex;
     flex-direction: column;
-    width: 55vw;
+    width: 76vw;
     height: 23vw;
     padding-top: 1vw;
     padding-left: 1vw;
@@ -125,6 +131,40 @@
 
 .ViewPort_List_Title h4{
     font-size: var(--h4-size);
+    font-weight: var(--standard-weight);
+}
+
+
+.ViewPort_List_Search {
+    display: flex;
+}
+
+.ViewPort_List_Search input {
+    width: 20vw;
+    height: 2.5vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    border-top-left-radius: 2vw;
+    border-bottom-left-radius: 2vw;
+    border: solid 1.5px rgb(238, 238, 238);
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+}
+
+.ViewPort_List_Search input:focus {
+    outline: none;
+}
+
+.ViewPort_List_Search button {
+    width: 6vw;
+    height: 2.5vw;
+    border-top-right-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    background-color: #e9e3a6;
+    border: solid 1.5px #e9e3a6;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    cursor: pointer;
 }
 
 .ViewPort_List_Content {
@@ -139,8 +179,9 @@
     display: flex;
 }
 
-.ViewPort_Complaint_Content_Summary {
-    overflow-y: scroll;
+.ViewPort_List_Content_Tab p {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
 }
 
 .ViewPort_List_Content_Tab_Complaints p {
@@ -149,20 +190,47 @@
 
 .ViewPort_List_Content_ID {
     display: flex;
-    justify-content: space-between;
-    width: 15vw;
+    width: 10vw;
 }
 
 .ViewPort_List_Content_Product {
     display: flex;
-    justify-content: space-between;
-    width: 20vw;
+    width: 23vw;
 }
 
 .ViewPort_List_Content_Sub_Product {
     display: flex;
-    justify-content: space-between;
-    width: 20vw;
+    width: 23vw;
+}
+
+.ViewPort_List_Content_File_Type {
+    display: flex;
+    width: 10vw;
+}
+
+.ViewPort_List_Content_Sub_Is_Complaint_Header {
+    display: flex;
+    width: 10vw;
+}
+
+.ViewPort_List_Content_Sub_Is_Complaint_Content {
+    display: flex;
+    width: 10vw;
+    padding-left: 1.5vw;
+}
+
+.ViewPort_List_Content_Sub_Is_Complaint {
+    width: 1vw;
+    height: 1vw;
+    border-radius: 1vw;
+    background-color: #e01e37;
+}
+
+.ViewPort_List_Content_Sub_Is_Not_Complaint {
+    width: 1vw;
+    height: 1vw;
+    border-radius: 1vw;
+    background-color: #e9e3a6;
 }
 
 .ViewPort_Top h2{
@@ -188,3 +256,40 @@
     width: 98%;
     height: 2vw;
 }
+
+.ViewPort_List_Content_Tab_Complaints {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints:hover {
+    background-color: #f0f0f0; /* Same grey color as hovering over the tabs in ComplaintTab */
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints.SelectedComplaint {
+    background-color: #f0f0f0; /* Highlight color for selected complaint */
+    color: #7777; /* Optional: Change text color for better contrast */
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints:hover {
+    cursor: pointer; /* Change cursor to pointer when hovering */
+  }
+    
+  .ViewPort_Complaint_Full_Text {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: #333;
+    display: none; /* Initially hidden */
+    margin-top: 1rem; /* Space between summary and full text */
+  }
+
+  .ViewPort_Complaint_Full_Text.Visible {
+    display: block; /* Show the full text when this class is added */
+  }
+
+  .ViewPort_Complaint_Timestamp {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: #888;
+  }
+  

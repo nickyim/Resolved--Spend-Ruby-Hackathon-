@@ -14,7 +14,7 @@
 
 .Footer_Header h3 {
     font-size: var(--h3-size);
-    font-weight: 400;
+    font-weight: var(--standard-weight);
 }
 
 .Footer_Creators {
@@ -25,12 +25,13 @@
 
 .Footer_Creators h5 {
     font-size: var(--h5-size);
-    font-weight: 400;
+    font-weight: var(--standard-weight);
 }
 
 .Footer_Creators a {
     text-decoration: none;
     font-size: var(--p-size);
+    font-weight: var(--standard-weight);
     color: var(--subtle-color);
 }
 

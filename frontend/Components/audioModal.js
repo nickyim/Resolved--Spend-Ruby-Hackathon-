@@ -9,14 +9,18 @@ const AudioModal = ({ show, onClose, onSelect }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>Select Transcription Service</h2>
-        <button onClick={() => onSelect("assemblyAI")}>
-          Transcribe with AssemblyAI
-        </button>
-        <button onClick={() => onSelect("googleCloud")}>
-          Transcribe with Google Cloud
-        </button>
-        <button onClick={onClose}>Close</button>
+        <div className={styles.modalContent_Header}>
+          <h4>Select Transcription Service</h4>
+          <button onClick={onClose}>X</button>
+        </div>
+        <div className={styles.modalContent_Content}>
+          <button className={styles.modalContent_Content_AssemblyAI} onClick={() => onSelect("assemblyAI") }>
+            AssemblyAI
+          </button>
+          <button className={styles.modalContent_Content_GoogleCloud} onClick={() => onSelect("googleCloud")}>
+            Google Cloud
+          </button>
+        </div>
       </div>
     </div>
   );

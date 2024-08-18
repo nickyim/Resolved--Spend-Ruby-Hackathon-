@@ -63,7 +63,7 @@ export default function Home() {
           }
         });
     }
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, router]);
 
   return (
     <div className={styles.Initial_LandingPage}>
@@ -108,6 +108,7 @@ export default function Home() {
               <h2>Resolved Offers a User Friendly Layout</h2>
               <Image
                 src={DashboardImg}
+                alt="Dashboard preview"
                 className={styles.LandingPage_Content_DashboardImg}
               />
             </div>

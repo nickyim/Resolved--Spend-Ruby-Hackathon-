@@ -5,8 +5,10 @@ from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from google.cloud import storage, videointelligence_v1 as videointelligence
 import logging
+from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 from chatScripts.classifyProductandSummarize import classifyProductandSummarize
+from routes.elastic_routes import sync_data
 
 video_bp = Blueprint('video_bp', __name__)
 
@@ -61,42 +63,13 @@ def upload_video():
             if isinstance(complaint_result, str):
                 complaint_result = json.loads(complaint_result)
 
-            is_complaint = complaint_result.get('isComplaint', False)
-            summary = complaint_result.get('summary', '')
-            product = complaint_result.get('product', '')
-            sub_product = complaint_result.get('subProduct', '')
+            # Use the updateDB function to store the entry in the database
+            response = updateDB('VIDEO', complaint_result.get('summary', ''), user, json.dumps(complaint_result))
 
-            # Generate a unique entryId
-            entry_id = str(uuid.uuid4())
+            # Sync the data with Elasticsearch after the database is updated
+            sync_data()
 
-            # Create a new entry and associate it with the user
-            new_entry = Entry(
-                entryId=entry_id,
-                isComplaint=is_complaint,
-                product=product,
-                subProduct=sub_product,
-                entryText=summary,  # Store the summary as the entry text
-                summary=summary,
-                userId=user.id,
-                fileType='VIDEO'
-            )
-
-            db.session.add(new_entry)
-            db.session.commit()
-
-            return jsonify({
-                "message": "Video file processed successfully and entry created",
-                "entryId": entry_id,
-                "isComplaint": is_complaint,
-                "summary": summary,
-                "product": product,
-                "subProduct": sub_product,
-                "user": {
-                    "id": user.id,
-                    "clerkId": user.clerkId,
-                    "email": user.email
-                }
-            }), 201
+            return response
 
         except Exception as e:
             logging.error(f"Error during video processing: {e}")

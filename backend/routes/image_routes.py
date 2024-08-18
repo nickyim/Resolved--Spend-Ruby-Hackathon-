@@ -1,34 +1,34 @@
 import uuid
-import datetime
 from flask import Blueprint, json, request, jsonify
-from chatScripts.parseComplaint import processComplaint
+from google.cloud import vision
+from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 from werkzeug.utils import secure_filename
-import os
-import textract
-from accessDatabase.updateDb import updateDB
+from chatScripts.parseComplaint import processComplaint  # Import your OpenAI function
 from routes.elastic_routes import sync_data
+import os
 
-text_bp = Blueprint('text_bp', __name__)
+# Initialize the Blueprint
+image_bp = Blueprint('image_bp', __name__)
 
 # Ensure the uploads directory exists
-UPLOAD_FOLDER = 'complaintUploads'
+UPLOAD_FOLDER = 'imageUploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-ALLOWED_EXTENSIONS = {'txt', 'json', 'pdf'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'pdf', }
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@text_bp.route('/textQuery', methods=['POST', 'OPTIONS'])
-def handle_prompt():
+@image_bp.route('/imageQuery', methods=['POST', 'OPTIONS'])
+def handle_image():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
     
-    if 'complaintFile' not in request.files:
+    if 'imageFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
     
-    file = request.files['complaintFile']
+    file = request.files['imageFile']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
@@ -39,20 +39,24 @@ def handle_prompt():
         # Save the file to the temporary folder
         file.save(file_path)
 
-        file_extension = filename.rsplit('.', 1)[1].lower()
-        if file_extension == 'txt':
-            file_type = 'TEXT'
-            with open(file_path, 'r') as f:
-                content = f.read()
-        elif file_extension == 'json':
-            file_type = 'JSON'
-            with open(file_path, 'r') as f:
-                content = json.load(f)
+        # Initialize Google Cloud Vision client
+        client = vision.ImageAnnotatorClient()
 
-        # Extract text from the file
-        text = textract.process(file_path).decode('utf-8')
+        # Load the image into memory
+        with open(file_path, 'rb') as image_file:
+            content = image_file.read()
 
-        print('THIS IS THE TEXT: \n\n***', text)
+        image = vision.Image(content=content)
+
+        # Perform text detection on the image
+        response = client.text_detection(image=image)
+        texts = response.text_annotations
+
+        if not texts:
+            return jsonify({"error": "No text detected in the image"}), 400
+        
+        text = texts[0].description
+        print('Extracted Text from Image: \n\n***', text)
 
         # Clean up the temporary file
         os.remove(file_path)
@@ -64,22 +68,19 @@ def handle_prompt():
 
         clerk_id = auth_header.split(' ')[1]
 
-        if not text:
-            return jsonify({"error": "No text extracted from file"}), 400
-
         # Fetch the user from the database
         user = User.query.filter_by(clerkId=clerk_id).first()
 
         if not user:
             return jsonify({"error": "User not found"}), 404
 
-        # Process the complaint using AI
+        # Process the extracted text using AI
         result = processComplaint(text)
 
-        # Use the updateDB function to save the result to the database
-        response = updateDB(file_type, text, user, result)
+        # Update the database using the updateDB function
+        response = updateDB('IMAGE', text, user, result)
 
         # Sync the data with Elasticsearch after the database is updated
         sync_data()
-
+    
         return response
