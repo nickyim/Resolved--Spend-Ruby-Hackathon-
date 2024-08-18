@@ -1,22 +1,25 @@
 import os
 import io
-from openai import OpenAI
 from dotenv import load_dotenv
+import assemblyai as aai
+
 from .parseComplaint import processComplaint
 
 # load environment variables from .env file
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+aai.settings.api_key = os.getenv("ASSEMBLYAI_API_KEY")
 
-def processAudio(audioFile):
-    audio_file = open('complaintUploads/userComplaint.mp3', 'rb')
-    transcription = client.audio.transcriptions.create(
-        model='whisper-1',
-        file=audio_file,
-        response_format='text'
-    )
+def processAudio(file_path):
+    audio_file = './complaintUploads/userComplaint.m4a'
+    transcriber = aai.Transcriber()
+    transcript = transcriber.transcribe(audio_file)
 
-    print(f"\n\n******** Transcription: {transcription}")
+    if transcript.status == aai.TranscriptStatus.error:
+        print('ERROR:',transcript.error)
+    else:
+        print(f"\n\n******** Transcription: {transcript.text} ********\n\n")
+        
 
-    return processComplaint(transcription)
+
+    return processComplaint(transcript.text)

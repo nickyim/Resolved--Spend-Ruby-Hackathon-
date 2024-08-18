@@ -2,7 +2,11 @@
 import os
 from flask import Blueprint, json, request, jsonify
 from chatScripts.processAudio import processAudio
+from chatScripts.googleAudioProcess import transcribe_audio
 from werkzeug.utils import secure_filename
+from google.cloud import storage
+from google.cloud import speech
+
 
 audio_bp = Blueprint('audio_bp', __name__)
 
@@ -44,3 +48,26 @@ def upload_audio():
             if os.path.exists(file_path):
                 os.remove(file_path)
                 print(f"Deleted file: {file_path}")
+
+@audio_bp.route('/googleAudioQuery', methods=['GET', 'POST'])
+def upload_audio2Google():
+    # Get the audio file from the request.
+    audio = request.files['audioFile']
+    audio_content = audio.read()
+
+    # Determine the encoding based on the file extension
+    file_extension = os.path.splitext(audio.filename)[1].lower()
+    if file_extension == '.mp3':
+        encoding = speech.RecognitionConfig.AudioEncoding.MP3
+    elif file_extension == '.wav':
+        encoding = speech.RecognitionConfig.AudioEncoding.LINEAR16
+    else:
+        return jsonify({"error": "Unsupported audio format"}), 400
+
+    # Retrieve a Speech API response for the audio content
+    results = transcribe_audio(audio_content, encoding)
+
+    print(f"\n\nReceived Google Audio result: {results}\n\n********")
+    
+    # Return the results as a JSON response.
+    return jsonify({"message": "Audio file processed successfully", "result": results}), 200
