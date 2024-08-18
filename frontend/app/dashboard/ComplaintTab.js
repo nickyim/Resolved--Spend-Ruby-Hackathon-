@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import styles from "./ComplaintTab.module.css";
 import AudioModal from "../../Components/audioModal.js";
 
-export default function ComplaintTab() {
+export default function ComplaintTab({ onValueChange }) {
   const [viewTabs, setViewTabs] = useState(["Dashboard", "Settings"]);
   const [tabs, setTabs] = useState(["Text", "Audio", "Video"]);
   const [viewActive, setViewActive] = useState(0);
@@ -64,6 +64,7 @@ export default function ComplaintTab() {
       });
 
       const result = await response.json();
+      onValueChange(result)
       console.log(`${input} file submitted:`, result);
     } catch (e) {
       console.log("ERROR: ", e);

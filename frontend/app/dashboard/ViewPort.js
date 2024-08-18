@@ -6,7 +6,7 @@ import { Doughnut } from "react-chartjs-2";
 import { useUser } from '@clerk/nextjs';
 import styles from "./ViewPort.module.css";
 
-export default function ViewPort() {
+export default function ViewPort({ inputEntry }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
@@ -31,6 +31,8 @@ export default function ViewPort() {
           },
         });
   
+        console.log('Inside async');
+        console.log(response.data);
         setInitialComplaints(response.data);
         setComplaints(response.data);
   
@@ -50,6 +52,21 @@ export default function ViewPort() {
   
     fetchData();
   }, [user]);
+
+  useEffect(() => {
+    console.log('Inside input entry')
+    console.log(inputEntry)
+    if(inputEntry) {
+      setInitialComplaints((prev) => [
+        ...prev,
+        inputEntry
+      ])
+      setComplaints((prev) => [
+        ...prev,
+        inputEntry
+      ])
+    }
+  }, [inputEntry])
   
   const handleSearchChange = (e) => {
     const { value } = e.target;
@@ -58,7 +75,7 @@ export default function ViewPort() {
 
   const handleSearchSubmit = () => {
     let result = []
-    for(let i = 0; i < initialComplaints.length; i++) {
+    for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
       if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].sub_product.toLowerCase() === search.toLowerCase() || initialComplaints[i].id === Number.parseInt(search)) {
         result.push(initialComplaints[i])
       }
