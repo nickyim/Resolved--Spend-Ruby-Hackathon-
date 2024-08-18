@@ -54,8 +54,6 @@ export default function ViewPort({ inputEntry }) {
   }, [user]);
 
   useEffect(() => {
-    console.log('Inside input entry')
-    console.log(inputEntry)
     if(inputEntry) {
       setInitialComplaints((prev) => [
         ...prev,
@@ -75,11 +73,22 @@ export default function ViewPort({ inputEntry }) {
 
   const handleSearchSubmit = () => {
     let result = []
-    for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-      if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].sub_product.toLowerCase() === search.toLowerCase() || initialComplaints[i].id === Number.parseInt(search)) {
-        result.push(initialComplaints[i])
+    if(parseInt(search)) {
+      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if(initialComplaints[i].id === Number.parseInt(search)) {
+          result.push(initialComplaints[i])
+        }
+      }  
+    } else {
+      console.log(initialComplaints[0].product.toLowerCase())
+      console.log(initialComplaints[0].subProduct.toLowerCase())
+      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].subProduct.toLowerCase() === search.toLowerCase()) {
+          result.push(initialComplaints[i])
+        }
       }
     }
+
     if(result.length === 0) {
       setComplaints(initialComplaints)  
     } else {
