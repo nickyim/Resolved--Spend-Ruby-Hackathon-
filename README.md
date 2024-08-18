@@ -2,15 +2,14 @@
 
 ## Overview
 
-This project is a comprehensive fullstack application that leverages a variety of modern technologies to provide a robust and scalable solution. The backend is built using Flask and Python, while the frontend is developed with Next.js. The application integrates several APIs and services, including OpenAI, AssemblyAI, Google Cloud Vision API, and Google Cloud Speech-to-Text. Additionally, it utilizes Docker for containerization and Pinecone for vector storage.
+This project is a comprehensive full-stack application that leverages a variety of modern technologies to provide a robust and scalable solution. The backend is built using Flask and Python, while the frontend is developed with Next.js. The application integrates several APIs and services, including OpenAI, AssemblyAI, Google Cloud Vision API, and Google Cloud Speech-to-Text. Additionally, it utilizes Docker for containerization and Pinecone/Langchain for the RAG Pipeline.
 
 ## Technologies Used
 
-- **Backend**: Flask, Python, SQLAlchemy, OpenAI API, AssemblyAI, Google Cloud Vision API, Google Cloud Speech-to-Text, Pinecone, Langchain
-- **Frontend**: Next.js, React, JavaScript
+- **Backend**: Flask, Python, SQLAlchemy, OpenAI API, AssemblyAI, Google Cloud Vision API, Google Cloud Speech-to-Text, Pinecone, Langchain, Neondb
+- **Frontend**: Next.js, JavaScript
 - **Containerization**: Docker
-- **Database**: PostgreSQL (via SQLAlchemy)
-- **Environment Management**: python-dotenv
+- **Database**: Neondb PostgreSQL (via SQLAlchemy)
 - **Others**: Axios, Chart.js, React Icons, ESLint
 
 ## Project Structure
@@ -32,19 +31,6 @@ The backend is organized into several key components:
 - `backend/routes/`: Directory containing route definitions for different functionalities.
 - `backend/chatScripts/`: Directory containing scripts for processing and handling chat-related tasks.
 
-#### Example Code References
-
-- `backend/app.py`
-  ```python:backend/app.py
-  startLine: 1
-  endLine: 61
-  ```
-
-- `backend/routes/audio_routes.py`
-  ```python:backend/routes/audio_routes.py
-  startLine: 1
-  endLine: 116
-  ```
 
 ### Frontend
 
@@ -57,19 +43,6 @@ The frontend is built using Next.js, a React framework that enables server-side 
 - `frontend/README.md`: Instructions for setting up and running the frontend.
 - `frontend/next.dockerfile`: Dockerfile for building the Next.js application.
 
-#### Example Code References
-
-- `frontend/package.json`
-  ```json:frontend/package.json
-  startLine: 1
-  endLine: 28
-  ```
-
-- `frontend/next.config.mjs`
-  ```javascript:frontend/next.config.mjs
-  startLine: 1
-  endLine: 7
-  ```
 
 ## Setup Instructions
 
@@ -104,7 +77,7 @@ The frontend is built using Next.js, a React framework that enables server-side 
 
 5. **Run the application**:
    ```bash
-   python app.py
+   python3 app.py
    ```
 
 ### Frontend
@@ -131,6 +104,8 @@ The frontend is built using Next.js, a React framework that enables server-side 
 
 To run the application using Docker:
 
+** Don't do this. It broke our whole project. Will be fixed soon **
+
 1. **Build and run the backend container**:
    ```bash
    docker build -t backend -f backend/flask.dockerfile .
@@ -153,10 +128,3 @@ To run the application using Docker:
 - [Google Cloud Speech-to-Text Documentation](https://cloud.google.com/speech-to-text/docs)
 - [Pinecone Documentation](https://docs.pinecone.io/)
 
-## Contributing
-
-We welcome contributions! Please read our [contributing guidelines](CONTRIBUTING.md) for more details.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
