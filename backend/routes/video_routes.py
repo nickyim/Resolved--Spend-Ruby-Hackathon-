@@ -1,11 +1,12 @@
 import os
 import uuid
+import json
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from google.cloud import storage, videointelligence_v1 as videointelligence
 import logging
 from model import db, User, Entry
-from chatScripts.classifyProduct import classifyProduct
+from chatScripts.classifyProductandSummarize import classifyProductandSummarize
 
 video_bp = Blueprint('video_bp', __name__)
 
@@ -54,8 +55,11 @@ def upload_video():
             logging.info(f"Video analysis result: {annotations}")
 
             # Use AI to decide if it's a complaint, categorize, and summarize
-            complaint_result = analyze_complaint(annotations)
-            logging.info(f"Complaint analysis result: {complaint_result}")
+            complaint_result = analyze_complaint(annotations)  # Integration with classifyProduct happens here
+
+            # Parse the result from the OpenAI API if it's returned as a string
+            if isinstance(complaint_result, str):
+                complaint_result = json.loads(complaint_result)
 
             is_complaint = complaint_result.get('isComplaint', False)
             summary = complaint_result.get('summary', '')
@@ -201,10 +205,12 @@ def analyze_complaint(annotations):
 
     # Use AI to classify the product and sub-product categories
     if complaint_detected:
-        classification_result = classifyProduct(combined_text)
+        classification_result = classifyProductandSummarize(combined_text)
+        if isinstance(classification_result, str):
+            classification_result = json.loads(classification_result)
         product = classification_result.get("product", "Unknown")
         sub_product = classification_result.get("subProduct", "Unknown")
-        summary = f"Complaint detected about {product}. Summary: {combined_transcript[:200]}..."
+        summary = classification_result.get("summary", "No summary available")
     else:
         summary = "No complaint detected."
         product = "Unknown"
@@ -214,5 +220,6 @@ def analyze_complaint(annotations):
         "isComplaint": complaint_detected,
         "summary": summary,
         "product": product,
-        "subProduct": sub_product
+        "subProduct": sub_product,
+        "entryText": combined_transcript  # Return the full transcribed text
     }
