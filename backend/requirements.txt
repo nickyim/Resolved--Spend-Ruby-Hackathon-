@@ -16,3 +16,10 @@ textract==1.6.1
 google-cloud-vision
 flask_migrate
 elasticsearch
+pinecone-client
+pinecone
+langchain
+langchain_openai
+langchain_pinecone
+langchain_text_splitters
+langchain-community
