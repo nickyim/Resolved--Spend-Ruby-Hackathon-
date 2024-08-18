@@ -24,7 +24,7 @@ export default function ComplaintTab() {
   };
 
   const getFormKey = (fileType) => {
-    if (fileType.startsWith("text/")) {
+    if (fileType.startsWith("text/") || fileType === "application/json") {
       return "complaintFile"; // For text files
     } else if (fileType.startsWith("audio/")) {
       return "audioFile";
