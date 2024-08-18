@@ -6,4 +6,7 @@ pytest
 python-dotenv
 flask_sqlalchemy
 flask_cors
-Flask_Migrate
+google-cloud-speech
+google-cloud
+google-cloud-storage
+google-cloud-videointelligence

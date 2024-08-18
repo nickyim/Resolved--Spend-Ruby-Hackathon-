@@ -21,7 +21,6 @@ class User(db.Model):
     email = Column(String, unique=True, nullable=False)
     
     entries = relationship('Entry', backref='user', lazy=True)
-    files = relationship('File', backref='user', lazy=True)
 
 # Entry Model
 class Entry(db.Model):
@@ -33,17 +32,7 @@ class Entry(db.Model):
     subProduct = Column(String) # 4
     entryText = Column(Text, nullable=False) # 5
     summary = Column(String) # 6    
-    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
-    
-    files = relationship('File', backref='entry', lazy=True)
-
-# File Model
-class File(db.Model):
-    __tablename__ = 'file'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    url = Column(String, nullable=False)
-    type = Column(Enum(FileType), nullable=False)
-    entryId = Column(Integer, ForeignKey('entry.id'), nullable=False)
+    fileType = Column(Enum(FileType), nullable=False, default=FileType.TEXT)
     userId = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
