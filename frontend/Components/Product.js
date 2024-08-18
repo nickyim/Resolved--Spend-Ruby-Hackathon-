@@ -12,7 +12,7 @@ export default function Product({ src, txt }) {
         <p>{txt}</p>
       </div>
       <div className={styles.Product_Image}>
-        <Image src={src} />
+        <Image src={src} alt={txt}/>
       </div>
     </div>
   );
