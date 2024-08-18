@@ -48,6 +48,8 @@ def processComplaint(userMessage):
         ]
     )
 
+    print('GETTING HERE \n\n\n\n****')
+
     return response.choices[0].message.content
 
     # test response

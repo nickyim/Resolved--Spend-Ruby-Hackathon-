@@ -11,7 +11,8 @@ load_dotenv()
 aai.settings.api_key = os.getenv("ASSEMBLYAI_API_KEY")
 
 def processAudio(file_path):
-    audio_file = './complaintUploads/userComplaint.m4a'
+    print(f"\n\nReceived audio file: {file_path} \n\n ********")
+    audio_file = file_path
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(audio_file)
 
