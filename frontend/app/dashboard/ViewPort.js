@@ -42,7 +42,7 @@ export default function ViewPort({ inputEntry }) {
           }
         }
 
-        setData([response.data.length - dataComplaints, dataComplaints])
+        setData([dataComplaints, response.data.length - dataComplaints])
   
         // Automatically display the first complaint and highlight it
         if (response.data.length > 0) {
