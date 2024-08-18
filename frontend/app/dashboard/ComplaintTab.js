@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import styles from "./ComplaintTab.module.css";
 import AudioModal from "../../Components/audioModal.js";
 
@@ -23,19 +23,37 @@ export default function ComplaintTab() {
     setSelectedFile(e.target.files[0]);
   };
 
+  const getFormKey = (fileType) => {
+    if (fileType.startsWith("text/")) {
+      return "complaintFile"; // For text files
+    } else if (fileType.startsWith("audio/")) {
+      return "audioFile";
+    } else if (fileType.startsWith("image/")) {
+      return "imageFile";
+    } else if (fileType.startsWith("video/")) {
+      return "videoFile";
+    } else {
+      return "file"; // Fallback for any other file types
+    }
+  };
+
   const handleSubmit = async (input) => {
     if (!selectedFile) {
       alert("No file selected");
       return;
-    } // probably want to throw a better alert here
+    }
 
     const clerkId = user?.id || "";
+    const fileType = selectedFile.type;
 
     try {
       const formData = new FormData();
-      formData.append("complaintFile", selectedFile);
+      const formKey = getFormKey(fileType);
+      formData.append(formKey, selectedFile); // Dynamically set the form key based on file type
+      formData.append("clerkId", clerkId);
 
-      console.log("the selected input", input);
+      console.log("Submitting to endpoint:", input);
+      console.log("Form key:", formKey);
 
       const response = await fetch(`http://127.0.0.1:5000/api/${input}`, {
         method: "POST",
@@ -46,14 +64,14 @@ export default function ComplaintTab() {
       });
 
       const result = await response.json();
-      console.log("Text file submitted:", result);
+      console.log(`${input} file submitted:`, result);
     } catch (e) {
       console.log("ERROR: ", e);
     }
   };
 
   const handleAudioSubmit = async () => {
-    setShowModal(true); // Show modal
+    setShowModal(true); // Show modal for audio service selection
   };
 
   const handleModalClose = () => {
@@ -62,20 +80,25 @@ export default function ComplaintTab() {
 
   const handleModalSelect = (service) => {
     let newSelectedInput;
+    let fileType = "audio/";
+
     if (service === "assemblyAI") {
       newSelectedInput = "assemblyaiAudioQuery";
     } else if (service === "googleCloud") {
       newSelectedInput = "googleAudioQuery";
     }
+
     setShowModal(false);
-    handleSubmit(newSelectedInput); // Call the submit function after setting the endpoint
+    handleSubmit(newSelectedInput, fileType); // Call the submit function after setting the endpoint
   };
 
   const handleFileSubmit = (active) => {
     if (active === 0) {
       handleSubmit("textQuery");
     } else if (active === 1) {
-      handleAudioSubmit();
+      handleAudioSubmit(); // Open modal to select the audio service
+    } else if (active === 2) {
+      handleSubmit("videoQuery");
     }
   };
 
