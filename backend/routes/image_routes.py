@@ -5,7 +5,7 @@ from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 from werkzeug.utils import secure_filename
 from chatScripts.parseComplaint import processComplaint  # Import your OpenAI function
-from routes.elastic_routes import sync_data
+
 import os
 
 # Initialize the Blueprint
@@ -78,9 +78,4 @@ def handle_image():
         result = processComplaint(text)
 
         # Update the database using the updateDB function
-        response = updateDB('IMAGE', text, user, result)
-
-        # Sync the data with Elasticsearch after the database is updated
-        sync_data()
-    
-        return response
+        return updateDB('IMAGE', text, user, result)

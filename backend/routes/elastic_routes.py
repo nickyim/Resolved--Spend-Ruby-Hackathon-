@@ -126,8 +126,19 @@ def search_entries():
         query = request.args.get('query', '')  # Get search query from request
         is_complaint = request.args.get('isComplaint', None)  # Filter by complaint status
 
+        # Extract clerkId from Authorization header
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return jsonify({"error": "Invalid or missing Authorization header"}), 401
+
+        clerk_id = auth_header.split(' ')[1]
+        user = session.query(User).filter_by(clerkId=clerk_id).first()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
         # Log the incoming query parameters
-        logger.info(f"Search Request - query: {query}, isComplaint: {is_complaint}")
+        logger.info(f"Search Request - query: {query}, isComplaint: {is_complaint}, user: {user.email}, is_admin: {user.is_admin}")
 
         es_query = {
             "query": {
@@ -144,10 +155,17 @@ def search_entries():
                 }
             }
         }
-        
+
+        # Filter by complaint status if provided
         if is_complaint is not None:
             es_query['query']['bool']['filter'].append({
                 "term": {"isComplaint": is_complaint.lower() == 'true'}
+            })
+
+        # Filter by user ID if the user is not an admin
+        if not user.is_admin:
+            es_query['query']['bool']['filter'].append({
+                "term": {"userId": user.id}
             })
 
         # Log the Elasticsearch query

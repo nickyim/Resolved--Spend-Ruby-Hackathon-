@@ -20,6 +20,7 @@ class User(db.Model):
     clerkId = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
+    is_admin = Column(Boolean, default=False)
 
     entries = relationship('Entry', backref='user', lazy=True)
 
