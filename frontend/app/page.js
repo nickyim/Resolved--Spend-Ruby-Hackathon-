@@ -63,7 +63,7 @@ export default function Home() {
           }
         });
     }
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, router]);
 
   return (
     <div className={styles.Initial_LandingPage}>
@@ -109,6 +109,7 @@ export default function Home() {
               <Image
                 src={DashboardImg}
                 className={styles.LandingPage_Content_DashboardImg}
+                alt="Dashboard layout screenshot" // Added alt prop
               />
             </div>
           </div>

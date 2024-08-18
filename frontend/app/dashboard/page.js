@@ -7,7 +7,7 @@ import ViewPort from './ViewPort'
 //CSS
 import styles from './page.module.css'
 
-export default function dashboard() {
+export default function Dashboard() {
     const [activeTab, setActiveTab] = useState("Text");
     return (
       <div className={styles.dashboard}>
