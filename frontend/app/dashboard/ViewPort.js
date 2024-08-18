@@ -380,8 +380,8 @@ export default function ViewPort({ inputEntry }) {
                 <button onClick={toggleAIOpen}>X</button>
               </div>
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Output}>
-                {aiChatLog.map((chat) => (
-                  <p className={chat.isUser? styles.ViewPort_Header_AI_Prompt_Open_Output_User: styles.ViewPort_Header_AI_Prompt_Open_Output_AI}>{chat.isUser? 'You: ' : 'AI: '}{chat.content}</p>
+                {aiChatLog.map((chat, idx) => (
+                  <p key={idx} className={chat.isUser? styles.ViewPort_Header_AI_Prompt_Open_Output_User: styles.ViewPort_Header_AI_Prompt_Open_Output_AI}>{chat.isUser? 'You: ' : 'AI: '}{chat.content}</p>
                 ))}
               </div>
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Input}>
