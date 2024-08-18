@@ -188,3 +188,22 @@
     width: 98%;
     height: 2vw;
 }
+
+.ViewPort_List_Content_Tab_Complaints {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints:hover {
+    background-color: #f0f0f0; /* Same grey color as hovering over the tabs in ComplaintTab */
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints.SelectedComplaint {
+    background-color: #f0f0f0; /* Highlight color for selected complaint */
+    color: #7777; /* Optional: Change text color for better contrast */
+  }
+  
+  .ViewPort_List_Content_Tab_Complaints:hover {
+    cursor: pointer; /* Change cursor to pointer when hovering */
+  }
+  

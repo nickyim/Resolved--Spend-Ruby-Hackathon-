@@ -10,6 +10,7 @@ from routes.user_routes import user_bp
 from routes.text_routes import text_bp
 from routes.audio_routes import audio_bp
 from routes.video_routes import video_bp
+from routes.dashboard_routes import dashboard_bp
 
 # Load environment variables from .env file
 load_dotenv()
@@ -41,6 +42,7 @@ app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(text_bp, url_prefix='/api')
 app.register_blueprint(audio_bp, url_prefix='/api')
 app.register_blueprint(video_bp, url_prefix='/api')
+app.register_blueprint(dashboard_bp, url_prefix='/api')
 
 
 @app.route('/test', methods=['POST'])
