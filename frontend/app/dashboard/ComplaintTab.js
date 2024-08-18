@@ -100,7 +100,7 @@ export default function ComplaintTab({ onValueChange }) {
       handleAudioSubmit(); // Open modal to select the audio service
     } else if (active === 2) {
       handleSubmit("videoQuery");
-    } else if (active === 2) {
+    } else if (active === 3) {
       handleSubmit("imageQuery");
     }
   };
@@ -123,7 +123,10 @@ export default function ComplaintTab({ onValueChange }) {
       setSelectedInput("audioQuery");
     } else if (idx === 2) {
       setSelectedInput("videoQuery");
+    } else if (idx === 3) {
+      setSelectedInput("imageQuery");
     }
+
   };
 
   return (
