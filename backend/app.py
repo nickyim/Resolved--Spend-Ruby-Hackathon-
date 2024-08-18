@@ -49,15 +49,11 @@ app.register_blueprint(elastic_bp, url_prefix='/api')
 app.register_blueprint(image_bp, url_prefix='/api')
 
 
-@app.route('/test', methods=['POST'])
-def test_post():
-    data = request.json
-    response = {
-        'message': 'Data received!',
-        'data': data
-    }
-    return jsonify(response), 200
+# create a test route
+@app.route('/test', methods=['GET'])
+def test():
+  return jsonify({'message': 'The server is running'})
 
 
 if __name__ == '__main__':
-    app.run(debug=True) # remove debug=True for production
+    app.run(host='0.0.0.0', port=4000, debug=True)

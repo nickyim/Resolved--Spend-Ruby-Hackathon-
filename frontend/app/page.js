@@ -18,10 +18,10 @@ import styles from "./page.module.css";
 import DashboardImg from "./Images/DashboardImg.png";
 import chartImg from "./Images/chartImg.png";
 import InputTypesImg from "./Images/InputTypesImg.png";
-import ImageFeatureImg from "./Images/Image.jpg";
-import AudioFeatureImg from "./Images/Audio.jpg";
-import TextFeatureImg from "./Images/Text.jpg";
-import VideoFeatureImg from "./Images/Video.jpg";
+import ImageFeatureImg from "./Images/image.jpg";
+import AudioFeatureImg from "./Images/audio.jpg";
+import TextFeatureImg from "./Images/Text3.jpg";
+import VideoFeatureImg from "./Images/video.jpg";
 
 //Components
 import Product from "../Components/Product";
@@ -36,7 +36,7 @@ export default function Home() {
     if (isSignedIn && user) {
       // Check if the user exists in your database
       axios
-        .get(`http://127.0.0.1:5000/api/user?clerkId=${user.id}`)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user?clerkId=${user.id}`)
         .then((response) => {
           console.log("User exists:", response.data);
           router.push("/dashboard"); //redirect user to dashboard after verifying
@@ -45,7 +45,7 @@ export default function Home() {
           if (error.response && error.response.status === 404) {
             // User doesn't exist, so create them
             axios
-              .post("http://127.0.0.1:5000/api/register", {
+              .post(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
                 clerkId: user.id,
                 email: user.primaryEmailAddress.emailAddress,
               })

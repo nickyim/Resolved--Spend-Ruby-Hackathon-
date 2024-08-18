@@ -1,16 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Chart as ChartJS } from 'chart.js/auto';
+import { Chart as ChartJS } from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-import { useUser } from '@clerk/nextjs';
+import { useUser } from "@clerk/nextjs";
 import styles from "./ViewPort.module.css";
 
 export default function ViewPort({ inputEntry }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
-  const { user } = useUser(); 
+  const { user } = useUser();
   const [complaint, setComplaint] = useState(null);
   const [initialComplaints, setInitialComplaints] = useState([]);
   const [complaints, setComplaints] = useState([]);
@@ -26,34 +26,43 @@ export default function ViewPort({ inputEntry }) {
   useEffect(() => {
     const fetchData = async () => {
       if (!user || !user.id) return;
-  
+
       try {
         setIsLoading(true);
-        const response = await axios.get('http://127.0.0.1:5000/api/getDashboard', {
-          headers: {
-            Authorization: `Bearer ${user.id}`,
-          },
-        });
-  
-        console.log('Inside async');
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/getDashboard`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.id}`,
+            },
+          }
+        );
+
+        console.log("Inside async");
         console.log(response.data);
         setInitialComplaints(response.data);
         setComplaints(response.data);
-        let dataComplaints = 0
-        for(let i = 0; i < response.data.length; i++) {
-          if(response.data.isComplaint) {
+        let dataComplaints = 0;
+        for (let i = 0; i < response.data.length; i++) {
+          if (response.data.isComplaint) {
             dataComplaints++;
           }
         }
 
-        setData([dataComplaints, response.data.length - dataComplaints])
-  
+        setData([dataComplaints, response.data.length - dataComplaints]);
+
         // Automatically display the first complaint and highlight it
         if (response.data.length > 0) {
-          let temp = response.data[0]
-          let dateTemp = new Date(temp.created_at)
-          let newDate = (dateTemp.getMonth()+1) + '/'+ dateTemp.getDate() + '/' + dateTemp.getFullYear()
-          temp.created_at = newDate
+          let temp = response.data[0];
+          let dateTemp = new Date(temp.created_at);
+          let newDate =
+            dateTemp.getMonth() +
+            1 +
+            "/" +
+            dateTemp.getDate() +
+            "/" +
+            dateTemp.getFullYear();
+          temp.created_at = newDate;
           setComplaint(temp);
           setSelectedComplaintIdx(0); // Highlight the first complaint
           // setData([response.data[0].isComplaint ? 1 : 0, response.data[0].isComplaint ? 0 : 1]);
@@ -65,56 +74,58 @@ export default function ViewPort({ inputEntry }) {
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [user]);
 
   useEffect(() => {
-    if(inputEntry) {
-      setInitialComplaints((prev) => [
-        ...prev,
-        inputEntry
-      ])
-      setComplaints((prev) => [
-        ...prev,
-        inputEntry
-      ])
+    if (inputEntry) {
+      setInitialComplaints((prev) => [...prev, inputEntry]);
+      setComplaints((prev) => [...prev, inputEntry]);
     }
-  }, [inputEntry])
-  
+  }, [inputEntry]);
+
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
   };
 
   const handleSearchSubmit = () => {
-    let result = []
-    if(parseInt(search)) {
-      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if(initialComplaints[i].id === Number.parseInt(search)) {
-          result.push(initialComplaints[i])
+    let result = [];
+    if (parseInt(search)) {
+      for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if (initialComplaints[i].id === Number.parseInt(search)) {
+          result.push(initialComplaints[i]);
         }
-      }  
-    } else if(search.toLowerCase() === 'complaint' || search.toLowerCase() === 'complaints') {
-      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if(initialComplaints[i].isComplaint) {
-          result.push(initialComplaints[i])
+      }
+    } else if (
+      search.toLowerCase() === "complaint" ||
+      search.toLowerCase() === "complaints"
+    ) {
+      for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if (initialComplaints[i].isComplaint) {
+          result.push(initialComplaints[i]);
         }
       }
     } else {
-      console.log(initialComplaints[0].product.toLowerCase())
-      console.log(initialComplaints[0].subProduct.toLowerCase())
-      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].subProduct.toLowerCase() === search.toLowerCase() || initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()) {
-          result.push(initialComplaints[i])
+      console.log(initialComplaints[0].product.toLowerCase());
+      console.log(initialComplaints[0].subProduct.toLowerCase());
+      for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if (
+          initialComplaints[i].product.toLowerCase() === search.toLowerCase() ||
+          initialComplaints[i].subProduct.toLowerCase() ===
+            search.toLowerCase() ||
+          initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()
+        ) {
+          result.push(initialComplaints[i]);
         }
       }
     }
 
-    if(result.length === 0) {
-      setComplaints(initialComplaints)  
+    if (result.length === 0) {
+      setComplaints(initialComplaints);
     } else {
-      setComplaints(result)
+      setComplaints(result);
     }
   };
 
@@ -133,7 +144,7 @@ export default function ViewPort({ inputEntry }) {
       console.log("File type:", selectedFile.type);
 
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/audioQuery",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/audioQuery`,
         formData,
         {
           headers: {
@@ -150,28 +161,52 @@ export default function ViewPort({ inputEntry }) {
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
 
-    let temp = complaints[idx]
-    let dateTemp = new Date(temp.created_at)
-    let newDate = (dateTemp.getMonth()+1) + '/'+ dateTemp.getDate() + '/' + dateTemp.getFullYear()
-    temp.created_at = newDate
+    let temp = complaints[idx];
+    let dateTemp = new Date(temp.created_at);
+    let newDate =
+      dateTemp.getMonth() +
+      1 +
+      "/" +
+      dateTemp.getDate() +
+      "/" +
+      dateTemp.getFullYear();
+    temp.created_at = newDate;
     setComplaint(temp);
   };
-  
+
   if (isLoading) {
     return (
       <div className={styles.ViewPort}>
         <div className={styles.ViewPort_Header}>
-          <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
+          <div
+            className={
+              styles.ViewPort_Statement_IsLoading + " " + styles.IsLoading
+            }
+          ></div>
         </div>
         <div className={styles.ViewPort_Content}>
           <div className={styles.ViewPort_Top}>
             <div className={styles.ViewPort_Complaint}>
               <div className={styles.ViewPort_Complaint_Title}>
-                <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
-                <div className={styles.ViewPort_Statement_IsLoading + ' ' + styles.IsLoading}></div>
+                <div
+                  className={
+                    styles.ViewPort_Statement_IsLoading + " " + styles.IsLoading
+                  }
+                ></div>
+                <div
+                  className={
+                    styles.ViewPort_Statement_IsLoading + " " + styles.IsLoading
+                  }
+                ></div>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
-                <div className={styles.ViewPort_Big_Statement_IsLoading + ' ' + styles.IsLoading}></div>
+                <div
+                  className={
+                    styles.ViewPort_Big_Statement_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>
@@ -180,7 +215,7 @@ export default function ViewPort({ inputEntry }) {
                   labels: ["Non-Complaints", "Complaints"],
                   datasets: [
                     {
-                      data: [50,50],
+                      data: [50, 50],
                       backgroundColor: ["#d9d9d9", "#d9d9d9"],
                     },
                   ],
@@ -188,9 +223,9 @@ export default function ViewPort({ inputEntry }) {
                 options={{
                   plugins: {
                     legend: {
-                      position: 'bottom'
-                    }
-                  }
+                      position: "bottom",
+                    },
+                  },
                 }}
               />
             </div>
@@ -198,31 +233,67 @@ export default function ViewPort({ inputEntry }) {
           <div className={styles.ViewPort_Data}>
             <div className={styles.ViewPort_List}>
               <div className={styles.ViewPort_List_Title}>
-                <h4>List of Complaints</h4>
+                <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                  <input type="text" value={search} onChange={handleSearchChange} />
-                  <button onClick={handleSearchSubmit} >Submit</button>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchChange}
+                  />
+                  <button onClick={handleSearchSubmit}>Search</button>
                 </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
                   <p className={styles.ViewPort_List_Content_ID}>ID</p>
-                  <p className={styles.ViewPort_List_Content_Product}>Product</p>
+                  <p className={styles.ViewPort_List_Content_Product}>
+                    Product
+                  </p>
                   <p className={styles.ViewPort_List_Content_Sub_Product}>
                     Sub-Product
                   </p>
                 </div>
-                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
-                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
-                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
-                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
-                <div className={styles.ViewPort_List_Complaint_IsLoading + ' ' + styles.IsLoading}></div>
+                <div
+                  className={
+                    styles.ViewPort_List_Complaint_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
+                <div
+                  className={
+                    styles.ViewPort_List_Complaint_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
+                <div
+                  className={
+                    styles.ViewPort_List_Complaint_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
+                <div
+                  className={
+                    styles.ViewPort_List_Complaint_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
+                <div
+                  className={
+                    styles.ViewPort_List_Complaint_IsLoading +
+                    " " +
+                    styles.IsLoading
+                  }
+                ></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   } else if (hasError) {
     return (
       <div className={styles.ViewPort}>
@@ -230,7 +301,7 @@ export default function ViewPort({ inputEntry }) {
           <h2>Cannot Connect to Server</h2>
         </div>
       </div>
-    )
+    );
   } else {
     return (
       <div className={styles.ViewPort}>
@@ -243,20 +314,39 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_Complaint_Title}>
                 <div className={styles.ViewPort_Complaint_Title_Content}>
                   <h4>{complaint?.product}</h4>
-                  <div className={complaint?.isComplaint ? styles.ViewPort_List_Content_Sub_Is_Complaint : styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                  <div
+                    className={
+                      complaint?.isComplaint
+                        ? styles.ViewPort_List_Content_Sub_Is_Complaint
+                        : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
+                    }
+                  ></div>
                 </div>
-                <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
+                <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>
+                  {complaint?.subProduct}
+                </h4>
               </div>
               <div className={styles.ViewPort_Complaint_Extra}>
-                <button className={styles.ViewPort_Complaint_ToggleButton} onClick={toggleFullTextVisibility}>
+                <button
+                  className={styles.ViewPort_Complaint_ToggleButton}
+                  onClick={toggleFullTextVisibility}
+                >
                   {isFullTextVisible ? "Show Summary" : "Show Raw Context"}
                 </button>
-                <p className={styles.ViewPort_Complaint_Timestamp}>{complaint?.created_at}</p>
+                <p className={styles.ViewPort_Complaint_Timestamp}>
+                  {complaint?.created_at}
+                </p>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
-                {isFullTextVisible? (
-                  <p className={styles.ViewPort_Complaint_Summary}>{complaint?.entryText}</p>
-                ) : <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>}
+                {isFullTextVisible ? (
+                  <p className={styles.ViewPort_Complaint_Summary}>
+                    {complaint?.entryText}
+                  </p>
+                ) : (
+                  <p className={styles.ViewPort_Complaint_Summary}>
+                    {complaint?.summary}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>
@@ -273,9 +363,9 @@ export default function ViewPort({ inputEntry }) {
                 options={{
                   plugins: {
                     legend: {
-                      position: 'bottom'
-                    }
-                  }
+                      position: "bottom",
+                    },
+                  },
                 }}
               />
             </div>
@@ -283,19 +373,35 @@ export default function ViewPort({ inputEntry }) {
           <div className={styles.ViewPort_Data}>
             <div className={styles.ViewPort_List}>
               <div className={styles.ViewPort_List_Title}>
-                <h4>List of Complaints</h4>
+                <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                  <input type="text" value={search} onChange={handleSearchChange} />
-                  <button onClick={handleSearchSubmit}>Submit</button>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchChange}
+                  />
+                  <button onClick={handleSearchSubmit}>Search</button>
                 </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
                   <p className={styles.ViewPort_List_Content_ID}>ID</p>
-                  <p className={styles.ViewPort_List_Content_Product}>Product</p>
-                  <p className={styles.ViewPort_List_Content_Sub_Product}>Sub-Product</p>
-                  <p className={styles.ViewPort_List_Content_File_Type}>File Type</p>
-                  <p className={styles.ViewPort_List_Content_Sub_Is_Complaint_Header}>Complaint</p>
+                  <p className={styles.ViewPort_List_Content_Product}>
+                    Product
+                  </p>
+                  <p className={styles.ViewPort_List_Content_Sub_Product}>
+                    Sub-Product
+                  </p>
+                  <p className={styles.ViewPort_List_Content_File_Type}>
+                    File Type
+                  </p>
+                  <p
+                    className={
+                      styles.ViewPort_List_Content_Sub_Is_Complaint_Header
+                    }
+                  >
+                    Complaint
+                  </p>
                 </div>
                 {complaints.map((complaint, idx) => (
                   <div
@@ -304,11 +410,15 @@ export default function ViewPort({ inputEntry }) {
                       styles.ViewPort_List_Content_Tab +
                       " " +
                       styles.ViewPort_List_Content_Tab_Complaints +
-                      (selectedComplaintIdx === idx ? ` ${styles.SelectedComplaint}` : "")
+                      (selectedComplaintIdx === idx
+                        ? ` ${styles.SelectedComplaint}`
+                        : "")
                     }
                     onClick={() => handleComplaintClick(idx)}
                   >
-                    <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
+                    <p className={styles.ViewPort_List_Content_ID}>
+                      {complaint.id}
+                    </p>
                     <p className={styles.ViewPort_List_Content_Product}>
                       {complaint.product}
                     </p>
@@ -318,8 +428,18 @@ export default function ViewPort({ inputEntry }) {
                     <p className={styles.ViewPort_List_Content_File_Type}>
                       {complaint.fileType}
                     </p>
-                    <div className={styles.ViewPort_List_Content_Sub_Is_Complaint_Content}>
-                      <div className={complaint.isComplaint ? styles.ViewPort_List_Content_Sub_Is_Complaint : styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                    <div
+                      className={
+                        styles.ViewPort_List_Content_Sub_Is_Complaint_Content
+                      }
+                    >
+                      <div
+                        className={
+                          complaint.isComplaint
+                            ? styles.ViewPort_List_Content_Sub_Is_Complaint
+                            : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
+                        }
+                      ></div>
                     </div>
                   </div>
                 ))}
@@ -330,4 +450,4 @@ export default function ViewPort({ inputEntry }) {
       </div>
     );
   }
-}    
+}

@@ -8,6 +8,7 @@ import logging
 from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 from chatScripts.classifyProductandSummarize import classifyProductandSummarize
+from routes.elastic_routes import sync_data
 
 video_bp = Blueprint('video_bp', __name__)
 
@@ -63,7 +64,12 @@ def upload_video():
                 complaint_result = json.loads(complaint_result)
 
             # Use the updateDB function to store the entry in the database
-            return updateDB('VIDEO', complaint_result.get('summary', ''), user, json.dumps(complaint_result))
+            response = updateDB('VIDEO', complaint_result.get('summary', ''), user, json.dumps(complaint_result))
+
+            # Sync the data with Elasticsearch after the database is updated
+            sync_data()
+
+            return response
 
         except Exception as e:
             logging.error(f"Error during video processing: {e}")
