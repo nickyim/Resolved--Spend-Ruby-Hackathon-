@@ -35,12 +35,20 @@ export default function ViewPort({ inputEntry }) {
         console.log(response.data);
         setInitialComplaints(response.data);
         setComplaints(response.data);
+        let dataComplaints = 0
+        for(let i = 0; i < response.data.length; i++) {
+          if(response.data.isComplaint) {
+            dataComplaints++;
+          }
+        }
+
+        setData([response.data.length - dataComplaints, dataComplaints])
   
         // Automatically display the first complaint and highlight it
         if (response.data.length > 0) {
           setComplaint(response.data[0]);
           setSelectedComplaintIdx(0); // Highlight the first complaint
-          setData([response.data[0].isComplaint ? 1 : 0, response.data[0].isComplaint ? 0 : 1]);
+          // setData([response.data[0].isComplaint ? 1 : 0, response.data[0].isComplaint ? 0 : 1]);
         }
       } catch (e) {
         setHasError(true);
@@ -79,11 +87,17 @@ export default function ViewPort({ inputEntry }) {
           result.push(initialComplaints[i])
         }
       }  
+    } else if(search.toLowerCase() === 'complaint' || search.toLowerCase() === 'complaints') {
+      for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
+        if(initialComplaints[i].isComplaint) {
+          result.push(initialComplaints[i])
+        }
+      }
     } else {
       console.log(initialComplaints[0].product.toLowerCase())
       console.log(initialComplaints[0].subProduct.toLowerCase())
       for(let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].subProduct.toLowerCase() === search.toLowerCase()) {
+        if(initialComplaints[i].product.toLowerCase() === search.toLowerCase() || initialComplaints[i].subProduct.toLowerCase() === search.toLowerCase() || initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()) {
           result.push(initialComplaints[i])
         }
       }
@@ -256,9 +270,9 @@ export default function ViewPort({ inputEntry }) {
                 <div className={styles.ViewPort_List_Content_Tab}>
                   <p className={styles.ViewPort_List_Content_ID}>ID</p>
                   <p className={styles.ViewPort_List_Content_Product}>Product</p>
-                  <p className={styles.ViewPort_List_Content_Sub_Product}>
-                    Sub-Product
-                  </p>
+                  <p className={styles.ViewPort_List_Content_Sub_Product}>Sub-Product</p>
+                  <p className={styles.ViewPort_List_Content_File_Type}>File Type</p>
+                  <p className={styles.ViewPort_List_Content_Sub_Is_Complaint}>Complaint</p>
                 </div>
                 {complaints.map((complaint, idx) => (
                   <div
@@ -277,6 +291,12 @@ export default function ViewPort({ inputEntry }) {
                     </p>
                     <p className={styles.ViewPort_List_Content_Sub_Product}>
                       {complaint.subProduct}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_File_Type}>
+                      {complaint.fileType}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_Sub_Is_Complaint}>
+                      {complaint.isComplaint? 'True' : 'False'}
                     </p>
                   </div>
                 ))}

@@ -71,6 +71,38 @@
     border: solid 1.5px rgb(238, 238, 238);
 }
 
+.ViewPort_Data {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ViewPort_List {
+    display: flex;
+    flex-direction: column;
+    width: 76vw;
+    height: 23vw;
+    padding-top: 1vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-radius: 1vw;
+    background-color: white;
+    border: solid 1.5px rgb(238, 238, 238);
+}
+
+.ViewPort_List_Title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1.5px rgb(238, 238, 238);
+    margin-bottom: 1vw;
+    padding-bottom: 1vw;
+}
+
+.ViewPort_List_Title h4{
+    font-size: var(--h4-size);
+}
+
+
 .ViewPort_List_Search {
     display: flex;
 }
@@ -101,37 +133,6 @@
     cursor: pointer;
 }
 
-.ViewPort_Data {
-    display: flex;
-    justify-content: space-between;
-}
-
-.ViewPort_List {
-    display: flex;
-    flex-direction: column;
-    width: 55vw;
-    height: 23vw;
-    padding-top: 1vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    border-radius: 1vw;
-    background-color: white;
-    border: solid 1.5px rgb(238, 238, 238);
-}
-
-.ViewPort_List_Title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: solid 1.5px rgb(238, 238, 238);
-    margin-bottom: 1vw;
-    padding-bottom: 1vw;
-}
-
-.ViewPort_List_Title h4{
-    font-size: var(--h4-size);
-}
-
 .ViewPort_List_Content {
     display: flex;
     flex-direction: column;
@@ -150,20 +151,27 @@
 
 .ViewPort_List_Content_ID {
     display: flex;
-    justify-content: space-between;
-    width: 15vw;
+    width: 10vw;
 }
 
 .ViewPort_List_Content_Product {
     display: flex;
-    justify-content: space-between;
-    width: 20vw;
+    width: 23vw;
 }
 
 .ViewPort_List_Content_Sub_Product {
     display: flex;
-    justify-content: space-between;
-    width: 20vw;
+    width: 23vw;
+}
+
+.ViewPort_List_Content_File_Type {
+    display: flex;
+    width: 10vw;
+}
+
+.ViewPort_List_Content_Sub_Is_Complaint {
+    display: flex;
+    width: 10vw;
 }
 
 .ViewPort_Top h2{
