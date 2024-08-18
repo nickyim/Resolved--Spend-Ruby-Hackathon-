@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import styles from "./ComplaintTab.module.css";
+import styles from "../../styles/ComplaintTab.module.css";
 import AudioModal from "../../Components/audioModal.js";
 
 export default function ComplaintTab({ onValueChange }) {
