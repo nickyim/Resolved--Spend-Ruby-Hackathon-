@@ -1,99 +1,61 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Chart as ChartJS } from 'chart.js/auto' 
-import { Doughnut } from "react-chartjs-2"
+import { Chart as ChartJS } from 'chart.js/auto';
+import { Doughnut } from "react-chartjs-2";
 import { useUser } from '@clerk/nextjs';
-
-//CSS
 import styles from "./ViewPort.module.css";
 
 export default function ViewPort() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
-  const { user } = useUser(); // Fetch the current user's info 
-  // const [complaint, setComplaint] = useState({})
-  /*
-    - Dummy Data 
-  */
-  const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
-  // const [initialComplaints, setInitialComplaints] = useState([])
-  /*
-    - Dummy Data 
-  */
-  const [initialComplaints, setInitialComplaints] = useState([
-    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  ])
-  // const [complaints, setComplaints] = useState([]);
-  /*
-    - Dummy Data 
-  */
-  const [complaints, setComplaints] = useState([
-    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  ]);
+  const { user } = useUser(); 
+  const [complaint, setComplaint] = useState(null);
+  const [initialComplaints, setInitialComplaints] = useState([]);
+  const [complaints, setComplaints] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [data, setData] = useState([]);
-  /*
-    - Dummy Data 
-  */
-  const [data, setData] = useState([203, 331]);
+  const [data, setData] = useState([]);
+  const [selectedComplaintIdx, setSelectedComplaintIdx] = useState(0);
 
-  // const handlePromptSubmit = async () => {
-  //   try {
-  //     const response = await axios.post("http://127.0.0.1:5000/api/textQuery", {
-  //       prompt: prompt,
-  //       clerkId: user?.id || "example-clerk-id",
-  //     });
-  //     console.log("TEST: ", response.data);
-  //   } catch (e) {
-  //     console.log("ERROR: ", e);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!user || !user.id) return;
+  
       try {
-        setIsLoading(true)
-        console.log('inside')
-        await axios.get('http://127.0.0.1:5000/api/dashboard', {
-
-        }).then((response) => {
-          setInitialComplaints(response.data)
-          setComplaints(response.data)
-        })
+        setIsLoading(true);
+        const response = await axios.get('http://127.0.0.1:5000/api/getDashboard', {
+          headers: {
+            Authorization: `Bearer ${user.id}`,
+          },
+        });
+  
+        setInitialComplaints(response.data);
+        setComplaints(response.data);
+  
+        // Automatically display the first complaint and highlight it
+        if (response.data.length > 0) {
+          setComplaint(response.data[0]);
+          setSelectedComplaintIdx(0); // Highlight the first complaint
+          setData([response.data[0].isComplaint ? 1 : 0, response.data[0].isComplaint ? 0 : 1]);
+        }
       } catch (e) {
-        // setHasError(true)
+        setHasError(true);
+        console.error("Error fetching dashboard data:", e);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
+  
     fetchData();
-  }, [setInitialComplaints])
-
+  }, [user]);
+  
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
   };
-  
+
   const handleSearchSubmit = () => {
     let result = []
     for(let i = 0; i < initialComplaints.length; i++) {
@@ -119,7 +81,6 @@ export default function ViewPort() {
       const formData = new FormData();
       formData.append("audioFile", selectedFile);
 
-      // Log file details for debugging
       console.log("Selected file:", selectedFile);
       console.log("File type:", selectedFile.type);
 
@@ -137,7 +98,14 @@ export default function ViewPort() {
       console.log("ERROR: ", e);
     }
   };
-  if(isLoading) {
+
+  const handleComplaintClick = (idx) => {
+    setSelectedComplaintIdx(idx);
+    setComplaint(complaints[idx]);
+    setData([complaints[idx].isComplaint ? 1 : 0, complaints[idx].isComplaint ? 0 : 1]);
+  };
+  
+  if (isLoading) {
     return (
       <div className={styles.ViewPort}>
         <div className={styles.ViewPort_Header}>
@@ -203,14 +171,14 @@ export default function ViewPort() {
         </div>
       </div>
     )
-  } else if(hasError) {
-      return(
-        <div className={styles.ViewPort}>
-          <div className={styles.ViewPort_Header}>
-            <h2>Cannot Connect to Server</h2>
-          </div>
+  } else if (hasError) {
+    return (
+      <div className={styles.ViewPort}>
+        <div className={styles.ViewPort_Header}>
+          <h2>Cannot Connect to Server</h2>
         </div>
-      )
+      </div>
+    )
   } else {
     return (
       <div className={styles.ViewPort}>
@@ -221,11 +189,11 @@ export default function ViewPort() {
           <div className={styles.ViewPort_Top}>
             <div className={styles.ViewPort_Complaint}>
               <div className={styles.ViewPort_Complaint_Title}>
-                <h4>{complaint.product}</h4>
-                <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint.subProduct}</h4>
+                <h4>{complaint?.product}</h4>
+                <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
-                <p className={styles.ViewPort_Complaint_Summary}>{complaint.summary}</p>
+                <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>
@@ -272,15 +240,17 @@ export default function ViewPort() {
                     className={
                       styles.ViewPort_List_Content_Tab +
                       " " +
-                      styles.ViewPort_List_Content_Tab_Complaints
+                      styles.ViewPort_List_Content_Tab_Complaints +
+                      (selectedComplaintIdx === idx ? ` ${styles.SelectedComplaint}` : "")
                     }
+                    onClick={() => handleComplaintClick(idx)} // Handle click to select complaint
                   >
                     <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
                     <p className={styles.ViewPort_List_Content_Product}>
                       {complaint.product}
                     </p>
                     <p className={styles.ViewPort_List_Content_Sub_Product}>
-                      {complaint.sub_product}
+                      {complaint.subProduct}
                     </p>
                   </div>
                 ))}
@@ -289,6 +259,6 @@ export default function ViewPort() {
           </div>
         </div>
       </div>
-    ); 
+    );
   }
 }
