@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -8,12 +9,25 @@ from model import db, User, Entry
 from routes.user_routes import user_bp
 from routes.text_routes import text_bp
 from routes.audio_routes import audio_bp
+from routes.video_routes import video_bp
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access the environment variables
+gcs_credentials = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+gcs_bucket = os.getenv('CLOUD_STORAGE_BUCKET')
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+
+# Log the environment variables (for debugging purposes)
+logging.info(f"Google Application Credentials: {gcs_credentials}")
+logging.info(f"Google Cloud Storage Bucket: {gcs_bucket}")
 
 
 app = Flask(__name__)
 CORS(app)
-
-load_dotenv()
 
 # Corrected configuration key
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
@@ -26,7 +40,7 @@ migrate = Migrate(app, db)
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(text_bp, url_prefix='/api')
 app.register_blueprint(audio_bp, url_prefix='/api')
-
+app.register_blueprint(video_bp, url_prefix='/api')
 
 
 @app.route('/test', methods=['POST'])
