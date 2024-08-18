@@ -2,9 +2,23 @@
 import { useUser, SignInButton, SignUpButton, UserButton, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Image from 'next/image'
 import axios from "axios";
 
+//CSS
 import styles from './page.module.css'
+
+//Images
+import DashboardImg from './Images/DashboardImg.png'
+import chartImg from './Images/chartImg.png'
+import InputTypesImg from './Images/InputTypesImg.png'
+import ImageFeatureImg from './Images/ImageFeatureImg.jpg'
+import AudioFeatureImg from './Images/AudioFeatureImg.jpg'
+import TextFeatureImg from './Images/TextFeatureImg.jpg'
+import VideoFeatureImg from './Images/VideoFeatureImg.jpg'
+
+//Components
+import Product from './Components/Product'
 
 export default function Home() {
   const { isSignedIn, user } = useUser();
@@ -61,10 +75,19 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.LandingPage_Content}>
-            <h1>All-in-one platform for complaint categorization</h1>
-            <h6>Itemize your complaints to products and sub-products for easy filtering and comprehension</h6>
-            <div>
-              
+            <div className={styles.LandingPage_Content_Intro}>
+              <h1>All-in-one platform for complaint categorization</h1>
+              <h6>Itemize your complaints to products and sub-products for easy filtering and comprehension</h6>
+              <div className={styles.LandingPage_Content_Intro_Features}>
+                <Product src={TextFeatureImg} txt={'Text'}/>
+                <Product src={AudioFeatureImg} txt={'Audio'}/>
+                <Product src={VideoFeatureImg} txt={'Video'}/>
+                <Product src={ImageFeatureImg} txt={'Image'}/>
+              </div>
+            </div>
+            <div className={styles.LandingPage_Content_Product_Dashboard}>
+              <h2>Resolved Offers a User Friendly Layout</h2>
+              <Image src={DashboardImg} className={styles.LandingPage_Content_DashboardImg}/>
             </div>
           </div>
         </div>

@@ -1,0 +1,41 @@
+.Product {
+    position: relative;
+    display: flex;
+    width: 14.2vw;
+    border-radius: 1vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.Product_Image {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.Product_Image img {
+    width: 100%;
+    height: 19vw;
+    object-fit: cover;
+    border-radius: 1vw;
+}
+
+.Product_Overlay {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0.5vw;
+    border-radius: 1vw;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.Product_Overlay p {
+    align-self: flex-end;
+}
+
+.Product_Overlay:hover + .Product_Image {
+    transform: scale(1.05);
+}
