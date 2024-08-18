@@ -17,7 +17,11 @@ export default function ViewPort({ inputEntry }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState([]);
   const [selectedComplaintIdx, setSelectedComplaintIdx] = useState(0);
+  const [isFullTextVisible, setIsFullTextVisible] = useState(false);
 
+  const toggleFullTextVisibility = () => {
+    setIsFullTextVisible(!isFullTextVisible);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -230,12 +234,21 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_Complaint_Title}>
                 <div className={styles.ViewPort_Complaint_Title_Content}>
                   <h4>{complaint?.product}</h4>
-                  <div className={complaint?.isComplaint? styles.ViewPort_List_Content_Sub_Is_Complaint :  styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                  <div className={complaint?.isComplaint ? styles.ViewPort_List_Content_Sub_Is_Complaint : styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
                 </div>
                 <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
               </div>
               <div className={styles.ViewPort_Complaint_Content_Summary}>
                 <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>
+                {isFullTextVisible && (
+                  <div className={styles.ViewPort_Complaint_FullText}>
+                    <p>{complaint?.entryText}</p>
+                  </div>
+                )}
+                <button className={styles.ViewPort_Complaint_ToggleButton} onClick={toggleFullTextVisibility}>
+                  {isFullTextVisible ? "Show Less" : "Show More"}
+                </button>
+                <p className={styles.ViewPort_Complaint_Timestamp}>{complaint?.created_at}</p>
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>
@@ -285,7 +298,7 @@ export default function ViewPort({ inputEntry }) {
                       styles.ViewPort_List_Content_Tab_Complaints +
                       (selectedComplaintIdx === idx ? ` ${styles.SelectedComplaint}` : "")
                     }
-                    onClick={() => handleComplaintClick(idx)} // Handle click to select complaint
+                    onClick={() => handleComplaintClick(idx)}
                   >
                     <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
                     <p className={styles.ViewPort_List_Content_Product}>
@@ -298,7 +311,7 @@ export default function ViewPort({ inputEntry }) {
                       {complaint.fileType}
                     </p>
                     <div className={styles.ViewPort_List_Content_Sub_Is_Complaint_Content}>
-                      <div className={complaint.isComplaint? styles.ViewPort_List_Content_Sub_Is_Complaint :  styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
+                      <div className={complaint.isComplaint ? styles.ViewPort_List_Content_Sub_Is_Complaint : styles.ViewPort_List_Content_Sub_Is_Not_Complaint}></div>
                     </div>
                   </div>
                 ))}
@@ -309,4 +322,4 @@ export default function ViewPort({ inputEntry }) {
       </div>
     );
   }
-}
+}    
