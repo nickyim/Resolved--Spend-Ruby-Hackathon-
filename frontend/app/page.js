@@ -18,10 +18,10 @@ import styles from "./page.module.css";
 import DashboardImg from "./Images/DashboardImg.png";
 import chartImg from "./Images/chartImg.png";
 import InputTypesImg from "./Images/InputTypesImg.png";
-import ImageFeatureImg from "./Images/ImageFeatureImg.jpg";
-import AudioFeatureImg from "./Images/AudioFeatureImg.jpg";
-import TextFeatureImg from "./Images/TextFeatureImg.jpg";
-import VideoFeatureImg from "./Images/VideoFeatureImg.jpg";
+import ImageFeatureImg from "./Images/Image.jpg";
+import AudioFeatureImg from "./Images/Audio.jpg";
+import TextFeatureImg from "./Images/Text.jpg";
+import VideoFeatureImg from "./Images/Video.jpg";
 
 //Components
 import Product from "../Components/Product";
