@@ -50,7 +50,11 @@ export default function ViewPort({ inputEntry }) {
   
         // Automatically display the first complaint and highlight it
         if (response.data.length > 0) {
-          setComplaint(response.data[0]);
+          let temp = response.data[0]
+          let dateTemp = new Date(temp.created_at)
+          let newDate = (dateTemp.getMonth()+1) + '/'+ dateTemp.getDate() + '/' + dateTemp.getFullYear()
+          temp.created_at = newDate
+          setComplaint(temp);
           setSelectedComplaintIdx(0); // Highlight the first complaint
           // setData([response.data[0].isComplaint ? 1 : 0, response.data[0].isComplaint ? 0 : 1]);
         }
@@ -145,7 +149,12 @@ export default function ViewPort({ inputEntry }) {
 
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
-    setComplaint(complaints[idx]);
+
+    let temp = complaints[idx]
+    let dateTemp = new Date(temp.created_at)
+    let newDate = (dateTemp.getMonth()+1) + '/'+ dateTemp.getDate() + '/' + dateTemp.getFullYear()
+    temp.created_at = newDate
+    setComplaint(temp);
   };
   
   if (isLoading) {
@@ -238,17 +247,16 @@ export default function ViewPort({ inputEntry }) {
                 </div>
                 <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint?.subProduct}</h4>
               </div>
-              <div className={styles.ViewPort_Complaint_Content_Summary}>
-                <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>
-                {isFullTextVisible && (
-                  <div className={styles.ViewPort_Complaint_FullText}>
-                    <p>{complaint?.entryText}</p>
-                  </div>
-                )}
+              <div className={styles.ViewPort_Complaint_Extra}>
                 <button className={styles.ViewPort_Complaint_ToggleButton} onClick={toggleFullTextVisibility}>
-                  {isFullTextVisible ? "Show Less" : "Show More"}
+                  {isFullTextVisible ? "Show Summary" : "Show Raw Context"}
                 </button>
                 <p className={styles.ViewPort_Complaint_Timestamp}>{complaint?.created_at}</p>
+              </div>
+              <div className={styles.ViewPort_Complaint_Content_Summary}>
+                {isFullTextVisible? (
+                  <p className={styles.ViewPort_Complaint_Summary}>{complaint?.entryText}</p>
+                ) : <p className={styles.ViewPort_Complaint_Summary}>{complaint?.summary}</p>}
               </div>
             </div>
             <div className={styles.ViewPort_Chart}>

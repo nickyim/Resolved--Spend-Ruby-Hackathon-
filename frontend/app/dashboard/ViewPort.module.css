@@ -62,6 +62,30 @@
     color: var(--subtle-color)
 }
 
+.ViewPort_Complaint_Extra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ViewPort_Complaint_Extra button {
+    background: #e9e3a6;
+    border: none;
+    border-radius: 1vw;
+    height: 2vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    cursor: pointer;
+}
+
+.ViewPort_Complaint_Extra p {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    color: var(--subtle-color)
+}
+
 .ViewPort_Complaint_Content_Summary {
     overflow-y: scroll;
 }
