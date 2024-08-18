@@ -6,7 +6,7 @@ from chatScripts.googleAudioProcess import transcribe_audio
 from werkzeug.utils import secure_filename
 from google.cloud import storage
 from google.cloud import speech
-from updateDatabase.updateDb import updateDB
+from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 
 
@@ -115,4 +115,6 @@ def upload_audio2Google():
 
     #update database
     return updateDB(file_type, text, user, results)
+
+
     
