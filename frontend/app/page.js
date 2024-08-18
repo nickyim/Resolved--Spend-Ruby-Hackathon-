@@ -20,7 +20,7 @@ import chartImg from "./Images/chartImg.png";
 import InputTypesImg from "./Images/InputTypesImg.png";
 import ImageFeatureImg from "./Images/Image.jpg";
 import AudioFeatureImg from "./Images/Audio.jpg";
-import TextFeatureImg from "./Images/Text.jpg";
+import TextFeatureImg from "./Images/Text3.jpg";
 import VideoFeatureImg from "./Images/Video.jpg";
 
 //Components

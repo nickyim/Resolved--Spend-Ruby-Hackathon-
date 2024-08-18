@@ -12,5 +12,6 @@ google-cloud-storage
 google-cloud-videointelligence
 assemblyai
 google
-textract
+textract==1.6.1
 google-cloud-vision
+flask_migrate
