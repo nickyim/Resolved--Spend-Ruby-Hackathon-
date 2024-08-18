@@ -13,3 +13,4 @@ google-cloud-videointelligence
 assemblyai
 google
 textract
+google-cloud-vision
