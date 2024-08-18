@@ -1,433 +1,430 @@
 .ViewPort {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    padding-left: 1.5vw;
-    padding-right: 1.5vw;
-    padding-bottom: 1vw;
-    width: 100%;
-    height: 98vh;
-    padding-top: 1vw;
-    border-radius: 1vw;
-    gap: 1vw;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  padding-bottom: 1vw;
+  width: 100%;
+  height: 98vh;
+  padding-top: 1vw;
+  border-radius: 1vw;
+  gap: 1vw;
 }
 
 .ViewPort_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ViewPort_Header h2 {
-    font-size: var(--h2-size);
-    font-weight: var(--light-bold-weight);
+  font-size: var(--h2-size);
+  font-weight: var(--light-bold-weight);
 }
 
 .ViewPort_Header button {
-    background-color: var(--gold-color);
-    border: none;
-    border-radius: 1vw;
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    padding-top: 0.5vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    padding-bottom: 0.5vw;
-    cursor: pointer;
+  background-color: var(--gold-color);
+  border: none;
+  border-radius: 1vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  padding-top: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 0.5vw;
+  cursor: pointer;
 }
 
 .ViewPort_Header_AI_Prompt_Button_Closed {
-    display: none;
+  display: none;
 }
 
 .ViewPort_Header_AI_Prompt_Open {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 45vw;
-    height: 33vw;
-    padding: 1vw;
-    border: solid 15px rgba(238, 238, 238, 0.3);
-    border-radius: 2vw;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.98);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 45vw;
+  height: 33vw;
+  padding: 1vw;
+  border: solid 15px rgba(238, 238, 238, 0.3);
+  border-radius: 2vw;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.92);
 }
 
 .ViewPort_Header_AI_Prompt_Open_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 3vw;
-    margin-bottom: 0.5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3vw;
+  margin-bottom: 0.5vw;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Header h5 {
-    font-size: var(--h5-size);
-    font-weight: var(--standard-weight);
+  font-size: var(--h5-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_Header_AI_Prompt_Open_Output {
-    display: flex;
-    flex-direction: column;
-    height: 22vw;
-    padding-top: 0.5vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    padding-bottom: 0.5vw;
-    gap: 1vw;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  height: 22vw;
+  padding-top: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 0.5vw;
+  gap: 1vw;
+  overflow-y: scroll;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Output p {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    background-color: white;
-    border: solid 2px rgba(238, 238, 238, 0.3);
-    border-radius: 2vw;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    padding-top: 0.5vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    padding-bottom: 0.5vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  background-color: white;
+  border: solid 2px rgba(238, 238, 238, 0.3);
+  border-radius: 2vw;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  padding-top: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 0.5vw;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Output_User {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vw;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Input input {
-    width: 20vw;
-    height: 2vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    border-top-left-radius: 2vw;
-    border-bottom-left-radius: 2vw;
-    border: solid 1.5px rgb(238, 238, 238);
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
+  width: 20vw;
+  height: 2vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  border-top-left-radius: 2vw;
+  border-bottom-left-radius: 2vw;
+  border: solid 1.5px rgb(238, 238, 238);
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_Header_AI_Prompt_Open_Input input:focus {
-    outline: none;
+  outline: none;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Input button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 5vw;
-    height: 2vw;
-    border-top-left-radius: 0vw;
-    border-top-right-radius: 2vw;
-    border-bottom-right-radius: 2vw;
-    border-bottom-left-radius: 0vw;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5vw;
+  height: 2vw;
+  border-top-left-radius: 0vw;
+  border-top-right-radius: 2vw;
+  border-bottom-right-radius: 2vw;
+  border-bottom-left-radius: 0vw;
+  cursor: pointer;
 }
 
 .ViewPort_Header_AI_Prompt_Open_Input_AiThinking {
-
 }
 
 .ViewPort_Header_AI_Prompt_Closed {
-    display: none;
+  display: none;
 }
 
 .ViewPort_Content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .ViewPort_Top {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ViewPort_Complaint {
-    display: flex;
-    flex-direction: column;
-    width: 54vw;
-    height: 20vw;
-    gap: 1vw;
-    padding: 1vw;
-    border-radius: 1vw;
-    border: solid 1.5px rgb(238, 238, 238);
+  display: flex;
+  flex-direction: column;
+  width: 54vw;
+  height: 20vw;
+  gap: 1vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  border: solid 1.5px rgb(238, 238, 238);
 }
 
 .ViewPort_Complaint_Title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ViewPort_Complaint_Title_Content {
-    display: flex;
-    align-items: center;
-    gap: 0.5vw;
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
 }
 
 .ViewPort_Complaint_Title h4 {
-    font-size: var(--h4-size);
-    font-weight: var(--standard-weight);
+  font-size: var(--h4-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_Complaint_Title_Subproduct {
-    font-weight: var(--standard-weight);
-    color: var(--subtle-color)
+  font-weight: var(--standard-weight);
+  color: var(--subtle-color);
 }
 
 .ViewPort_Complaint_Extra {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ViewPort_Complaint_Extra button {
-    background: var(--gold-color);
-    border: none;
-    border-radius: 1vw;
-    height: 2vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    cursor: pointer;
+  background: var(--gold-color);
+  border: none;
+  border-radius: 1vw;
+  height: 2vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  cursor: pointer;
 }
 
 .ViewPort_Complaint_Extra p {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    color: var(--subtle-color)
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  color: var(--subtle-color);
 }
 
 .ViewPort_Complaint_Content_Summary {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .ViewPort_Complaint_Summary {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_Chart {
-    width: 20vw;
-    padding: 1vw;
-    border-radius: 1vw;
-    border: solid 1.5px rgb(238, 238, 238);
+  width: 20vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  border: solid 1.5px rgb(238, 238, 238);
 }
 
 .ViewPort_Data {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ViewPort_List {
-    display: flex;
-    flex-direction: column;
-    width: 76vw;
-    height: 23vw;
-    padding-top: 1vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    border-radius: 1vw;
-    background-color: white;
-    border: solid 1.5px rgb(238, 238, 238);
+  display: flex;
+  flex-direction: column;
+  width: 76vw;
+  height: 23vw;
+  padding-top: 1vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  border-radius: 1vw;
+  background-color: white;
+  border: solid 1.5px rgb(238, 238, 238);
 }
 
 .ViewPort_List_Title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: solid 1.5px rgb(238, 238, 238);
-    margin-bottom: 1vw;
-    padding-bottom: 1vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1.5px rgb(238, 238, 238);
+  margin-bottom: 1vw;
+  padding-bottom: 1vw;
 }
 
-.ViewPort_List_Title h4{
-    font-size: var(--h4-size);
-    font-weight: var(--standard-weight);
+.ViewPort_List_Title h4 {
+  font-size: var(--h4-size);
+  font-weight: var(--standard-weight);
 }
-
 
 .ViewPort_List_Search {
-    display: flex;
+  display: flex;
 }
 
 .ViewPort_List_Search select {
-    -webkit-appearance: none;
-    background-color: var(--gold-color);
-    border: none;
-    border-radius: 0vw;
-    padding-left: 1vw;
-    padding-right: 0.3vw;
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    cursor: pointer;
+  -webkit-appearance: none;
+  background-color: var(--gold-color);
+  border: none;
+  border-radius: 0vw;
+  padding-left: 1vw;
+  padding-right: 0.3vw;
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  cursor: pointer;
 }
 
 .ViewPort_List_Search input {
-    width: 20vw;
-    height: 2.5vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    border-top-left-radius: 2vw;
-    border-bottom-left-radius: 2vw;
-    border: solid 1.5px rgb(238, 238, 238);
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
+  width: 20vw;
+  height: 2.5vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  border-top-left-radius: 2vw;
+  border-bottom-left-radius: 2vw;
+  border: solid 1.5px rgb(238, 238, 238);
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_List_Search input:focus {
-    outline: none;
+  outline: none;
 }
 
 .ViewPort_List_Search button {
-    width: 6vw;
-    height: 2.5vw;
-    border-top-right-radius: 2vw;
-    border-bottom-right-radius: 2vw;
-    background-color: var(--green-color);
-    border: solid 1.5px var(--green-color);
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    cursor: pointer;
+  width: 6vw;
+  height: 2.5vw;
+  border-top-right-radius: 2vw;
+  border-bottom-right-radius: 2vw;
+  background-color: var(--green-color);
+  border: solid 1.5px var(--green-color);
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  cursor: pointer;
 }
 
 .ViewPort_List_Content {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 1vw;
-    gap: 1vw;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1vw;
+  gap: 1vw;
+  overflow-y: scroll;
 }
 
 .ViewPort_List_Content_Tab {
-    display: flex;
+  display: flex;
 }
 
 .ViewPort_List_Content_Tab p {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
 }
 
 .ViewPort_List_Content_Tab_Complaints p {
-    color: #aeaeae
+  color: #aeaeae;
 }
 
 .ViewPort_List_Content_ID {
-    display: flex;
-    width: 10vw;
+  display: flex;
+  width: 10vw;
 }
 
 .ViewPort_List_Content_Product {
-    display: flex;
-    width: 23vw;
+  display: flex;
+  width: 23vw;
 }
 
 .ViewPort_List_Content_Sub_Product {
-    display: flex;
-    width: 23vw;
+  display: flex;
+  width: 23vw;
 }
 
 .ViewPort_List_Content_File_Type {
-    display: flex;
-    width: 10vw;
+  display: flex;
+  width: 10vw;
 }
 
 .ViewPort_List_Content_Sub_Is_Complaint_Header {
-    display: flex;
-    width: 10vw;
+  display: flex;
+  width: 10vw;
 }
 
 .ViewPort_List_Content_Sub_Is_Complaint_Content {
-    display: flex;
-    width: 10vw;
-    padding-left: 1.5vw;
+  display: flex;
+  width: 10vw;
+  padding-left: 1.5vw;
 }
 
 .ViewPort_List_Content_Sub_Is_Complaint {
-    width: 1vw;
-    height: 1vw;
-    border-radius: 1vw;
-    background-color: #e01e37;
+  width: 1vw;
+  height: 1vw;
+  border-radius: 1vw;
+  background-color: #e01e37;
 }
 
 .ViewPort_List_Content_Sub_Is_Not_Complaint {
-    width: 1vw;
-    height: 1vw;
-    border-radius: 1vw;
-    background-color: var(--gold-color);
+  width: 1vw;
+  height: 1vw;
+  border-radius: 1vw;
+  background-color: var(--gold-color);
 }
 
-.ViewPort_Top h2{
-    margin-bottom: 30px;
+.ViewPort_Top h2 {
+  margin-bottom: 30px;
 }
 
 .IsLoading {
-    background-color: var(--subtle-loading-color);
-    border-radius: 1vw;
+  background-color: var(--subtle-loading-color);
+  border-radius: 1vw;
 }
 
 .ViewPort_Statement_IsLoading {
-    width: 15vw;
-    height: 2vw;
+  width: 15vw;
+  height: 2vw;
 }
 
 .ViewPort_Big_Statement_IsLoading {
-    width: 98%;
-    height: 14vw;
+  width: 98%;
+  height: 14vw;
 }
 
 .ViewPort_List_Complaint_IsLoading {
-    width: 98%;
-    height: 2vw;
+  width: 98%;
+  height: 2vw;
 }
 
 .ViewPort_List_Content_Tab_Complaints {
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .ViewPort_List_Content_Tab_Complaints:hover {
-    background-color: #f0f0f0; /* Same grey color as hovering over the tabs in ComplaintTab */
-  }
-  
-  .ViewPort_List_Content_Tab_Complaints.SelectedComplaint {
-    background-color: #f0f0f0; /* Highlight color for selected complaint */
-    color: #7777; /* Optional: Change text color for better contrast */
-  }
-  
-  .ViewPort_List_Content_Tab_Complaints:hover {
-    cursor: pointer; /* Change cursor to pointer when hovering */
-  }
-    
-  .ViewPort_Complaint_Full_Text {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    color: #333;
-    display: none; /* Initially hidden */
-    margin-top: 1rem; /* Space between summary and full text */
-  }
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  .ViewPort_Complaint_Full_Text.Visible {
-    display: block; /* Show the full text when this class is added */
-  }
+.ViewPort_List_Content_Tab_Complaints:hover {
+  background-color: #f0f0f0; /* Same grey color as hovering over the tabs in ComplaintTab */
+}
 
-  .ViewPort_Complaint_Timestamp {
-    font-size: var(--p-size);
-    font-weight: var(--standard-weight);
-    color: #888;
-  }
-  
+.ViewPort_List_Content_Tab_Complaints.SelectedComplaint {
+  background-color: #f0f0f0; /* Highlight color for selected complaint */
+  color: #7777; /* Optional: Change text color for better contrast */
+}
+
+.ViewPort_List_Content_Tab_Complaints:hover {
+  cursor: pointer; /* Change cursor to pointer when hovering */
+}
+
+.ViewPort_Complaint_Full_Text {
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  color: #333;
+  display: none; /* Initially hidden */
+  margin-top: 1rem; /* Space between summary and full text */
+}
+
+.ViewPort_Complaint_Full_Text.Visible {
+  display: block; /* Show the full text when this class is added */
+}
+
+.ViewPort_Complaint_Timestamp {
+  font-size: var(--p-size);
+  font-weight: var(--standard-weight);
+  color: #888;
+}

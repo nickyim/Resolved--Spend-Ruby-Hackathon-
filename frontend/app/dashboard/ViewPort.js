@@ -20,14 +20,14 @@ export default function ViewPort({ inputEntry }) {
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
   const [filter, setFilter] = useState("all");
   const [isAIOpen, setIsAIOpen] = useState(false);
-  const [aiChatPrompt, setAiChatPrompt] = useState('');
+  const [aiChatPrompt, setAiChatPrompt] = useState("");
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [aiChatLog, setAiChatLog] = useState([]);
 
   const toggleFullTextVisibility = () => {
     setIsFullTextVisible(!isFullTextVisible);
   };
-  
+
   const toggleAIOpen = () => {
     setIsAIOpen(!isAIOpen);
   };
@@ -95,63 +95,71 @@ export default function ViewPort({ inputEntry }) {
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
-  
+
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
   };
-  
+
   const handleAIChatPromptChange = (e) => {
     const { value } = e.target;
     setAiChatPrompt(value);
   };
-  
+
   const handleAIChatPromptSend = async () => {
-    let temp = {content: aiChatPrompt, isUser: true}
-    let temp2 = null
-    setIsAiThinking(true)
+    let temp = { content: aiChatPrompt, isUser: true };
+    let temp2 = null;
+    setIsAiThinking(true);
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/getAI`, {
-          userPrompt: aiChatPrompt
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.id}`,
+      await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/smartSearch`,
+          {
+            userPrompt: aiChatPrompt,
           },
-        }
-      ).then((res) => {
-        temp2 = {content: res.data, isUser: false}
-      })
+          {
+            headers: {
+              Authorization: `Bearer ${user.id}`,
+            },
+          }
+        )
+        .then((res) => {
+          temp2 = { content: res.data, isUser: false };
+        });
     } catch (e) {
-      temp2 = {content: 'Sorry I didn\'t catch that . . . try again. :(', isUser: false}
+      temp2 = {
+        content: "Sorry I didn't catch that . . . try again. :(",
+        isUser: false,
+      };
     } finally {
-      if(temp2) {
-        setAiChatLog((prev) => [
-          ...prev,
-          temp,
-          temp2
-        ])
+      if (temp2) {
+        setAiChatLog((prev) => [...prev, temp, temp2]);
       } else {
-        setAiChatLog((prev) => [
-          ...prev,
-          temp
-        ])
+        setAiChatLog((prev) => [...prev, temp]);
       }
-      setIsAiThinking(false)
+      setIsAiThinking(false);
     }
   };
 
   const handleSearchSubmit = () => {
     let result = [];
-  
+
     if (parseInt(search)) {
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
-        if (initialComplaints[i] && initialComplaints[i].id === Number.parseInt(search)) {
-          if(filter.toLowerCase() === 'complaints' && initialComplaints[i].isComplaint) {
-            result.push(initialComplaints[i])
-          } else if (filter.toLowerCase() === 'non-complaints' && !initialComplaints[i].isComplaint) {
-            result.push(initialComplaints[i])
+        if (
+          initialComplaints[i] &&
+          initialComplaints[i].id === Number.parseInt(search)
+        ) {
+          if (
+            filter.toLowerCase() === "complaints" &&
+            initialComplaints[i].isComplaint
+          ) {
+            result.push(initialComplaints[i]);
+          } else if (
+            filter.toLowerCase() === "non-complaints" &&
+            !initialComplaints[i].isComplaint
+          ) {
+            result.push(initialComplaints[i]);
           } else {
             result.push(initialComplaints[i]);
           }
@@ -160,34 +168,46 @@ export default function ViewPort({ inputEntry }) {
     } else {
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
         if (
-          initialComplaints[i] && ( (initialComplaints[i].product && initialComplaints[i].product.toLowerCase() === search.toLowerCase()) ||
-          (initialComplaints[i].subProduct && initialComplaints[i].subProduct.toLowerCase() ===
-            search.toLowerCase()) ||
-          (initialComplaints[i].fileType && initialComplaints[i].fileType.toLowerCase() === search.toLowerCase()))
+          initialComplaints[i] &&
+          ((initialComplaints[i].product &&
+            initialComplaints[i].product.toLowerCase() ===
+              search.toLowerCase()) ||
+            (initialComplaints[i].subProduct &&
+              initialComplaints[i].subProduct.toLowerCase() ===
+                search.toLowerCase()) ||
+            (initialComplaints[i].fileType &&
+              initialComplaints[i].fileType.toLowerCase() ===
+                search.toLowerCase()))
         ) {
-          console.log(filter.toLowerCase())
-          console.log(filter.toLowerCase() === 'complaints')
-          console.log(filter.toLowerCase() === 'non-complaints')
-          console.log(filter.toLowerCase() === 'all')
-          console.log('\n')
-          if(filter.toLowerCase() === 'complaints' && initialComplaints[i].isComplaint) {
-            result.push(initialComplaints[i])
-          } else if (filter.toLowerCase() === 'non-complaints' && !initialComplaints[i].isComplaint) {
-            result.push(initialComplaints[i])
-          } else if (filter.toLowerCase() === 'all') {
+          console.log(filter.toLowerCase());
+          console.log(filter.toLowerCase() === "complaints");
+          console.log(filter.toLowerCase() === "non-complaints");
+          console.log(filter.toLowerCase() === "all");
+          console.log("\n");
+          if (
+            filter.toLowerCase() === "complaints" &&
+            initialComplaints[i].isComplaint
+          ) {
+            result.push(initialComplaints[i]);
+          } else if (
+            filter.toLowerCase() === "non-complaints" &&
+            !initialComplaints[i].isComplaint
+          ) {
+            result.push(initialComplaints[i]);
+          } else if (filter.toLowerCase() === "all") {
             result.push(initialComplaints[i]);
           }
         }
       }
     }
-  
+
     if (result.length === 0) {
       setComplaints(initialComplaints);
     } else {
       setComplaints(result);
     }
   };
-  
+
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
@@ -216,7 +236,6 @@ export default function ViewPort({ inputEntry }) {
       console.log("ERROR: ", e);
     }
   };
-
 
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
@@ -295,18 +314,18 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_List_Title}>
                 <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                <input
-                  type="text"
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-                <select value={filter} onChange={handleFilterChange}>
-                  <option value="all">All</option>
-                  <option value="complaints">Complaints</option>
-                  <option value="non-complaints">Non-Complaints</option>
-                </select>
-                <button onClick={handleSearchSubmit}>Search</button>
-              </div>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchChange}
+                  />
+                  <select value={filter} onChange={handleFilterChange}>
+                    <option value="all">All</option>
+                    <option value="complaints">Complaints</option>
+                    <option value="non-complaints">Non-Complaints</option>
+                  </select>
+                  <button onClick={handleSearchSubmit}>Search</button>
+                </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
@@ -373,20 +392,52 @@ export default function ViewPort({ inputEntry }) {
         <div className={styles.ViewPort_Header}>
           <h2>Dashboard</h2>
           <div>
-            <button onClick={toggleAIOpen} className={isAIOpen? styles.ViewPort_Header_AI_Prompt_Button_Closed: ''}>Talk to AI</button>
-            <div className={isAIOpen? styles.ViewPort_Header_AI_Prompt_Open : styles.ViewPort_Header_AI_Prompt_Closed}>
+            <button
+              onClick={toggleAIOpen}
+              className={
+                isAIOpen ? styles.ViewPort_Header_AI_Prompt_Button_Closed : ""
+              }
+            >
+              Smart Search the Complaints
+            </button>
+            <div
+              className={
+                isAIOpen
+                  ? styles.ViewPort_Header_AI_Prompt_Open
+                  : styles.ViewPort_Header_AI_Prompt_Closed
+              }
+            >
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Header}>
-                <h5>AI Assistance</h5>
+                <h5>Complaint Assistance</h5>
                 <button onClick={toggleAIOpen}>X</button>
               </div>
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Output}>
-                {aiChatLog.map((chat) => (
-                  <p className={chat.isUser? styles.ViewPort_Header_AI_Prompt_Open_Output_User: styles.ViewPort_Header_AI_Prompt_Open_Output_AI}>{chat.isUser? 'You: ' : 'AI: '}{chat.content}</p>
+                {aiChatLog.map((chat, index) => (
+                  <p
+                    key={index}
+                    className={
+                      chat.isUser
+                        ? styles.ViewPort_Header_AI_Prompt_Open_Output_User
+                        : styles.ViewPort_Header_AI_Prompt_Open_Output_AI
+                    }
+                  >
+                    {chat.isUser ? "You: " : "AI: "}
+                    {chat.content}
+                  </p>
                 ))}
               </div>
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Input}>
-                <input type="text" value={aiChatPrompt} onChange={handleAIChatPromptChange}/>
-                <button onClick={handleAIChatPromptSend} disabled={isAiThinking? true : false}>Send</button>
+                <input
+                  type="text"
+                  value={aiChatPrompt}
+                  onChange={handleAIChatPromptChange}
+                />
+                <button
+                  onClick={handleAIChatPromptSend}
+                  disabled={isAiThinking ? true : false}
+                >
+                  Send
+                </button>
               </div>
             </div>
           </div>
@@ -394,7 +445,7 @@ export default function ViewPort({ inputEntry }) {
         <div className={styles.ViewPort_Content}>
           <div className={styles.ViewPort_Top}>
             <div className={styles.ViewPort_Complaint}>
-            <div className={styles.ViewPort_Complaint_Title}>
+              <div className={styles.ViewPort_Complaint_Title}>
                 <div className={styles.ViewPort_Complaint_Title_Content}>
                   <h4>
                     {complaint?.isComplaint && complaint?.product
@@ -498,45 +549,49 @@ export default function ViewPort({ inputEntry }) {
                   </p>
                 </div>
                 {complaints.map((complaint, idx) => (
-                <div
-                  key={idx}
-                  className={
-                    styles.ViewPort_List_Content_Tab +
-                    " " +
-                    styles.ViewPort_List_Content_Tab_Complaints +
-                    (selectedComplaintIdx === idx
-                      ? ` ${styles.SelectedComplaint}`
-                      : "")
-                  }
-                  onClick={() => handleComplaintClick(idx)}
-                >
-                  <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
-                  <p className={styles.ViewPort_List_Content_Product}>
-                    {complaint.isComplaint && complaint.product
-                      ? complaint.product
-                      : "N/A"}
-                  </p>
-                  <p className={styles.ViewPort_List_Content_Sub_Product}>
-                    {complaint.isComplaint && complaint.subProduct
-                      ? complaint.subProduct
-                      : "N/A"}
-                  </p>
-                  <p className={styles.ViewPort_List_Content_File_Type}>
-                    {complaint.fileType}
-                  </p>
                   <div
-                    className={styles.ViewPort_List_Content_Sub_Is_Complaint_Content}
+                    key={idx}
+                    className={
+                      styles.ViewPort_List_Content_Tab +
+                      " " +
+                      styles.ViewPort_List_Content_Tab_Complaints +
+                      (selectedComplaintIdx === idx
+                        ? ` ${styles.SelectedComplaint}`
+                        : "")
+                    }
+                    onClick={() => handleComplaintClick(idx)}
                   >
+                    <p className={styles.ViewPort_List_Content_ID}>
+                      {complaint.id}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_Product}>
+                      {complaint.isComplaint && complaint.product
+                        ? complaint.product
+                        : "N/A"}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_Sub_Product}>
+                      {complaint.isComplaint && complaint.subProduct
+                        ? complaint.subProduct
+                        : "N/A"}
+                    </p>
+                    <p className={styles.ViewPort_List_Content_File_Type}>
+                      {complaint.fileType}
+                    </p>
                     <div
                       className={
-                        complaint.isComplaint
-                          ? styles.ViewPort_List_Content_Sub_Is_Complaint
-                          : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
+                        styles.ViewPort_List_Content_Sub_Is_Complaint_Content
                       }
-                    ></div>
+                    >
+                      <div
+                        className={
+                          complaint.isComplaint
+                            ? styles.ViewPort_List_Content_Sub_Is_Complaint
+                            : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
+                        }
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
               </div>
             </div>
           </div>
