@@ -7,7 +7,6 @@ from werkzeug.utils import secure_filename
 import os
 import textract
 from accessDatabase.updateDb import updateDB
-from routes.elastic_routes import sync_data
 
 text_bp = Blueprint('text_bp', __name__)
 
@@ -77,9 +76,4 @@ def handle_prompt():
         result = processComplaint(text)
 
         # Use the updateDB function to save the result to the database
-        response = updateDB(file_type, text, user, result)
-
-        # Sync the data with Elasticsearch after the database is updated
-        sync_data()
-
-        return response
+        return updateDB(file_type, text, user, result)

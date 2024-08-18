@@ -18,6 +18,7 @@ export default function ViewPort({ inputEntry }) {
   const [data, setData] = useState([]);
   const [selectedComplaintIdx, setSelectedComplaintIdx] = useState(0);
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
+  const [filter, setFilter] = useState("all");
 
   const toggleFullTextVisibility = () => {
     setIsFullTextVisible(!isFullTextVisible);
@@ -38,18 +39,16 @@ export default function ViewPort({ inputEntry }) {
           }
         );
 
-        console.log("Inside async");
-        console.log(response.data);
         setInitialComplaints(response.data);
         setComplaints(response.data);
         let dataComplaints = 0;
         for (let i = 0; i < response.data.length; i++) {
-          if (response.data.isComplaint) {
+          if (response.data[i].isComplaint) {
             dataComplaints++;
           }
         }
 
-        setData([dataComplaints, response.data.length - dataComplaints]);
+        setData([response.data.length - dataComplaints, dataComplaints]);
 
         // Automatically display the first complaint and highlight it
         if (response.data.length > 0) {
@@ -85,6 +84,10 @@ export default function ViewPort({ inputEntry }) {
     }
   }, [inputEntry]);
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+  
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
@@ -92,6 +95,7 @@ export default function ViewPort({ inputEntry }) {
 
   const handleSearchSubmit = () => {
     let result = [];
+  
     if (parseInt(search)) {
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
         if (initialComplaints[i].id === Number.parseInt(search)) {
@@ -108,8 +112,6 @@ export default function ViewPort({ inputEntry }) {
         }
       }
     } else {
-      console.log(initialComplaints[0].product.toLowerCase());
-      console.log(initialComplaints[0].subProduct.toLowerCase());
       for (let i = 0; i < initialComplaints.length && search.length > 0; i++) {
         if (
           initialComplaints[i].product.toLowerCase() === search.toLowerCase() ||
@@ -121,14 +123,21 @@ export default function ViewPort({ inputEntry }) {
         }
       }
     }
-
+  
+    // Apply the filter
+    if (filter === "complaints") {
+      result = result.filter((item) => item.isComplaint);
+    } else if (filter === "non-complaints") {
+      result = result.filter((item) => !item.isComplaint);
+    }
+  
     if (result.length === 0) {
       setComplaints(initialComplaints);
     } else {
       setComplaints(result);
     }
   };
-
+  
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
@@ -235,13 +244,18 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_List_Title}>
                 <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                  <input
-                    type="text"
-                    value={search}
-                    onChange={handleSearchChange}
-                  />
-                  <button onClick={handleSearchSubmit}>Search</button>
-                </div>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={handleSearchChange}
+                />
+                <select value={filter} onChange={handleFilterChange}>
+                  <option value="all">All</option>
+                  <option value="complaints">Complaints</option>
+                  <option value="non-complaints">Non-Complaints</option>
+                </select>
+                <button onClick={handleSearchSubmit}>Search</button>
+              </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
@@ -311,9 +325,13 @@ export default function ViewPort({ inputEntry }) {
         <div className={styles.ViewPort_Content}>
           <div className={styles.ViewPort_Top}>
             <div className={styles.ViewPort_Complaint}>
-              <div className={styles.ViewPort_Complaint_Title}>
+            <div className={styles.ViewPort_Complaint_Title}>
                 <div className={styles.ViewPort_Complaint_Title_Content}>
-                  <h4>{complaint?.product}</h4>
+                  <h4>
+                    {complaint?.isComplaint && complaint?.product
+                      ? complaint.product
+                      : "N/A (Not a Complaint)"}
+                  </h4>
                   <div
                     className={
                       complaint?.isComplaint
@@ -323,7 +341,9 @@ export default function ViewPort({ inputEntry }) {
                   ></div>
                 </div>
                 <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>
-                  {complaint?.subProduct}
+                  {complaint?.isComplaint && complaint?.subProduct
+                    ? complaint.subProduct
+                    : "N/A"}
                 </h4>
               </div>
               <div className={styles.ViewPort_Complaint_Extra}>
@@ -375,13 +395,18 @@ export default function ViewPort({ inputEntry }) {
               <div className={styles.ViewPort_List_Title}>
                 <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
-                  <input
-                    type="text"
-                    value={search}
-                    onChange={handleSearchChange}
-                  />
-                  <button onClick={handleSearchSubmit}>Search</button>
-                </div>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={handleSearchChange}
+                />
+                <select value={filter} onChange={handleFilterChange}>
+                  <option value="all">All</option>
+                  <option value="complaints">Complaints</option>
+                  <option value="non-complaints">Non-Complaints</option>
+                </select>
+                <button onClick={handleSearchSubmit}>Search</button>
+              </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
                 <div className={styles.ViewPort_List_Content_Tab}>
@@ -404,45 +429,45 @@ export default function ViewPort({ inputEntry }) {
                   </p>
                 </div>
                 {complaints.map((complaint, idx) => (
+                <div
+                  key={idx}
+                  className={
+                    styles.ViewPort_List_Content_Tab +
+                    " " +
+                    styles.ViewPort_List_Content_Tab_Complaints +
+                    (selectedComplaintIdx === idx
+                      ? ` ${styles.SelectedComplaint}`
+                      : "")
+                  }
+                  onClick={() => handleComplaintClick(idx)}
+                >
+                  <p className={styles.ViewPort_List_Content_ID}>{complaint.id}</p>
+                  <p className={styles.ViewPort_List_Content_Product}>
+                    {complaint.isComplaint && complaint.product
+                      ? complaint.product
+                      : "N/A"}
+                  </p>
+                  <p className={styles.ViewPort_List_Content_Sub_Product}>
+                    {complaint.isComplaint && complaint.subProduct
+                      ? complaint.subProduct
+                      : "N/A"}
+                  </p>
+                  <p className={styles.ViewPort_List_Content_File_Type}>
+                    {complaint.fileType}
+                  </p>
                   <div
-                    key={idx}
-                    className={
-                      styles.ViewPort_List_Content_Tab +
-                      " " +
-                      styles.ViewPort_List_Content_Tab_Complaints +
-                      (selectedComplaintIdx === idx
-                        ? ` ${styles.SelectedComplaint}`
-                        : "")
-                    }
-                    onClick={() => handleComplaintClick(idx)}
+                    className={styles.ViewPort_List_Content_Sub_Is_Complaint_Content}
                   >
-                    <p className={styles.ViewPort_List_Content_ID}>
-                      {complaint.id}
-                    </p>
-                    <p className={styles.ViewPort_List_Content_Product}>
-                      {complaint.product}
-                    </p>
-                    <p className={styles.ViewPort_List_Content_Sub_Product}>
-                      {complaint.subProduct}
-                    </p>
-                    <p className={styles.ViewPort_List_Content_File_Type}>
-                      {complaint.fileType}
-                    </p>
                     <div
                       className={
-                        styles.ViewPort_List_Content_Sub_Is_Complaint_Content
+                        complaint.isComplaint
+                          ? styles.ViewPort_List_Content_Sub_Is_Complaint
+                          : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
                       }
-                    >
-                      <div
-                        className={
-                          complaint.isComplaint
-                            ? styles.ViewPort_List_Content_Sub_Is_Complaint
-                            : styles.ViewPort_List_Content_Sub_Is_Not_Complaint
-                        }
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
-                ))}
+                </div>
+              ))}
               </div>
             </div>
           </div>

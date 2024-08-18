@@ -35,6 +35,7 @@ def classifyProductandSummarize(annotations_text):
         4. If the text is not a complaint:
             - Set "isComplaint" to false.
             - Provide a brief summary of the text.
+            - Do NOT give a product category or sub-product category.
         5. Return a JSON object in the following format:
         {
             "isComplaint": boolean,
