@@ -13,6 +13,7 @@ from routes.video_routes import video_bp
 from routes.dashboard_routes import dashboard_bp
 from routes.elastic_routes import elastic_bp
 from routes.image_routes import image_bp
+from routes.RAG_routes import RAG_bp
 
 # Load environment variables from .env file
 load_dotenv()
@@ -47,6 +48,7 @@ app.register_blueprint(video_bp, url_prefix='/api')
 app.register_blueprint(dashboard_bp, url_prefix='/api')
 app.register_blueprint(elastic_bp, url_prefix='/api')
 app.register_blueprint(image_bp, url_prefix='/api')
+app.register_blueprint(RAG_bp, url_prefix='/api')
 
 
 # create a test route
