@@ -129,35 +129,6 @@ export default function ViewPort({ inputEntry }) {
     }
   };
 
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const handleFileSubmit = async () => {
-    if (!selectedFile) return;
-
-    try {
-      const formData = new FormData();
-      formData.append("audioFile", selectedFile);
-
-      console.log("Selected file:", selectedFile);
-      console.log("File type:", selectedFile.type);
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/audioQuery`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Audio file submitted:", response.data);
-    } catch (e) {
-      console.log("ERROR: ", e);
-    }
-  };
-
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
 
