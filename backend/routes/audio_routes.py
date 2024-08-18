@@ -7,6 +7,7 @@ from google.cloud import storage
 from google.cloud import speech
 from accessDatabase.updateDb import updateDB
 from model import db, User
+import json
 
 audio_bp = Blueprint('audio_bp', __name__)
 
@@ -79,11 +80,11 @@ def upload_audio():
 @audio_bp.route('/googleAudioQuery', methods=['POST'])
 def upload_audio2Google():
     try:
-        if 'complaintFile' not in request.files:
+        if 'audioFile' not in request.files:
             return jsonify({"error": "No audio file part"}), 400
 
         # Get the audio file from the request
-        audio = request.files['complaintFile']
+        audio = request.files['audioFile']
 
         if audio.filename == '':
             return jsonify({"error": "No selected file"}), 400
