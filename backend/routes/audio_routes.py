@@ -8,7 +8,6 @@ from google.cloud import speech
 from accessDatabase.updateDb import updateDB
 from model import db, User
 import json
-from routes.elastic_routes import sync_data
 
 audio_bp = Blueprint('audio_bp', __name__)
 
@@ -124,13 +123,7 @@ def upload_audio2Google():
         text = result_data.get('summary', '')
 
         # Update database
-        response = updateDB(file_type, text, user, results)
-    
-        # Sync the data with Elasticsearch after the database is updated
-        sync_data()
-
-        return response
-
+        return updateDB(file_type, text, user, results)
 
     except Exception as e:
         print(f"Error processing Google audio: {str(e)}")
