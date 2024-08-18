@@ -14,3 +14,4 @@ assemblyai
 google
 textract
 google-cloud-vision
+elasticsearch
