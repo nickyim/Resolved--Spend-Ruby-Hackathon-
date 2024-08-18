@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 from flask_cors import CORS
-from model import db, User, Entry, File
+from model import db, User, Entry
 from routes.user_routes import user_bp
 from routes.text_routes import text_bp
 from routes.audio_routes import audio_bp

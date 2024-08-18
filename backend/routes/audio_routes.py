@@ -14,12 +14,12 @@ audio_bp = Blueprint('audio_bp', __name__)
 UPLOAD_FOLDER = 'complaintUploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@audio_bp.route('/audioQuery', methods=['POST'])
+@audio_bp.route('/assemblyaiAudioQuery', methods=['POST'])
 def upload_audio():
-    if 'audioFile' not in request.files:
+    if 'complaintFile' not in request.files:
         return jsonify({"error": "No audio file part"}), 400
 
-    file = request.files['audioFile']
+    file = request.files['complaintFile']
 
     print(f"\n\nReceived audio file: {file.filename} \n\n ********")
 
@@ -48,11 +48,12 @@ def upload_audio():
             if os.path.exists(file_path):
                 os.remove(file_path)
                 print(f"Deleted file: {file_path}")
+                
 
 @audio_bp.route('/googleAudioQuery', methods=['GET', 'POST'])
 def upload_audio2Google():
     # Get the audio file from the request.
-    audio = request.files['audioFile']
+    audio = request.files['complaintFile']
     audio_content = audio.read()
 
     # Determine the encoding based on the file extension

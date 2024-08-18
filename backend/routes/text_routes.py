@@ -2,6 +2,9 @@ import uuid
 from flask import Blueprint, json, request, jsonify
 from chatScripts.parseComplaint import processComplaint
 from model import db, User, Entry
+from werkzeug.utils import secure_filename
+import os
+import textract
 
 text_bp = Blueprint('text_bp', __name__)
 
@@ -10,61 +13,83 @@ def handle_prompt():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
     
-    data = request.json 
-    prompt = data.get('prompt')
-    clerk_id = data.get('clerkId')
+    if 'complaintFile' not in request.files:
+        return jsonify({"error": "No file part"}), 400
 
-    if not prompt:
-        return jsonify({"error": "No prompt provided"}), 400
+    file = request.files['complaintFile']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
 
-    if not clerk_id:
-        return jsonify({"error": "No clerkId provided"}), 400
-    
-    # Fetch the user from the database
-    user = User.query.filter_by(clerkId=clerk_id).first()
+    if file:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join('/tmp', filename)
+        file.save(file_path)
 
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-    
-    # Process the complaint using AI
-    result = processComplaint(prompt)
-    
-    # Parse the result into JSON (assuming it's returned as a string)
-    result_data = json.loads(result)
-    is_complaint = result_data.get('isComplaint', False)
-    summary = result_data.get('summary', '')
-    product = result_data.get('product', '')
-    sub_product = result_data.get('subProduct', '')
+        # Extract text from the file
+        text = textract.process(file_path).decode('utf-8')
 
-    # Generate a unique entryId
-    entry_id = str(uuid.uuid4())
+        # Clean up the temporary file
+        os.remove(file_path)
 
-    # Create a new entry and associate it with the user
-    new_entry = Entry(
-        entryId=entry_id,
-        isComplaint=is_complaint,
-        product=product,
-        subProduct=sub_product,
-        entryText=prompt,
-        summary=summary,
-        userId=user.id
-    )
+        # Extract clerkId from Authorization header
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return jsonify({"error": "Invalid or missing Authorization header"}), 401
 
-    db.session.add(new_entry)
-    db.session.commit()
+        clerk_id = auth_header.split(' ')[1]
 
-    print(f"Received text result: {result_data}")
+        if not text:
+            return jsonify({"error": "No text extracted from file"}), 400
 
-    return jsonify({
-        "message": "Prompt processed and entry created successfully",
-        "entryId": entry_id,
-        "isComplaint": is_complaint,
-        "summary": summary,
-        "product": product,
-        "subProduct": sub_product,
-        "user": {
-            "id": user.id,
-            "clerkId": user.clerkId,
-            "email": user.email
-        }
-    }), 201
+        # Fetch the user from the database
+        user = User.query.filter_by(clerkId=clerk_id).first()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        
+        # Process the complaint using AI
+        result = processComplaint(text)
+        
+        # Parse the result into JSON (assuming it's returned as a string)
+        result_data = json.loads(result)
+        is_complaint = result_data.get('isComplaint', False)
+        summary = result_data.get('summary', '')
+        product = result_data.get('product', '')
+        sub_product = result_data.get('subProduct', '')
+
+        # Generate a unique entryId
+        entry_id = str(uuid.uuid4())
+
+        # Determine the file type
+        file_type = os.path.splitext(file.filename)[1].lower()
+
+        # Create a new entry and associate it with the user
+        new_entry = Entry(
+            entryId=entry_id,
+            isComplaint=is_complaint,
+            product=product,
+            subProduct=sub_product,
+            entryText=text,
+            summary=summary,
+            userId=user.id,
+            fileType=file_type
+        )
+
+        db.session.add(new_entry)
+        db.session.commit()
+
+        print(f"Received text result: {result_data}")
+
+        return jsonify({
+            "message": "Prompt processed and entry created successfully",
+            "entryId": entry_id,
+            "isComplaint": is_complaint,
+            "summary": summary,
+            "product": product,
+            "subProduct": sub_product,
+            "user": {
+                "id": user.id,
+                "clerkId": user.clerkId,
+                "email": user.email
+            }
+        }), 201
