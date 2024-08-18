@@ -1,0 +1,7 @@
+.dashboard {
+    display: flex;
+    background-color: #f9f9f9;
+    padding-top: 1vh;
+    padding-right: 1vw;
+    padding-bottom: 1vh;
+}
