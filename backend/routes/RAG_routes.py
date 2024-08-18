@@ -3,9 +3,9 @@ from model import db, User
 from routes.elastic_routes import sync_users
 from RAGpipeline.pipeline import get_response
 
-user_bp = Blueprint('RAG_bp', __name__)
+RAG_bp = Blueprint('RAG_bp', __name__)
 
-@user_bp.route('/smartSearch', methods=['POST'])
+@RAG_bp.route('/smartSearch', methods=['POST'])
 def returnRAGresults():
     data = request.get_json()
 
