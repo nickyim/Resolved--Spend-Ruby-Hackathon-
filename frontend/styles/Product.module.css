@@ -34,6 +34,8 @@
 
 .Product_Overlay p {
     align-self: flex-end;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
 }
 
 .Product_Overlay:hover + .Product_Image {

@@ -245,7 +245,7 @@ export default function ViewPort({ inputEntry }) {
                   datasets: [
                     {
                       data: data,
-                      backgroundColor: ["#e9e3a6", "#E9A6A6"],
+                      backgroundColor: ["#e9e3a6", "#e01e37"],
                     },
                   ],
                 }}

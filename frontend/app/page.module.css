@@ -27,7 +27,7 @@
 
 .LandingPage_Header h1 {
   font-size: var(--h3-size);
-  font-weight: 400;
+  font-weight: var(--standard-weight);
 }
 
 .LandingPage_Header_Authentication {
@@ -75,14 +75,14 @@
 }
 
 .LandingPage_Content_Intro h1 {
-  font-weight: 400;
+  font-weight: var(--standard-weight);
   font-size: var(--h1-size);
   width: 35vw;
   text-align: center;
 }
 
 .LandingPage_Content_Intro h6 {
-  font-weight: 400;
+  font-weight: var(--standard-weight);
   font-size: var(--h6-size);
   text-align: center;
   width: 30vw;
@@ -118,7 +118,7 @@
 
 .LandingPage_Content_Product_Dashboard h2 {
   font-size: var(--h2-size);
-  font-weight: 400;
+  font-weight: var(--standard-weight);
 }
 
 .LandingPage_Content_DashboardImg {

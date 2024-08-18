@@ -16,7 +16,7 @@
 }
 
 .userName {
-  font-weight: bold;
+  font-weight: var(--standard-weight);
 }
 
 .userEmail {
