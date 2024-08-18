@@ -4,7 +4,7 @@ import axios from "axios";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import { useUser } from "@clerk/nextjs";
-import styles from "./ViewPort.module.css";
+import styles from "../../styles/ViewPort.module.css";
 
 export default function ViewPort({ inputEntry }) {
   const [isLoading, setIsLoading] = useState(false);
