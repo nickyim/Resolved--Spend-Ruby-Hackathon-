@@ -198,10 +198,10 @@ export default function ViewPort({ inputEntry }) {
           <div className={styles.ViewPort_Data}>
             <div className={styles.ViewPort_List}>
               <div className={styles.ViewPort_List_Title}>
-                <h4>List of Complaints</h4>
+                <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
                   <input type="text" value={search} onChange={handleSearchChange} />
-                  <button onClick={handleSearchSubmit} >Submit</button>
+                  <button onClick={handleSearchSubmit} >Search</button>
                 </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
@@ -285,10 +285,10 @@ export default function ViewPort({ inputEntry }) {
           <div className={styles.ViewPort_Data}>
             <div className={styles.ViewPort_List}>
               <div className={styles.ViewPort_List_Title}>
-                <h4>List of Complaints</h4>
+                <h4>List of Entries</h4>
                 <div className={styles.ViewPort_List_Search}>
                   <input type="text" value={search} onChange={handleSearchChange} />
-                  <button onClick={handleSearchSubmit}>Submit</button>
+                  <button onClick={handleSearchSubmit}>Search</button>
                 </div>
               </div>
               <div className={styles.ViewPort_List_Content}>
