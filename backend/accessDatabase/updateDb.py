@@ -1,3 +1,4 @@
+from datetime import datetime
 from model import db, User, Entry
 from flask import Blueprint, json, request, jsonify
 import uuid
@@ -25,7 +26,8 @@ def updateDB (file_type, text, user, result):
             entryText=text,
             summary=summary,
             userId=user.id,
-            fileType=file_type
+            fileType=file_type,
+            created_at=datetime.utcnow()  # Set the created_at timestamp to the current time (UTC)
         )
 
         db.session.add(new_entry)
@@ -41,6 +43,7 @@ def updateDB (file_type, text, user, result):
             "product": product,
             "subProduct": sub_product,
             "fileType": file_type,
+            "created_at": new_entry.created_at.isoformat(),
             "user": {
                 "id": user.id,
                 "clerkId": user.clerkId,

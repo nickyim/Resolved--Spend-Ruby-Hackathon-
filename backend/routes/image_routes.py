@@ -1,9 +1,11 @@
 import uuid
 from flask import Blueprint, json, request, jsonify
 from google.cloud import vision
+from accessDatabase.updateDb import updateDB
 from model import db, User, Entry
 from werkzeug.utils import secure_filename
 from chatScripts.parseComplaint import processComplaint  # Import your OpenAI function
+
 import os
 
 # Initialize the Blueprint
@@ -75,44 +77,5 @@ def handle_image():
         # Process the extracted text using AI
         result = processComplaint(text)
 
-        # Parse the result into JSON
-        result_data = json.loads(result)
-        is_complaint = result_data.get('isComplaint', False)
-        summary = result_data.get('summary', '')
-        product = result_data.get('product', '')
-        sub_product = result_data.get('subProduct', '')
-
-        # Generate a unique entryId
-        entry_id = str(uuid.uuid4())
-
-        # Create a new entry and associate it with the user
-        new_entry = Entry(
-            entryId=entry_id,
-            isComplaint=is_complaint,
-            product=product,
-            subProduct=sub_product,
-            entryText=text,
-            summary=summary,
-            userId=user.id,
-            fileType='IMAGE'
-        )
-
-        db.session.add(new_entry)
-        db.session.commit()
-
-        print(f"Received image processing result: {result_data}")
-
-        return jsonify({
-            "message": "Image processed successfully",
-            "entryId": entry_id,
-            "isComplaint": is_complaint,
-            "summary": summary,
-            "product": product,
-            "subProduct": sub_product,
-            "fileType": 'IMAGE',
-            "user": {
-                "id": user.id,
-                "clerkId": user.clerkId,
-                "email": user.email
-            }
-        }), 201
+        # Update the database using the updateDB function
+        return updateDB('IMAGE', text, user, result)
