@@ -136,6 +136,10 @@
     display: flex;
 }
 
+.ViewPort_Complaint_Content_Summary {
+    overflow-y: scroll;
+}
+
 .ViewPort_List_Content_Tab_Complaints p {
     color: #aeaeae
 }
