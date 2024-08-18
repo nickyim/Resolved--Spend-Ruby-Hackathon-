@@ -12,33 +12,39 @@ text_bp = Blueprint('text_bp', __name__)
 UPLOAD_FOLDER = 'complaintUploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+ALLOWED_EXTENSIONS = {'txt', 'json', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @text_bp.route('/textQuery', methods=['POST', 'OPTIONS'])
 def handle_prompt():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
     
-
     if 'complaintFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
-
-    # data = request.json 
-    # prompt = data.get('prompt')
-    # clerk_id = data.get('clerkId')
-
-    file_type = 'TEXT'
-
-
+    
     file = request.files['complaintFile']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    if file:
+    if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         
         # Save the file to the temporary folder
         file.save(file_path)
 
+        file_extension = filename.rsplit('.', 1)[1].lower()
+        if file_extension == 'txt':
+            file_type = 'TEXT'
+            with open(file_path, 'r') as f:
+                content = f.read()
+        elif file_extension == 'json':
+            file_type = 'JSON'
+            with open(file_path, 'r') as f:
+                content = json.load(f)
 
         # Extract text from the file
         text = textract.process(file_path).decode('utf-8')
@@ -95,7 +101,7 @@ def handle_prompt():
         print(f"Received text result: {result_data}")
 
         return jsonify({
-            "message": "Prompt processed and entry created successfully",
+            "message": "File processed successfully",
             "entryId": entry_id,
             "isComplaint": is_complaint,
             "summary": summary,
