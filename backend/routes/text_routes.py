@@ -13,6 +13,7 @@ def handle_prompt():
     data = request.json 
     prompt = data.get('prompt')
     clerk_id = data.get('clerkId')
+    file_type = data.get('fileType', 'TEXT')
 
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
@@ -29,7 +30,7 @@ def handle_prompt():
     # Process the complaint using AI
     result = processComplaint(prompt)
     
-    # Parse the result into JSON (assuming it's returned as a string)
+    # Parse the result into JSON
     result_data = json.loads(result)
     is_complaint = result_data.get('isComplaint', False)
     summary = result_data.get('summary', '')
@@ -47,7 +48,8 @@ def handle_prompt():
         subProduct=sub_product,
         entryText=prompt,
         summary=summary,
-        userId=user.id
+        userId=user.id,
+        fileType=file_type
     )
 
     db.session.add(new_entry)
@@ -62,6 +64,7 @@ def handle_prompt():
         "summary": summary,
         "product": product,
         "subProduct": sub_product,
+        "fileType": file_type,
         "user": {
             "id": user.id,
             "clerkId": user.clerkId,
