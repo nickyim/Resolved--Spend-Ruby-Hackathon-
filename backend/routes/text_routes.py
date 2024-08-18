@@ -13,8 +13,15 @@ def handle_prompt():
     if request.method == 'OPTIONS':
         return jsonify({}), 200 
     
+
     if 'complaintFile' not in request.files:
         return jsonify({"error": "No file part"}), 400
+
+    data = request.json 
+    prompt = data.get('prompt')
+    clerk_id = data.get('clerkId')
+    file_type = data.get('fileType', 'TEXT')
+
 
     file = request.files['complaintFile']
     if file.filename == '':
@@ -24,6 +31,7 @@ def handle_prompt():
         filename = secure_filename(file.filename)
         file_path = os.path.join('/tmp', filename)
         file.save(file_path)
+
 
         # Extract text from the file
         text = textract.process(file_path).decode('utf-8')
@@ -46,11 +54,11 @@ def handle_prompt():
 
         if not user:
             return jsonify({"error": "User not found"}), 404
-        
+
         # Process the complaint using AI
-        result = processComplaint(text)
-        
-        # Parse the result into JSON (assuming it's returned as a string)
+        result = processComplaint(prompt)
+
+        # Parse the result into JSON
         result_data = json.loads(result)
         is_complaint = result_data.get('isComplaint', False)
         summary = result_data.get('summary', '')
@@ -60,16 +68,13 @@ def handle_prompt():
         # Generate a unique entryId
         entry_id = str(uuid.uuid4())
 
-        # Determine the file type
-        file_type = os.path.splitext(file.filename)[1].lower()
-
         # Create a new entry and associate it with the user
         new_entry = Entry(
             entryId=entry_id,
             isComplaint=is_complaint,
             product=product,
             subProduct=sub_product,
-            entryText=text,
+            entryText=prompt,
             summary=summary,
             userId=user.id,
             fileType=file_type
@@ -87,9 +92,11 @@ def handle_prompt():
             "summary": summary,
             "product": product,
             "subProduct": sub_product,
+            "fileType": file_type,
             "user": {
                 "id": user.id,
                 "clerkId": user.clerkId,
                 "email": user.email
             }
         }), 201
+

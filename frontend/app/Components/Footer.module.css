@@ -1,0 +1,39 @@
+.Footer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+}
+
+.Footer_Header {
+    border-bottom: solid 1px var(--subtle-color);
+    padding-bottom: 1vw;
+    margin-bottom: 1vw;
+}
+
+.Footer_Header h3 {
+    font-size: var(--h3-size);
+    font-weight: 400;
+}
+
+.Footer_Creators {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.Footer_Creators h5 {
+    font-size: var(--h5-size);
+    font-weight: 400;
+}
+
+.Footer_Creators a {
+    text-decoration: none;
+    font-size: var(--p-size);
+    color: var(--subtle-color);
+}
+
+.Footer_Creators a:hover {
+    color: black;
+}

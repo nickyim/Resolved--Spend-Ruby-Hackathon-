@@ -22,7 +22,7 @@
 .LandingPage_Header_Content {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 60%;
 }
 
 .LandingPage_Header h1 {
@@ -59,22 +59,72 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 100%;
     padding-top: 5vw;
     gap: 2vw;
 }
 
-.LandingPage_Content h1 {
+.LandingPage_Content_Intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    padding-top: 5vw;
+    padding-bottom: 5vw;
+    gap: 3vw;
+}
+
+.LandingPage_Content_Intro h1 {
     font-weight: 400;
     font-size: var(--h1-size);
     width: 35vw;
     text-align: center;
 }
 
-.LandingPage_Content h6 {
+.LandingPage_Content_Intro h6 {
     font-weight: 400;
     font-size: var(--h6-size);
     text-align: center;
     width: 30vw;
     color: rgb(166, 166, 166);
+}
+
+.LandingPage_Content_Intro_Features {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.LandingPage_Content_Intro_Features_Feature {
+    border-radius: 1vw;
+}
+
+.LandingPage_Content_Intro_Features_Feature_Img {
+    width:12vw;
+    height: auto;
+    border-radius: 1vw;
+}
+
+.LandingPage_Content_Product_Dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 4vw;
+    gap: 2vw;
+    background-color: #efede2;
+}
+
+.LandingPage_Content_Product_Dashboard h2 {
+    font-size: var(--h2-size);
+    font-weight: 400;
+}
+
+.LandingPage_Content_DashboardImg {
+    width: 70vw;
+    height: auto;
+    border: solid 20px rgba(238, 238, 238, 0.3);
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }

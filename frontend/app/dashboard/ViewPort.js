@@ -11,7 +11,7 @@ import styles from "./ViewPort.module.css";
 export default function ViewPort() {
   const [prompt, setPrompt] = useState("");
   const { user } = useUser(); // Fetch the current user's info 
-  const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
+  const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
   const [complaints, setComplaints] = useState([
     { id: 1, product: "Credit Card", sub_product: "Store credit card" },
     { id: 2, product: "Debit Card", sub_product: "Store debit card" },
@@ -86,7 +86,9 @@ export default function ViewPort() {
               <h4>{complaint.product}</h4>
               <h4 className={styles.ViewPort_Complaint_Title_Subproduct}>{complaint.subProduct}</h4>
             </div>
-            <p className={styles.ViewPort_Complaint_Summary}>{complaint.summary}</p>
+            <div className={styles.ViewPort_Complaint_Content_Summary}>
+              <p className={styles.ViewPort_Complaint_Summary}>{complaint.summary}</p>
+            </div>
           </div>
           <div className={styles.ViewPort_Chart}>
             <Doughnut
