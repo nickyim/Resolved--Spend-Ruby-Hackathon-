@@ -13,49 +13,49 @@ export default function ViewPort() {
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
   const { user } = useUser(); // Fetch the current user's info 
-  const [complaint, setComplaint] = useState({})
+  // const [complaint, setComplaint] = useState({})
   /*
     - Dummy Data 
   */
-  // const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements. A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
-  const [initialComplaints, setInitialComplaints] = useState([])
+  const [complaint, setComplaint] = useState({product: 'Credit Card', subProduct: 'Store credit card', summary: "A customer is writing to Macy's to address ongoing issues with their Macy's credit account. Despite multiple attempts to resolve these issues over the phone, the customer has not received adequate assistance. The main concerns include a disputed charge of $31, incorrect late fee reporting, and inaccuracies in credit reporting that have negatively impacted the customer's credit score and led to an increase in auto insurance premiums. The customer requests a thorough review of the account, correction of inaccuracies, and removal of the disputed by consumer note from their credit report. Additionally, they ask not to receive any more Macy's advertisements."})
+  // const [initialComplaints, setInitialComplaints] = useState([])
   /*
     - Dummy Data 
   */
-  // const [initialComplaints, setInitialComplaints] = useState([
-  //   { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  // ])
-  const [complaints, setComplaints] = useState([]);
+  const [initialComplaints, setInitialComplaints] = useState([
+    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
+  ])
+  // const [complaints, setComplaints] = useState([]);
   /*
     - Dummy Data 
   */
-  // const [complaints, setComplaints] = useState([
-  //   { id: 1, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 2, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 3, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 4, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 5, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 6, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 7, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 8, product: "Debit Card", sub_product: "Store debit card" },
-  //   { id: 9, product: "Credit Card", sub_product: "Store credit card" },
-  //   { id: 10, product: "Debit Card", sub_product: "Store debit card" },
-  // ]);
+  const [complaints, setComplaints] = useState([
+    { id: 1, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 2, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 3, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 4, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 5, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 6, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 7, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 8, product: "Debit Card", sub_product: "Store debit card" },
+    { id: 9, product: "Credit Card", sub_product: "Store credit card" },
+    { id: 10, product: "Debit Card", sub_product: "Store debit card" },
+  ]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   /*
     - Dummy Data 
   */
-  // const [data, setData] = useState([203, 331]);
+  const [data, setData] = useState([203, 331]);
 
   // const handlePromptSubmit = async () => {
   //   try {
@@ -81,7 +81,7 @@ export default function ViewPort() {
           setComplaints(response.data)
         })
       } catch (e) {
-        setHasError(true)
+        // setHasError(true)
       } finally {
         setIsLoading(false)
       }
