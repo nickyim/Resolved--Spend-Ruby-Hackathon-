@@ -94,7 +94,7 @@
 }
 
 .Input_Tabs_Active {
-    background: #e9e3a6;
+    background: var(--gold-color);
     border-radius: 1vw;
     color: black;
     font-weight: var(--light-bold-weight); /* Bold for the active tab */
@@ -137,7 +137,7 @@
 
 .ComplaintTab_Tabs_Submit {
     font-weight: var(--bold-weight);
-    background-color: #8cbdac;
+    background-color: var(--green-color);
 }
 
 .ComplaintTab_Tabs button:hover {

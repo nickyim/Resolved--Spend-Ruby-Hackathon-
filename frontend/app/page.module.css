@@ -51,8 +51,8 @@
 }
 
 .LandingPage_Header_Authentication_SignUp {
-  background-color: #e9e3a6;
-  border: solid 1.5px #e9e3a6;
+  background-color: var(--gold-color);
+  border: solid 1.5px var(--gold-color);
 }
 
 .LandingPage_Content {

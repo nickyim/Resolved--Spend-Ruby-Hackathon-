@@ -62,9 +62,9 @@
 }
 
 .modalContent_Content_AssemblyAI {
-  background-color: #8cbdac;
+  background-color: var(--green-color);
 }
 
 .modalContent_Content_GoogleCloud {
-  background-color: #e9e3a6;
+  background-color: var(--gold-color);
 }

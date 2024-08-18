@@ -19,9 +19,17 @@ export default function ViewPort({ inputEntry }) {
   const [selectedComplaintIdx, setSelectedComplaintIdx] = useState(0);
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
   const [filter, setFilter] = useState("all");
+  const [isAIOpen, setIsAIOpen] = useState(false);
+  const [aiChatPrompt, setAiChatPrompt] = useState('');
+  const [isAiThinking, setIsAiThinking] = useState(false);
+  const [aiChatLog, setAiChatLog] = useState([]);
 
   const toggleFullTextVisibility = () => {
     setIsFullTextVisible(!isFullTextVisible);
+  };
+  
+  const toggleAIOpen = () => {
+    setIsAIOpen(!isAIOpen);
   };
 
   useEffect(() => {
@@ -91,6 +99,47 @@ export default function ViewPort({ inputEntry }) {
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
+  };
+  
+  const handleAIChatPromptChange = (e) => {
+    const { value } = e.target;
+    setAiChatPrompt(value);
+  };
+  
+  const handleAIChatPromptSend = async () => {
+    let temp = {content: aiChatPrompt, isUser: true}
+    let temp2 = null
+    setIsAiThinking(true)
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/getAI`, {
+          userPrompt: aiChatPrompt
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.id}`,
+          },
+        }
+      ).then((res) => {
+        temp2 = {content: res.data, isUser: false}
+      })
+    } catch (e) {
+      temp2 = {content: 'Sorry I didn\'t catch that . . . try again. :(', isUser: false}
+    } finally {
+      if(temp2) {
+        setAiChatLog((prev) => [
+          ...prev,
+          temp,
+          temp2
+        ])
+      } else {
+        setAiChatLog((prev) => [
+          ...prev,
+          temp
+        ])
+      }
+      setIsAiThinking(false)
+    }
   };
 
   const handleSearchSubmit = () => {
@@ -323,6 +372,24 @@ export default function ViewPort({ inputEntry }) {
       <div className={styles.ViewPort}>
         <div className={styles.ViewPort_Header}>
           <h2>Dashboard</h2>
+          <div>
+            <button onClick={toggleAIOpen} className={isAIOpen? styles.ViewPort_Header_AI_Prompt_Button_Closed: ''}>Talk to AI</button>
+            <div className={isAIOpen? styles.ViewPort_Header_AI_Prompt_Open : styles.ViewPort_Header_AI_Prompt_Closed}>
+              <div className={styles.ViewPort_Header_AI_Prompt_Open_Header}>
+                <h5>AI Assistance</h5>
+                <button onClick={toggleAIOpen}>X</button>
+              </div>
+              <div className={styles.ViewPort_Header_AI_Prompt_Open_Output}>
+                {aiChatLog.map((chat) => (
+                  <p className={chat.isUser? styles.ViewPort_Header_AI_Prompt_Open_Output_User: styles.ViewPort_Header_AI_Prompt_Open_Output_AI}>{chat.isUser? 'You: ' : 'AI: '}{chat.content}</p>
+                ))}
+              </div>
+              <div className={styles.ViewPort_Header_AI_Prompt_Open_Input}>
+                <input type="text" value={aiChatPrompt} onChange={handleAIChatPromptChange}/>
+                <button onClick={handleAIChatPromptSend} disabled={isAiThinking? true : false}>Send</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div className={styles.ViewPort_Content}>
           <div className={styles.ViewPort_Top}>

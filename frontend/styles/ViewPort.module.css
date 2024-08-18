@@ -12,9 +12,135 @@
     gap: 1vw;
 }
 
+.ViewPort_Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .ViewPort_Header h2 {
     font-size: var(--h2-size);
     font-weight: var(--light-bold-weight);
+}
+
+.ViewPort_Header button {
+    background-color: var(--gold-color);
+    border: none;
+    border-radius: 1vw;
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    padding-top: 0.5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-bottom: 0.5vw;
+    cursor: pointer;
+}
+
+.ViewPort_Header_AI_Prompt_Button_Closed {
+    display: none;
+}
+
+.ViewPort_Header_AI_Prompt_Open {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 45vw;
+    height: 33vw;
+    padding: 1vw;
+    border: solid 15px rgba(238, 238, 238, 0.3);
+    border-radius: 2vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.ViewPort_Header_AI_Prompt_Open_Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3vw;
+    margin-bottom: 0.5vw;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Header h5 {
+    font-size: var(--h5-size);
+    font-weight: var(--standard-weight);
+}
+
+.ViewPort_Header_AI_Prompt_Open_Output {
+    display: flex;
+    flex-direction: column;
+    height: 22vw;
+    padding-top: 0.5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-bottom: 0.5vw;
+    gap: 1vw;
+    overflow-y: scroll;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Output p {
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+    background-color: white;
+    border: solid 2px rgba(238, 238, 238, 0.3);
+    border-radius: 2vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    padding-top: 0.5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-bottom: 0.5vw;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Output_User {
+    align-self: flex-end;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vw;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Input input {
+    width: 20vw;
+    height: 2vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-top-left-radius: 2vw;
+    border-bottom-left-radius: 2vw;
+    border: solid 1.5px rgb(238, 238, 238);
+    font-size: var(--p-size);
+    font-weight: var(--standard-weight);
+}
+
+.ViewPort_Header_AI_Prompt_Open_Input input:focus {
+    outline: none;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Input button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5vw;
+    height: 2vw;
+    border-top-left-radius: 0vw;
+    border-top-right-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    border-bottom-left-radius: 0vw;
+    cursor: pointer;
+}
+
+.ViewPort_Header_AI_Prompt_Open_Input_AiThinking {
+
+}
+
+.ViewPort_Header_AI_Prompt_Closed {
+    display: none;
 }
 
 .ViewPort_Content {
@@ -69,7 +195,7 @@
 }
 
 .ViewPort_Complaint_Extra button {
-    background: #e9e3a6;
+    background: var(--gold-color);
     border: none;
     border-radius: 1vw;
     height: 2vw;
@@ -140,8 +266,10 @@
 }
 
 .ViewPort_List_Search select {
-    background-color: #e9e3a6;
+    -webkit-appearance: none;
+    background-color: var(--gold-color);
     border: none;
+    border-radius: 0vw;
     padding-left: 1vw;
     padding-right: 0.3vw;
     font-size: var(--p-size);
@@ -170,8 +298,8 @@
     height: 2.5vw;
     border-top-right-radius: 2vw;
     border-bottom-right-radius: 2vw;
-    background-color: #8cbdac;
-    border: solid 1.5px #e9e3a6;
+    background-color: var(--green-color);
+    border: solid 1.5px var(--green-color);
     font-size: var(--p-size);
     font-weight: var(--standard-weight);
     cursor: pointer;
@@ -240,7 +368,7 @@
     width: 1vw;
     height: 1vw;
     border-radius: 1vw;
-    background-color: #e9e3a6;
+    background-color: var(--gold-color);
 }
 
 .ViewPort_Top h2{
