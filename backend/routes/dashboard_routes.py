@@ -25,10 +25,13 @@ def get_dashboard():
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    logging.info(f"Found user: {user.email}")
+    logging.info(f"Found user: {user.email} with admin status: {user.is_admin}")
 
-    # Fetch the user's entries
-    entries = Entry.query.filter_by(userId=user.id).all()
+    # Fetch entries based on user's admin status
+    if user.is_admin:
+        entries = Entry.query.all()  # Admins see all entries
+    else:
+        entries = Entry.query.filter_by(userId=user.id).all()  # Regular users see only their entries
 
     result = []
     for entry in entries:
