@@ -100,7 +100,9 @@ The frontend is built using Next.js, a React framework that enables server-side 
 4. **Open the application**:
    Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-#### Architectural Diagram
+   
+
+## Architectural Diagram
 
 ![architectural diagram image of fullstack app](architectural_diagram.png)
 
