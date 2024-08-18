@@ -167,6 +167,7 @@ export default function ViewPort({ inputEntry }) {
     }
   };
 
+
   const handleComplaintClick = (idx) => {
     setSelectedComplaintIdx(idx);
 
