@@ -26,8 +26,8 @@ gcs_bucket = os.getenv('CLOUD_STORAGE_BUCKET')
 logging.basicConfig(level=logging.INFO)
 
 # Log the environment variables (for debugging purposes)
-logging.info(f"Google Application Credentials: {gcs_credentials}")
-logging.info(f"Google Cloud Storage Bucket: {gcs_bucket}")
+# logging.info(f"Google Application Credentials: {gcs_credentials}")
+# logging.info(f"Google Cloud Storage Bucket: {gcs_bucket}")
 
 
 app = Flask(__name__)

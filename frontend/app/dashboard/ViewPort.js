@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import { useUser } from "@clerk/nextjs";
 import styles from "../../styles/ViewPort.module.css";
+import { formatTextChunk } from "../utils/formatText";
 
 export default function ViewPort({ inputEntry }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ export default function ViewPort({ inputEntry }) {
   const [aiChatPrompt, setAiChatPrompt] = useState("");
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [aiChatLog, setAiChatLog] = useState([]);
+  const chatContainerRef = useRef(null);
 
   const toggleFullTextVisibility = () => {
     setIsFullTextVisible(!isFullTextVisible);
@@ -31,6 +33,13 @@ export default function ViewPort({ inputEntry }) {
   const toggleAIOpen = () => {
     setIsAIOpen(!isAIOpen);
   };
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [aiChatLog]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,35 +117,59 @@ export default function ViewPort({ inputEntry }) {
 
   const handleAIChatPromptSend = async () => {
     let temp = { content: aiChatPrompt, isUser: true };
-    let temp2 = null;
+    setAiChatLog((prev) => [...prev, temp]);
+    setAiChatPrompt(""); // Clear the input field
     setIsAiThinking(true);
+
     try {
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/smartSearch`,
-          {
-            userPrompt: aiChatPrompt,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/smartSearch`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.id}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${user.id}`,
-            },
+          body: JSON.stringify({ query: aiChatPrompt }),
+        }
+      );
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let result = "";
+      const processText = async ({ done, value }) => {
+        if (done) {
+          setIsAiThinking(false);
+          // setAiChatLog((prev) => [...prev, { content: result, isUser: false }]);
+          return;
+        }
+        const text = decoder.decode(value || new Int8Array(), { stream: true });
+
+        const formattedText = formatTextChunk(text);
+
+        result += formattedText;
+        setAiChatLog((prev) => {
+          const lastLog = prev[prev.length - 1];
+          if (lastLog && !lastLog.isUser) {
+            // Update the last AI message
+            return [...prev.slice(0, -1), { content: result, isUser: false }];
+          } else {
+            // Add a new AI message
+            return [...prev, { content: result, isUser: false }];
           }
-        )
-        .then((res) => {
-          temp2 = { content: res.data, isUser: false };
         });
-    } catch (e) {
-      temp2 = {
-        content: "Sorry I didn't catch that . . . try again. :(",
-        isUser: false,
+        reader.read().then(processText);
       };
-    } finally {
-      if (temp2) {
-        setAiChatLog((prev) => [...prev, temp, temp2]);
-      } else {
-        setAiChatLog((prev) => [...prev, temp]);
-      }
+      reader.read().then(processText);
+    } catch (e) {
+      console.error("Error sending AI chat prompt:", e);
+      setAiChatLog((prev) => [
+        ...prev,
+        {
+          content: "Sorry I didn't catch that . . . try again. :(",
+          isUser: false,
+        },
+      ]);
       setIsAiThinking(false);
     }
   };
@@ -401,18 +434,21 @@ export default function ViewPort({ inputEntry }) {
               Smart Search the Complaints
             </button>
             <div
-              className={
+              className={`${styles.ViewPort_Header_AI_Prompt} ${
                 isAIOpen
                   ? styles.ViewPort_Header_AI_Prompt_Open
                   : styles.ViewPort_Header_AI_Prompt_Closed
-              }
+              } ${isAIOpen ? styles.Visible : ""}`}
             >
               <div className={styles.ViewPort_Header_AI_Prompt_Open_Header}>
                 <h5>Complaint Assistance</h5>
                 <button onClick={toggleAIOpen}>X</button>
               </div>
-              <div className={styles.ViewPort_Header_AI_Prompt_Open_Output}>
 
+              <div
+                className={styles.ViewPort_Header_AI_Prompt_Open_Output}
+                ref={chatContainerRef}
+              >
                 {aiChatLog.map((chat, index) => (
                   <p
                     key={index}
@@ -422,7 +458,7 @@ export default function ViewPort({ inputEntry }) {
                         : styles.ViewPort_Header_AI_Prompt_Open_Output_AI
                     }
                   >
-                    {chat.isUser ? "You: " : "AI: "}
+                    {chat.isUser ? "You: " : "ResolveAI: "}
                     {chat.content}
                   </p>
                 ))}
