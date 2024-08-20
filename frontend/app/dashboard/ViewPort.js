@@ -444,6 +444,7 @@ export default function ViewPort({ inputEntry }) {
                 <h5>Complaint Assistance</h5>
                 <button onClick={toggleAIOpen}>X</button>
               </div>
+
               <div
                 className={styles.ViewPort_Header_AI_Prompt_Open_Output}
                 ref={chatContainerRef}
