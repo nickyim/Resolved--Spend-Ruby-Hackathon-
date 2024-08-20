@@ -23,21 +23,16 @@ with open('RAGpipeline/hugeComplaintsJson.json', 'r') as file:
 # Iterate over each JSON object
 for obj in data:
     # Extract relevant text fields
-    # Extract and concatenate relevant text fields
     source = obj['_source']
     text = f"""
     Index: {obj.get('_index', '')}
     Type: {obj.get('_type', '')}
     ID: {obj.get('_id', '')}
-    SORT: {obj.get('sort', '')}
-    Score: {obj.get('_score', '')}
     Product: {source.get('product', '')}
     Complaint: {source.get('complaint_what_happened', '')}
     Date Sent to Company: {source.get('date_sent_to_company', '')}
     Issue: {source.get('issue', '')}
     Sub Product: {source.get('sub_product', '')}
-    Zip Code: {source.get('zip_code', '')}
-    Tags: {source.get('tags', '')}
     Complaint ID: {source.get('complaint_id', '')}
     Timely: {source.get('timely', '')}
     Consumer Consent Provided: {source.get('consumer_consent_provided', '')}
@@ -54,5 +49,15 @@ for obj in data:
     # Generate embedding
     embedding = embeddings.embed_query(text)
     
-    # Upload embedding to Pinecone
-    pinecone_index.upsert([(obj['_id'], embedding)], namespace='complaints')
+    # Prepare metadata
+    metadata = {
+        'text': text
+    }
+
+    filtered_metadata = {}
+    for k,v in metadata.items():
+        if v:
+            filtered_metadata[k] = v
+    
+    # Upload embedding with metadata to Pinecone
+    pinecone_index.upsert([(obj['_id'], embedding, filtered_metadata)], namespace='complaints')

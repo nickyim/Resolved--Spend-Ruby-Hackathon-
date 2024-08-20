@@ -23,3 +23,4 @@ langchain_openai
 langchain_pinecone
 langchain_text_splitters
 langchain-community
+"flask[async]"
